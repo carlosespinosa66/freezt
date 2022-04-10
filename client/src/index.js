@@ -1,18 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {HelmetProvider} from 'react-helmet-async'
+import { HelmetProvider } from 'react-helmet-async';
 import { Provider } from "react-redux";
-import { store } from "./store";
+import { store } from "./store/index";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.css';
 import App from './App';
+import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <HelmetProvider>
-        <App />
+        <PayPalScriptProvider deferLoading={true}>
+          <App />
+        </PayPalScriptProvider>
       </HelmetProvider>
     </Provider>
   </React.StrictMode>,

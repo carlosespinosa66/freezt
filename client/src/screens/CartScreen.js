@@ -4,8 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
-import Row from 'react-bootstrap/esm/Row';
-import Col from 'react-bootstrap/esm/Col';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import MessageBox from '../components/MessageBox';
 import ListGroup from 'react-bootstrap/ListGroup';
 import { addProductToCar, removeItemtCar } from '../actions';
@@ -72,7 +72,8 @@ export default function CartScreen() {
                                                 <i className="fas fa-plus-circle"></i>
                                             </Button>
                                         </Col>
-                                        <Col md={3}> ${item.price}</Col>
+                                        <Col md={1}> ${item.price}</Col>
+                                        {/* <Col md={1}> ${item.price * item.quantity}</Col> */}
                                         <Col md={2}>
                                             <Button variant="light"
                                                 onClick={(() => removeItemHandle(item))}
@@ -100,8 +101,8 @@ export default function CartScreen() {
                                 </ListGroup.Item>
                                 <ListGroup.Item>
                                     <div className='d-grid'>
-                                        <Button type='button' variant='primary' 
-                                        onClick={checkOutHandle}
+                                        <Button type='button' variant='primary'
+                                            onClick={checkOutHandle}
                                             disabled={allCartItems.length === 0}>
                                             Proceder a la compra
                                         </Button>

@@ -1,40 +1,48 @@
+import React from "react";
 import {
   BrowserRouter as Router,
   Routes,
   Route,
   Link
 } from "react-router-dom";
-
 import HomeScreen from "./screens/HomeScreen";
 import ProductDetail from "./screens/ProductDetail";
 import ProductClothes from "./screens/ProductClothes";
 import WomenClothes from "./screens/WomenClothes";
 import WeAre from "./screens/WeAre";
+import OrderScreen from "./screens/OrderScreen";
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropDown from 'react-bootstrap/NavDropDown';
 import Container from 'react-bootstrap/Container';
-import { LinkContainer } from 'react-router-bootstrap';
-import { useSelector, useDispatch } from "react-redux";
 import CartScreen from "./screens/CartScreen";
 import SigninScreen from "./screens/SigninScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
-import { putUserInfo } from "./actions";
+import ShippingAddress from "./screens/ShippingAddress";
+import { LinkContainer } from 'react-router-bootstrap';
+import { useSelector, useDispatch } from "react-redux";
+import { putUserSignOut } from "./actions";
+import {ToastContainer} from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
+import SignupScreen from "./screens/SignupScreen";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 
 function App() {
   const dispatch = useDispatch();
   const allCart = useSelector((state) => state.cart);
-  const allUserInfo = useSelector((state) => state.userinfo);
+  const allUserInfo = useSelector((state) => state.userInfo);
 
   function signoutHandler() {
-    dispatch(putUserInfo());
+    dispatch(putUserSignOut());
   }
 
   return (
     <Router>
       <div className="d-flex flex-column site-container">
+        <ToastContainer position="bottom-center" limit={1}/>
         <header>
           <Navbar bg="dark" variant="dark">
             <Container className="mt-2">
@@ -94,8 +102,13 @@ function App() {
               <Route path="/MenClothes" element={<ProductClothes />} />
               <Route path="/WomenClothes" element={<WomenClothes />} />
               <Route path="/WeAre" element={<WeAre />} />
+              {/* <Route path="/WeAre" element={<OrderScreen />} /> */}
               <Route path="/cart" element={<CartScreen />} />
               <Route path="/signin" element={<SigninScreen />} />
+              <Route path="/signup" element={<SignupScreen />} />
+              <Route path="/shipping" element={<ShippingAddress />} />
+              <Route path="/payment" element={<PaymentMethodScreen />}/>
+              <Route path="/placeorder" element={<PlaceOrderScreen />}/>
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
             </Routes>

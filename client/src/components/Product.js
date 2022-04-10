@@ -9,7 +9,6 @@ import Rating from './Rating';
 export default function Product(props) {
     const { product } = props;
     const dispatch = useDispatch();
-    // const navigateTo = useNavigate();
     const allCart = useSelector((state) => state.cart);
     const allProducts = useSelector((state) => state.products);
     function addToCartHandler() {

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { usePayPalScriptReducer } from '@paypal/react-paypal-js';
 
 export function getProducts() {
   return async function (dispatch) {
@@ -13,13 +14,12 @@ export function getProducts() {
     } catch (error) {
       dispatch({
         type: "PRODUCTS_FAIL",
-        payload: ({ message: error.message})
+        payload: ({ message: error.message })
       });
 
     }
   };
 }
-
 
 export function getProductDetail(slug) {
   return async function (dispatch) {
@@ -33,7 +33,7 @@ export function getProductDetail(slug) {
     } catch (error) {
       dispatch({
         type: "PRODUCTS_FAIL_DETAIL",
-        payload: ({ message: error.message})
+        payload: ({ message: error.message })
       });
 
     }
@@ -57,7 +57,7 @@ export function removeItemtCar(item) {
 export function getUserInfo(email, password) {
   return async function (dispatch) {
     try {
-      const { data } = await axios.post('/users/signin', { email, password});
+      const { data } = await axios.post('/users/signin', { email, password });
       dispatch({
         type: "USER_SIGNIN",
         payload: data,
@@ -65,16 +65,80 @@ export function getUserInfo(email, password) {
     } catch (error) {
       dispatch({
         type: "USER_SIGNIN_FAIL",
-        payload: ({ message: error.message})
+        payload: ({ status: error.response.status })
       });
 
     }
   };
 }
 
-export function putUserInfo() {
+export function regUserInfo(name,email, password) {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.post('/users/signup', {name,email, password });
+      dispatch({
+        type: "USER_SIGNUP",
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: "USER_SIGNUP_FAIL",
+        payload: ({ status: error.response.status })
+      });
+
+    }
+  };
+}
+
+
+export function putUserSignOut() {
   return {
     type: "USER_SIGN_OUT",
     payload: "",
+  };
+}
+
+export function putUserReset() {
+  return {
+    type: "USER_RESET_STATE",
+    payload: "",
+  };
+}
+export function saveShippingAddress(fullName, address, city, country) {
+  return {
+    type: "SAVE_SHIPPING_ADDRESS",
+    payload: { fullName, address, city, country },
+  };
+}
+
+export function savePaymentMethod(paymentMethod) {
+  return {
+    type: "SAVE_PAYMENT_METHOD",
+    payload: paymentMethod,
+  };
+}
+
+export function loadPayPalScript() {
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  return async function (dispatch) {
+    try {
+      const { data: clientId } = await axios.post('/admin/paypal'); //,
+      // { headers: { autorization: `${userinfo.token}` }, });
+      paypalDispatch({
+        type: "RESET_PAYPAL_OPTIONS",
+        payload: {
+          clientId: clientId,
+          currency: 'USD'
+        },
+      });
+      paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+    } catch (error) {
+      dispatch({
+        type: "FAIL_PAYPAL_OPTIONS",
+        payload: ({ message: error.message })
+      });
+
+    }
   };
 }
