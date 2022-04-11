@@ -94,6 +94,29 @@ router.post("/orders",isAuth, expressAsyncHandler(async (req, res) => {
 }))
 
 
+router.get("/orders/:id",isAuth, expressAsyncHandler(async (req, res) => {
+  let id =req.params.id
+  try {
+    
+      if (!id){
+        res.status(401).json({ errorMsg: "missing id" });
+      }else{
+        const orderById = await Order.findById(id);
+        orderById
+          ? res.status(201).send({
+              successMsg: "This is your Order.",
+              data: orderById,
+          })
+          : res.status(401).json({ errorMsg: "Order doesn't exists." });
+      }
+  } catch (error) {
+      res.status(500).send({ errorMsg: error.message });
+  }
+
+}))
+
+
+
 router.post("/users/signup", expressAsyncHandler(async (req, res) => {
 
   try {

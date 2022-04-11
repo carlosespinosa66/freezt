@@ -7,7 +7,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
-import { regUserInfo, putUserReset } from '../actions';
+import { regUserInfo } from '../actions'; //putUserReset
 import { getError } from '../utils';
 
 
@@ -22,7 +22,7 @@ export default function SignupScreen() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const allUserInfo = useSelector((state) => state.userInfo);
-    const allErrors = useSelector((state) => state.error);
+    // const allErrors = useSelector((state) => state.error);
 
     function submitHandler(e) {
         e.preventDefault();

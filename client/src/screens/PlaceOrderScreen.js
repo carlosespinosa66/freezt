@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
@@ -24,7 +24,7 @@ export default function PlaceOrderScreen() {
   const allCartItems = useSelector((state) => state.cart.cartItems);
   const allLoading = useSelector((state) => state.loading);
   const allUserInfo = useSelector((state) => state.userInfo);
-  const allErrors = useSelector((state) => state.error);
+  // const allErrors = useSelector((state) => state.error);
   const allOrder = useSelector((state) => state.order.data);
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
@@ -47,7 +47,7 @@ export default function PlaceOrderScreen() {
       allCart.totalPrice,
       allUserInfo.token));
       dispatch(removeAllItemsCar())
-      console.log(allOrder._id)
+      // console.log(allOrder._id)
       navigateTo(`/order/${allOrder._id}`)
     } catch (err) {
       toast.error(getError(err));

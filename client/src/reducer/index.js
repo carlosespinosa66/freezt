@@ -58,7 +58,7 @@ function rootReducer(state = initialState, action) {
     case "CART_REMOVE_ITEM": {
       const cartItems = state.cart.cartItems.filter((item) => item._id !== action.payload._id);
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
-      return { ...state, cart: { ...state.cart, cartItems }, loading: false, error: action.payload, };
+      return { ...state, cart: { ...state.cart, cartItems }, loading: false, error: action.payload };
     };
 
     case 'CART_CLEAR':
@@ -116,21 +116,21 @@ function rootReducer(state = initialState, action) {
 
     case 'ORDER_CREATE_REQUEST_PROCESS':
       localStorage.removeItem('cartItems');
-      return { ...state, loading: false ,order:action.payload};
+      return { ...state, loading: false, order: action.payload };
 
-      case 'FETCH_REQUEST':
-        return { ...state, loading: true, error: '' };
-      case 'FETCH_SUCCESS':
-        return { ...state, loading: false, order: action.payload, error: '' };
-      case 'FETCH_FAIL':
+    case 'FETCH_ORDER_REQUEST':
+      return { ...state, loading: true, error: '' };
+    case 'FETCH_ORDER_SUCCESS':
+      return { ...state, loading: false, order: action.payload, error: '' };
+    case 'FETCH_ORDER_FAIL':
+      return { ...state, loading: false, error: action.payload };
 
 
     case 'SET_FULLBOX_ON':
       return { ...state, fullBox: true };
     case 'SET_FULLBOX_OFF':
       return { ...state, fullBox: false };
- 
-      return { ...state, loading: false, error: action.payload };
+
     case 'PAY_REQUEST':
       return { ...state, loadingPay: true };
     case 'PAY_SUCCESS':

@@ -1,5 +1,5 @@
 import axios from "axios";
-import { usePayPalScriptReducer } from '@paypal/react-paypal-js';
+// import { usePayPalScriptReducer } from '@paypal/react-paypal-js';
 
 export function getProducts() {
   return async function (dispatch) {
@@ -120,67 +120,80 @@ export function savePaymentMethod(paymentMethod) {
 
 export function newOrderCreate(cartItems, shippingAddress, paymentMethod,
   itemsPrice, shippingPrice, taxPrice, totalPrice, token) {
-    return async function (dispatch) {
-    dispatch({ type: "ORDER_CREATE_REQUEST" });
-  try {
-    const { data } = await axios.post('/orders',
-      {
-        orderItems: cartItems,
-        shippingAddress: shippingAddress,
-        paymentMethod: paymentMethod,
-        itemsPrice: itemsPrice,
-        shippingPrice: shippingPrice,
-        taxPrice: taxPrice,
-        totalPrice: totalPrice,
-      },
-      {
-        headers: {
-          authorization: "Bearer" + " " + token,
-        },
-      }
-    );
-    dispatch({
-      type: "ORDER_CREATE_REQUEST_PROCESS",
-      payload: data,
-    });
-  } catch (error) {
-    dispatch({
-      type: "ORDER_CREATE_REQUEST_PROCESS_FAIL",
-      payload: ({ status: error.response.status })
-    });
-  }
-}
-};
-
-
-export function loadPayPalScript() {
-  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-
   return async function (dispatch) {
+    dispatch({ type: "ORDER_CREATE_REQUEST" });
     try {
-      const { data: clientId } = await axios.post('/admin/paypal'); //,
-      // { headers: { autorization: `${userinfo.token}` }, });
-      paypalDispatch({
-        type: "RESET_PAYPAL_OPTIONS",
-        payload: {
-          clientId: clientId,
-          currency: 'USD'
+      const { data } = await axios.post('/orders',
+        {
+          orderItems: cartItems,
+          shippingAddress: shippingAddress,
+          paymentMethod: paymentMethod,
+          itemsPrice: itemsPrice,
+          shippingPrice: shippingPrice,
+          taxPrice: taxPrice,
+          totalPrice: totalPrice,
         },
+        {
+          headers: {authorization: 'Bearer' + " " + token},
+        }
+      );
+      dispatch({
+        type: "ORDER_CREATE_REQUEST_PROCESS",
+        payload: data,
       });
-      paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
     } catch (error) {
       dispatch({
-        type: "FAIL_PAYPAL_OPTIONS",
-        payload: ({ message: error.message })
+        type: "ORDER_CREATE_REQUEST_PROCESS_FAIL",
+        payload: ({ status: error.response.status })
       });
+    }
+  };
+};
 
+export function getOrder(orderId, token) {
+  return async function (dispatch) {
+    try {
+      dispatch({ type: 'FETCH_ORDER_REQUEST' });
+      const { data } = await axios.get(`/orders/${orderId}`, {
+        headers: { authorization: "Bearer" + " " + token },
+      });
+      dispatch({
+        type: 'FETCH_ORDER_SUCCESS',
+        payload: data
+      });
+    } catch (err) {
+      dispatch({ type: 'FETCH_ORDER_FAIL', payload: err.response.status });
     }
   };
 }
+  // export function loadPayPalScript() {
+  //   // const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
-export function removeAllItemsCar() {
-  return {
-    type: "CART_CLEAR",
-    payload: "",
-  };
-}
+  //   return async function (dispatch) {
+  //     try {
+  //       const { data: clientId } = await axios.post('/admin/paypal'); //,
+  //       // { headers: { autorization: `${userinfo.token}` }, });
+  //       paypalDispatch({
+  //         type: "RESET_PAYPAL_OPTIONS",
+  //         payload: {
+  //           clientId: clientId,
+  //           currency: 'USD'
+  //         },
+  //       });
+  //       paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+  //     } catch (error) {
+  //       dispatch({
+  //         type: "FAIL_PAYPAL_OPTIONS",
+  //         payload: ({ message: error.message })
+  //       });
+
+  //     }
+  //   };
+  // }
+
+  export function removeAllItemsCar() {
+    return {
+      type: "CART_CLEAR",
+      payload: "",
+    };
+  }
