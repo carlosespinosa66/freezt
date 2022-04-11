@@ -7,75 +7,42 @@ const initialState = {
   order: {},
   successPay: false,
   loadingPay: false,
-
   userInfo: localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : null,
-
   cart: {
     cartItems: localStorage.getItem('cartItems')
       ? JSON.parse(localStorage.getItem('cartItems'))
       : [],
-
     shippingAddress: localStorage.getItem('shippingAddress')
       ? JSON.parse(localStorage.getItem('shippingAddress'))
       : { location: {} },
-
     paymentMethod: localStorage.getItem('paymentMethod')
       ? localStorage.getItem('paymentMethod')
       : '',
   },
-
 };
-
 
 function rootReducer(state = initialState, action) {
 
   switch (action.type) {
     case "PRODUCTS_REQUEST":
-      return {
-        ...state,
-        loading: true,
-        error: "",
-      };
+      return { ...state, loading: true, error: "", };
 
     case "PRODUCTS_SUCCESS":
-      return {
-        ...state,
-        products: action.payload,
-        loading: false,
-        error: "",
-      };
+      return { ...state, products: action.payload, loading: false, error: "", };
 
     case "PRODUCTS_FAIL":
-      return {
-        ...state,
-        loading: false,
-        products: "",
-        error: action.payload,
-      };
+      return { ...state, loading: false, products: "", error: action.payload, };
 
     case "PRODUCTS_REQUEST_DETAIL":
-      return {
-        ...state,
-        loading: true,
-        error: "",
-      };
+      return { ...state, loading: true, error: "", };
 
     case "PRODUCTS_SUCCESS_DETAIL":
-      return {
-        ...state,
-        detail: action.payload,
-        loading: false,
-        error: "",
-      };
+      return { ...state, detail: action.payload, loading: false, error: "", };
 
     case "PRODUCTS_FAIL_DETAIL":
-      return {
-        ...state,
-        loading: false,
-        error: action.payload,
-      };
+      return { ...state, loading: false, error: action.payload, };
 
     case "CART_ADD_ITEM":
       const newItem = action.payload;
@@ -86,21 +53,12 @@ function rootReducer(state = initialState, action) {
 
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
 
-      return {
-        ...state, cart: { ...state.cart, cartItems },
-        loading: false,
-        error: "",
-      };
+      return { ...state, cart: { ...state.cart, cartItems }, loading: false, error: "", };
 
     case "CART_REMOVE_ITEM": {
       const cartItems = state.cart.cartItems.filter((item) => item._id !== action.payload._id);
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
-      return {
-        ...state,
-        cart: { ...state.cart, cartItems },
-        loading: false,
-        error: action.payload,
-      };
+      return { ...state, cart: { ...state.cart, cartItems }, loading: false, error: action.payload, };
     };
 
     case 'CART_CLEAR':
@@ -108,20 +66,12 @@ function rootReducer(state = initialState, action) {
 
     case "USER_SIGNIN":
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
-      return {
-        ...state,
-        userInfo: action.payload,
-        loading: false,
-        error: "",
-      };
+      return { ...state, userInfo: action.payload, loading: false, error: "", };
 
     case "USER_SIGNUP":
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
       return {
-        ...state,
-        userInfo: action.payload,
-        loading: false,
-        error: "",
+        ...state, userInfo: action.payload, loading: false, error: "",
       };
 
     case "USER_SIGN_OUT":
@@ -141,49 +91,45 @@ function rootReducer(state = initialState, action) {
 
     case "USER_RESET_STATE":
       localStorage.removeItem('userInfo');
-      return {
-        ...state,
-        userInfo: null,
-        loading: false,
-        error: "",
-      };
+      return { ...state, userInfo: null, loading: false, error: "", };
 
     case "USER_SIGNIN_FAIL":
       localStorage.removeItem('userInfo');
-      return {
-        ...state,
-        userInfo: null,
-        loading: false,
-        error: action.payload,
-      };
+      return { ...state, userInfo: null, loading: false, error: action.payload, };
 
     case 'SAVE_SHIPPING_ADDRESS':
       localStorage.setItem('shippingAddress', JSON.stringify(action.payload));
-      return {
-        ...state,
-        cart: {
-          ...state.cart,
-          shippingAddress: action.payload,
-        },
-      };
+      return { ...state, cart: { ...state.cart, shippingAddress: action.payload, }, };
 
     case 'SAVE_PAYMENT_METHOD':
       localStorage.setItem('paymentMethod', JSON.stringify(action.payload));
-      return {
-        ...state,
-        cart: { ...state.cart, paymentMethod: action.payload },
-      };
+      return { ...state, cart: { ...state.cart, paymentMethod: action.payload }, };
+
+    case 'ORDER_CREATE_REQUEST':
+      return { ...state, loading: true };
+
+    case 'ORDER_CREATE_SUCCESS':
+      return { ...state, loading: false };
+
+    case 'ORDER_CREATE_FAIL':
+      return { ...state, loading: false };
+
+    case 'ORDER_CREATE_REQUEST_PROCESS':
+      localStorage.removeItem('cartItems');
+      return { ...state, loading: false ,order:action.payload};
+
+      case 'FETCH_REQUEST':
+        return { ...state, loading: true, error: '' };
+      case 'FETCH_SUCCESS':
+        return { ...state, loading: false, order: action.payload, error: '' };
+      case 'FETCH_FAIL':
 
 
     case 'SET_FULLBOX_ON':
       return { ...state, fullBox: true };
     case 'SET_FULLBOX_OFF':
       return { ...state, fullBox: false };
-    case 'FETCH_REQUEST':
-      return { ...state, loading: true, error: '' };
-    case 'FETCH_SUCCESS':
-      return { ...state, loading: false, order: action.payload, error: '' };
-    case 'FETCH_FAIL':
+ 
       return { ...state, loading: false, error: action.payload };
     case 'PAY_REQUEST':
       return { ...state, loadingPay: true };
@@ -194,7 +140,6 @@ function rootReducer(state = initialState, action) {
     case 'PAY_RESET':
       return { ...state, loadingPay: false, successPay: false };
 
-
     default:
       return state;
   }
@@ -202,30 +147,8 @@ function rootReducer(state = initialState, action) {
 
 export default rootReducer;
 
-// function reducer(state, action) {
-//   switch (action.type) {
 
 
-//     case 'USER_SIGNIN':
-//       return { ...state, userInfo: action.payload };
-//     case 'USER_SIGNOUT':
-//       return {
-//         ...state,
-//         userInfo: null,
-//         cart: {
-//           cartItems: [],
-//           shippingAddress: {},
-//           paymentMethod: '',
-//         },
-//       };
-//     case 'SAVE_SHIPPING_ADDRESS':
-//       return {
-//         ...state,
-//         cart: {
-//           ...state.cart,
-//           shippingAddress: action.payload,
-//         },
-//       };
 //     case 'SAVE_SHIPPING_ADDRESS_MAP_LOCATION':
 //       return {
 //         ...state,
@@ -237,7 +160,3 @@ export default rootReducer;
 //           },
 //         },
 //       };
-
-
-//    }
-// }

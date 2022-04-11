@@ -8,10 +8,10 @@ import Card from 'react-bootstrap/Card';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
-import LoadingBox from '../components/LoadingBox';
-import MessageBox from '../components/MessageBox';
+import LoadingBox from '../helpers/LoadingBox';
+import MessageBox from '../helpers/MessageBox';
+import Rating from '../helpers/Rating';
 import ListGroup from 'react-bootstrap/ListGroup';
-import Rating from '../components/Rating';
 
 export default function ProductDetail() {
   const dispatch = useDispatch();

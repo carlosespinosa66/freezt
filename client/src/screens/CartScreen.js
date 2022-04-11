@@ -6,9 +6,9 @@ import Button from 'react-bootstrap/Button';
 import { Helmet } from 'react-helmet-async';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
-import MessageBox from '../components/MessageBox';
+import MessageBox from '../helpers/MessageBox';
 import ListGroup from 'react-bootstrap/ListGroup';
-import { addProductToCar, removeItemtCar } from '../actions';
+import { addProductToCar, removeItemCar } from '../actions';
 
 export default function CartScreen() {
     const dispatch = useDispatch();
@@ -24,7 +24,7 @@ export default function CartScreen() {
     }
 
     function removeItemHandle(item) {
-        dispatch(removeItemtCar(item));
+        dispatch(removeItemCar(item));
     }
 
     function checkOutHandle() {

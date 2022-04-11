@@ -2,11 +2,11 @@ const { Router } = require("express");
 const data = require("../models/data");
 const Product = require("../models/product.js");
 const User = require("../models/user.js");
+const Order = require("../models/order.js");
 const bcrypt = require('bcryptjs');
 const expressAsyncHandler = require('express-async-handler');
-const generateToken = require("../utils");
+const {generateToken,isAuth} = require("../middleware/auth");
 const dotenv = require('dotenv');
-
 dotenv.config();
 
 
@@ -64,6 +64,35 @@ router.post("/users/signin", expressAsyncHandler(async (req, res) => {
   }
 })
 );
+
+router.post("/orders",isAuth, expressAsyncHandler(async (req, res) => {
+  try {
+
+      const newOrder = new Order({
+          orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+          shippingAddress: req.body.shippingAddress,
+          paymentMethod: req.body.paymentMethod,
+          itemsPrice: req.body.itemsPrice,
+          shippingPrice: req.body.shippingPrice,
+          taxPrice: req.body.taxPrice,
+          totalPrice: req.body.totalPrice,
+          user: req.user._id,
+        });
+    
+        const order = await newOrder.save();
+
+        order
+          ? res.status(201).send({
+              successMsg: "The Order has been created.",
+              data: order,
+          })
+          : res.status(401).json({ errorMsg: "Order already exists." });
+  } catch (error) {
+      res.status(500).send({ errorMsg: error.message });
+  }
+
+}))
+
 
 router.post("/users/signup", expressAsyncHandler(async (req, res) => {
 

@@ -7,8 +7,8 @@ import Col from 'react-bootstrap/Col';
 
 // import WomenProduct from '../components/WomenProduct';
 import { Helmet } from 'react-helmet-async';
-import LoadingBox from '../components/LoadingBox';
-import MessageBox from '../components/MessageBox';
+import LoadingBox from '../helpers/LoadingBox';
+import MessageBox from '../helpers/MessageBox';
 
 export default function MenClothes() {
     const dispatch = useDispatch();

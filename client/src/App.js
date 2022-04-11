@@ -11,6 +11,9 @@ import ProductClothes from "./screens/ProductClothes";
 import WomenClothes from "./screens/WomenClothes";
 import WeAre from "./screens/WeAre";
 import OrderScreen from "./screens/OrderScreen";
+import SignupScreen from "./screens/SignupScreen";
+import PaymentMethodScreen from "./screens/PaymentMethodScreen";
+import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
@@ -26,9 +29,6 @@ import { useSelector, useDispatch } from "react-redux";
 import { putUserSignOut } from "./actions";
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import SignupScreen from "./screens/SignupScreen";
-import PaymentMethodScreen from "./screens/PaymentMethodScreen";
-import PlaceOrderScreen from "./screens/PlaceOrderScreen";
 
 function App() {
   const dispatch = useDispatch();
@@ -109,6 +109,7 @@ function App() {
               <Route path="/shipping" element={<ShippingAddress />} />
               <Route path="/payment" element={<PaymentMethodScreen />}/>
               <Route path="/placeorder" element={<PlaceOrderScreen />}/>
+              <Route path="/order/:id" element={<OrderScreen />}/>
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
             </Routes>

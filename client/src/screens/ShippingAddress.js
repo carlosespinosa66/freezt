@@ -7,7 +7,7 @@ import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { getError } from '../utils';
 import { saveShippingAddress } from '../actions';
-import CheckoutSteps from '../components/CheckoutSteps';
+import CheckoutSteps from '../helpers/CheckoutSteps';
 
 export default function ShippingAddress() {
 

@@ -4,7 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { addProductToCar } from '../actions';
-import Rating from './Rating';
+import Rating from '../helpers/Rating';
 
 export default function Product(props) {
     const { product } = props;

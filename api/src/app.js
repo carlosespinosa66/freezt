@@ -31,6 +31,13 @@ server.use((req, res, next) => {
 
 server.use('/', routes);
 
+// server.use('/api/upload', uploadRouter);
+// server.use('/api/seed', seedRouter);
+// server.use('/api/products', productRouter);
+// server.use('/api/users', userRouter);
+// server.use('/api/orders', orderRouter);
+
+
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars
   const status = err.status || 500;

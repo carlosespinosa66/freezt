@@ -47,12 +47,13 @@ export function addProductToCar(item) {
   };
 }
 
-export function removeItemtCar(item) {
+export function removeItemCar(item) {
   return {
     type: "CART_REMOVE_ITEM",
     payload: item,
   };
 }
+
 
 export function getUserInfo(email, password) {
   return async function (dispatch) {
@@ -72,10 +73,10 @@ export function getUserInfo(email, password) {
   };
 }
 
-export function regUserInfo(name,email, password) {
+export function regUserInfo(name, email, password) {
   return async function (dispatch) {
     try {
-      const { data } = await axios.post('/users/signup', {name,email, password });
+      const { data } = await axios.post('/users/signup', { name, email, password });
       dispatch({
         type: "USER_SIGNUP",
         payload: data,
@@ -89,7 +90,6 @@ export function regUserInfo(name,email, password) {
     }
   };
 }
-
 
 export function putUserSignOut() {
   return {
@@ -118,6 +118,41 @@ export function savePaymentMethod(paymentMethod) {
   };
 }
 
+export function newOrderCreate(cartItems, shippingAddress, paymentMethod,
+  itemsPrice, shippingPrice, taxPrice, totalPrice, token) {
+    return async function (dispatch) {
+    dispatch({ type: "ORDER_CREATE_REQUEST" });
+  try {
+    const { data } = await axios.post('/orders',
+      {
+        orderItems: cartItems,
+        shippingAddress: shippingAddress,
+        paymentMethod: paymentMethod,
+        itemsPrice: itemsPrice,
+        shippingPrice: shippingPrice,
+        taxPrice: taxPrice,
+        totalPrice: totalPrice,
+      },
+      {
+        headers: {
+          authorization: "Bearer" + " " + token,
+        },
+      }
+    );
+    dispatch({
+      type: "ORDER_CREATE_REQUEST_PROCESS",
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: "ORDER_CREATE_REQUEST_PROCESS_FAIL",
+      payload: ({ status: error.response.status })
+    });
+  }
+}
+};
+
+
 export function loadPayPalScript() {
   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
@@ -140,5 +175,12 @@ export function loadPayPalScript() {
       });
 
     }
+  };
+}
+
+export function removeAllItemsCar() {
+  return {
+    type: "CART_CLEAR",
+    payload: "",
   };
 }
