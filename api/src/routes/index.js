@@ -5,7 +5,7 @@ const User = require("../models/user.js");
 const Order = require("../models/order.js");
 const bcrypt = require('bcryptjs');
 const expressAsyncHandler = require('express-async-handler');
-const {generateToken,isAuth} = require("../middleware/auth");
+const { generateToken, isAuth } = require("../middleware/auth");
 const dotenv = require('dotenv');
 dotenv.config();
 
@@ -65,55 +65,55 @@ router.post("/users/signin", expressAsyncHandler(async (req, res) => {
 })
 );
 
-router.post("/orders",isAuth, expressAsyncHandler(async (req, res) => {
+router.post("/orders", isAuth, expressAsyncHandler(async (req, res) => {
   try {
 
-      const newOrder = new Order({
-          orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
-          shippingAddress: req.body.shippingAddress,
-          paymentMethod: req.body.paymentMethod,
-          itemsPrice: req.body.itemsPrice,
-          shippingPrice: req.body.shippingPrice,
-          taxPrice: req.body.taxPrice,
-          totalPrice: req.body.totalPrice,
-          user: req.user._id,
-        });
-    
-        const order = await newOrder.save();
+    const newOrder = new Order({
+      orderItems: req.body.orderItems.map((x) => ({ ...x, product: x._id })),
+      shippingAddress: req.body.shippingAddress,
+      paymentMethod: req.body.paymentMethod,
+      itemsPrice: req.body.itemsPrice,
+      shippingPrice: req.body.shippingPrice,
+      taxPrice: req.body.taxPrice,
+      totalPrice: req.body.totalPrice,
+      user: req.user._id,
+    });
 
-        order
-          ? res.status(201).send({
-              successMsg: "The Order has been created.",
-              data: order,
-          })
-          : res.status(401).json({ errorMsg: "Order already exists." });
+    const order = await newOrder.save();
+
+    order
+      ? res.status(201).send({
+        successMsg: "The Order has been created.",
+        data: order,
+      })
+      : res.status(401).json({ errorMsg: "Order already exists." });
   } catch (error) {
-      res.status(500).send({ errorMsg: error.message });
+    res.status(500).send({ errorMsg: error.message });
   }
 
-}))
+}));
 
 
-router.get("/orders/:id",isAuth, expressAsyncHandler(async (req, res) => {
-  let id =req.params.id
+router.get("/orders/:id", isAuth, expressAsyncHandler(async (req, res) => {
+  let id = req.params.id;
   try {
-    
-      if (!id){
-        res.status(401).json({ errorMsg: "missing id" });
-      }else{
-        const orderById = await Order.findById(id);
-        orderById
-          ? res.status(201).send({
-              successMsg: "This is your Order.",
-              data: orderById,
-          })
-          : res.status(401).json({ errorMsg: "Order doesn't exists." });
-      }
+
+    if (!id) {
+      res.status(401).json({ errorMsg: "missing id" });
+    } else {
+      const orderById = await Order.findById(id);
+      orderById
+        ? res.status(201).send({
+          successMsg: "This is your Order.",
+          data: orderById,
+        })
+        : res.status(401).json({ errorMsg: "Order doesn't exists." });
+    }
   } catch (error) {
-      res.status(500).send({ errorMsg: error.message });
+    res.status(500).send({ errorMsg: error.message });
   }
 
-}))
+}));
 
 
 
@@ -126,8 +126,9 @@ router.post("/users/signup", expressAsyncHandler(async (req, res) => {
       password: bcrypt.hashSync(req.body.password)
 
     });
-    const user = await newUser.save()
-    res.status(200).send({successMsg:"Succesful register", 
+    const user = await newUser.save();
+    res.status(200).send({
+      successMsg: "Succesful register",
       _id: user._id,
       name: user.name,
       email: user.email,
@@ -142,14 +143,9 @@ router.post("/users/signup", expressAsyncHandler(async (req, res) => {
 );
 
 router.get("/admin/paypal", async (req, res) => {
-  let created = true;
   try {
-
     created
-      ? res.status(201).json({
-        successMsg: "The Product has been created.",
-        data: process.env.PAYPAL_CLIENT_ID + " ----- " + process.env.PAYPAL_SAND_BOX_ACCOUNT,
-      })
+      ? res.status(201).json({ data: process.env.PAYPAL_CLIENT_ID })
       : res.status(401).json({ errorMsg: "Product already exists." });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
@@ -157,7 +153,34 @@ router.get("/admin/paypal", async (req, res) => {
 
 });
 
+router.put('/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
+  try {
+    const order = await Order.findById(req.params.id);
+    if (order) {
+      order.isPaid = true;
+      order.paidAt = Date.now();
+      order.paymentResult = {
+        id: req.body.id,
+        status: req.body.status,
+        update_time: req.body.update_time,
+        email_address: req.body.email_address,
+      };
+
+      const updatedOrder = await order.save();
+      res.send({ message: 'Order Paid', order: updatedOrder });
+    } else {
+      res.status(404).send({ message: 'Order Not Found' });
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+})
+);
+
 
 
 module.exports = router;
+
+
+
 

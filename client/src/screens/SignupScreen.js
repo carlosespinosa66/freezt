@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
 import { regUserInfo } from '../actions'; //putUserReset
-import { getError } from '../utils';
+import { getError } from '../helpers/utils';
 
 
 export default function SignupScreen() {

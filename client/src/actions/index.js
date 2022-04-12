@@ -1,5 +1,4 @@
 import axios from "axios";
-// import { usePayPalScriptReducer } from '@paypal/react-paypal-js';
 
 export function getProducts() {
   return async function (dispatch) {
@@ -51,6 +50,13 @@ export function removeItemCar(item) {
   return {
     type: "CART_REMOVE_ITEM",
     payload: item,
+  };
+}
+
+export function removeAllItemsCar() {
+  return {
+    type: "CART_CLEAR",
+    payload: "",
   };
 }
 
@@ -167,16 +173,17 @@ export function getOrder(orderId, token) {
   };
 }
   // export function loadPayPalScript() {
-  //   // const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+  //   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   //   return async function (dispatch) {
   //     try {
   //       const { data: clientId } = await axios.post('/admin/paypal'); //,
   //       // { headers: { autorization: `${userinfo.token}` }, });
   //       paypalDispatch({
-  //         type: "RESET_PAYPAL_OPTIONS",
+  //         // type: "RESET_PAYPAL_OPTIONS",
+  //         type:'resetOptions',
   //         payload: {
-  //           clientId: clientId,
+  //           'client-id': clientId,
   //           currency: 'USD'
   //         },
   //       });
@@ -191,9 +198,22 @@ export function getOrder(orderId, token) {
   //   };
   // }
 
-  export function removeAllItemsCar() {
-    return {
-      type: "CART_CLEAR",
-      payload: "",
-    };
-  }
+
+  // export function onApprove(data, actions,id,token) {
+  //   return actions.order.capture().then(async function (details,dispatch) {
+  //     try {
+  //       dispatch({ type: 'PAY_REQUEST' });
+  //       const { data } = await axios.put(`/api/orders/${id}/pay`, details,
+  //         {
+  //           headers: { authorization: `Bearer ${token}` },
+  //         }
+  //       );
+  //       dispatch({ type: 'PAY_SUCCESS', payload: data });
+  //     } catch (err) {
+  //       dispatch({ type: 'PAY_FAIL', payload: err.message });
+        
+  //     }
+  //   });
+  // }
+
+

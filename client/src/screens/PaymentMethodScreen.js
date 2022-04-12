@@ -6,7 +6,7 @@ import CheckoutSteps from '../helpers/CheckoutSteps';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { toast } from 'react-toastify';
-import { getError } from '../utils';
+import { getError } from '../helpers/utils';
 import { savePaymentMethod } from '../actions';
 
 export default function PaymentMethodScreen() {
@@ -19,6 +19,8 @@ export default function PaymentMethodScreen() {
     function submitHandler(e) {
         e.preventDefault();
         dispatch(savePaymentMethod(paymentMethodName))
+        // dispatch(savePaymentMethod(e.target.value))
+        
         navigateTo('/placeorder')
         try {
         } catch (err) {

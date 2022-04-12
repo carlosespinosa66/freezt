@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
-import { getError } from '../utils';
+import { getError } from '../helpers/utils';
 import { saveShippingAddress } from '../actions';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 

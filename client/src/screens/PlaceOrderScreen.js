@@ -9,8 +9,8 @@ import Button from 'react-bootstrap/Button';
 import ListGroup from 'react-bootstrap/ListGroup';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 import { toast } from 'react-toastify';
-import { getError } from '../utils';
-import { newOrderCreate, removeAllItemsCar  } from '../actions';
+import { getError } from '../helpers/utils';
+import { newOrderCreate, removeAllItemsCar } from '../actions';
 import LoadingBox from '../helpers/LoadingBox';
 
 
@@ -37,18 +37,15 @@ export default function PlaceOrderScreen() {
   function placeOrderHandler(e) {
     e.preventDefault();
     try {
-    dispatch(newOrderCreate(
-      allCartItems,
-      allShipping,
-      allPayment,
-      allCart.itemsPrice,
-      allCart.shippingPrice,
-      allCart.taxPrice,
-      allCart.totalPrice,
-      allUserInfo.token));
-      dispatch(removeAllItemsCar())
-      // console.log(allOrder._id)
-      navigateTo(`/order/${allOrder._id}`)
+      dispatch(newOrderCreate(allCartItems, allShipping, allPayment, allCart.itemsPrice,
+        allCart.shippingPrice, allCart.taxPrice, allCart.totalPrice, allUserInfo.token));
+      if (allOrder._id) {
+        dispatch(removeAllItemsCar());
+        navigateTo(`/order/${allOrder._id}`);
+      } else {
+        alert ("No order Id")
+      }
+      // navigateTo('/order');
     } catch (err) {
       toast.error(getError(err));
     }
@@ -74,9 +71,7 @@ export default function PlaceOrderScreen() {
               <Card.Title>Shipping</Card.Title>
               <Card.Text>
                 <strong>Name:</strong> {allShipping.fullName} <br />
-                <strong>Address: </strong> {allShipping.address},
-                {allShipping.city}, {allShipping.postalCode},
-                {allShipping.country}
+                <strong>Address: </strong> {allShipping.address}, {allShipping.city}, {allShipping.country}
               </Card.Text>
               <Link to="/shipping">Edit</Link>
             </Card.Body>
@@ -104,7 +99,7 @@ export default function PlaceOrderScreen() {
                           alt={item.name}
                           className="img-fluid rounded img-thumbnail"
                         ></img>{' '}
-                        <Link to={`/product/${item.slug}`}>{item.name}</Link>
+                        <Link to={`/products/${item.slug}`}>{item.name}</Link>
                       </Col>
                       <Col md={3}>
                         <span>{item.quantity}</span>
@@ -162,7 +157,7 @@ export default function PlaceOrderScreen() {
                     </Button>
                   </div>
                   {allLoading && <LoadingBox></LoadingBox>}
-                  </ListGroup.Item>
+                </ListGroup.Item>
               </ListGroup>
             </Card.Body>
           </Card>

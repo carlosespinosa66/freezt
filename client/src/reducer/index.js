@@ -1,12 +1,12 @@
 const initialState = {
   products: [],
   detail: [],
-  loading: [],
   error: [],
-  fullBox: false,
   order: {},
-  successPay: false,
+  loading: false,
   loadingPay: false,
+  successPay: false,
+  fullBox: false,
   userInfo: localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : null,
@@ -76,17 +76,23 @@ function rootReducer(state = initialState, action) {
 
     case "USER_SIGN_OUT":
       localStorage.removeItem('userInfo');
+      localStorage.removeItem('cartItems');
       localStorage.removeItem('shippingAddress');
       localStorage.removeItem('paymentMethod');
       return {
         ...state,
-        userInfo: null,
         loading: false,
+        error: "",
+        fullBox: false,
+        order: {},
+        successPay: false,
+        loadingPay: false,
+        userInfo: null,
         cart: {
           cartItems: [],
           shippingAddress: {},
+          paymentMethod: "",
         },
-        error: "",
       };
 
     case "USER_RESET_STATE":
@@ -120,25 +126,30 @@ function rootReducer(state = initialState, action) {
 
     case 'FETCH_ORDER_REQUEST':
       return { ...state, loading: true, error: '' };
+
     case 'FETCH_ORDER_SUCCESS':
       return { ...state, loading: false, order: action.payload, error: '' };
+
     case 'FETCH_ORDER_FAIL':
       return { ...state, loading: false, error: action.payload };
 
+    case 'PAY_ORDER_REQUEST':
+      return { ...state, loadingPay: true };
+
+    case 'PAY_ORDER_SUCCESS':
+      return { ...state, loadingPay: false, successPay: true };
+
+    case 'PAY_ORDER_FAIL':
+      return { ...state, loadingPay: false };
+
+    case 'PAY_ORDER_RESET':
+      return { ...state, loadingPay: false, successPay: false };
 
     case 'SET_FULLBOX_ON':
       return { ...state, fullBox: true };
+
     case 'SET_FULLBOX_OFF':
       return { ...state, fullBox: false };
-
-    case 'PAY_REQUEST':
-      return { ...state, loadingPay: true };
-    case 'PAY_SUCCESS':
-      return { ...state, loadingPay: false, successPay: true };
-    case 'PAY_FAIL':
-      return { ...state, loadingPay: false };
-    case 'PAY_RESET':
-      return { ...state, loadingPay: false, successPay: false };
 
     default:
       return state;
