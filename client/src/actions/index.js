@@ -123,19 +123,20 @@ export function savePaymentMethod(paymentMethod) {
   };
 }
 
-export function newOrderCreate(token,allCart ) {
+export function newOrderCreate(cartItems, shippingAddress, paymentMethod,
+  itemsPrice, shippingPrice, taxPrice, totalPrice, token) {
   return async function (dispatch) {
     dispatch({ type: "ORDER_CREATE_REQUEST" });
     try {
       const { data } = await axios.post('/orders',
         {
-          orderItems: allCart.cartItems,
-          shippingAddress: allCart.shippingAddress,
-          paymentMethod: allCart.paymentMethod,
-          itemsPrice: allCart.itemsPrice,
-          shippingPrice: allCart.shippingPrice,
-          taxPrice: allCart.taxPrice,
-          totalPrice: allCart.totalPrice,
+          orderItems: cartItems,
+          shippingAddress: shippingAddress,
+          paymentMethod: paymentMethod,
+          itemsPrice: itemsPrice,
+          shippingPrice: shippingPrice,
+          taxPrice: taxPrice,
+          totalPrice: totalPrice,
         },
         {
           headers: {authorization: 'Bearer' + " " + token},

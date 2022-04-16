@@ -65,8 +65,7 @@ router.post("/users/signin", expressAsyncHandler(async (req, res) => {
 })
 );
 
-// router.post("/orders", isAuth, expressAsyncHandler(async (req, res) => {
-  router.post("/orders", isAuth, expressAsyncHandler(async (req, res) => {
+router.post("/orders", isAuth, expressAsyncHandler(async (req, res) => {
   try {
 
     const newOrder = new Order({
@@ -94,7 +93,6 @@ router.post("/users/signin", expressAsyncHandler(async (req, res) => {
 
 }));
 
-
 router.get("/orders/:id", isAuth, expressAsyncHandler(async (req, res) => {
   let id = req.params.id;
   try {
@@ -115,8 +113,6 @@ router.get("/orders/:id", isAuth, expressAsyncHandler(async (req, res) => {
   }
 
 }));
-
-
 
 router.post("/users/signup", expressAsyncHandler(async (req, res) => {
 

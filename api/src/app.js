@@ -8,12 +8,12 @@ const routes = require('./routes/index.js');
 
 const server = express();
 //Esta línea está en el video de Diego.
-const cors = require('cors')
+const cors = require('cors');
 
 server.name = 'API';
 
 //Esta línea está en el video de Diego.
-server.use(cors())
+server.use(cors());
 server.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 server.use(bodyParser.json({ limit: '50mb' }));
 server.use(cookieParser());
@@ -34,6 +34,7 @@ server.use('/', routes);
 // server.use('/api/products', productRouter);
 // server.use('/api/users', userRouter);
 // server.use('/api/orders', orderRouter);
+
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

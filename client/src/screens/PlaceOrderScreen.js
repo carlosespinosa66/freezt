@@ -18,6 +18,7 @@ export default function PlaceOrderScreen() {
   const allCartItems = useSelector((state) => state.cart.cartItems);
   const allLoading = useSelector((state) => state.loading);
   const allUserInfo = useSelector((state) => state.userInfo);
+  // const allErrors = useSelector((state) => state.error);
   const allOrder = useSelector((state) => state.order.data);
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
@@ -30,18 +31,23 @@ export default function PlaceOrderScreen() {
   function placeOrderHandler(e) {
     e.preventDefault();
     try {
-      dispatch(newOrderCreate(allUserInfo.token, allCart,));
+      dispatch(newOrderCreate(allCartItems,
+        allShipping,
+        allPayment,
+        allCart.itemsPrice,
+        allCart.shippingPrice,
+        allCart.taxPrice,
+        allCart.totalPrice,
+        allUserInfo.token,
+      ));
 
       dispatch(removeAllCarItems());
+      if (!allOrder === undefined) {
+        navigateTo(`/order/${allOrder._id}`);
+      } else {
+        navigateTo(`/order`);
+      }
 
-
-      // if (allOrder._id ) {
-      // navigateTo(`/order/${allOrder._id}`);
-      navigateTo('/order');
-      // } else {
-      // alert("No order Id");
-      // }
-      // navigateTo('/order');
     } catch (err) {
       toast.error(getError(err));
     }

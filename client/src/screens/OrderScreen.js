@@ -1,14 +1,17 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate, useParams } from 'react-router-dom';
-import PayPalCheckoutButtons from '../components/PayPalCheckoutButtons'
+import { Helmet } from 'react-helmet-async';
+import { Row, Col, Card, ListGroup } from 'react-bootstrap';
+import PayPalCheckoutButtons from '../components/PayPalCheckoutButtons';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import CheckoutSteps from '../helpers/CheckoutSteps';
-import { Helmet } from 'react-helmet-async';
-import {Row, Col, Card, ListGroup} from 'react-bootstrap';
-import {getOrder} from '../actions'
+import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { toast } from 'react-toastify';
+import { getError } from '../helpers/utils';
+import { regPaypalOrder } from '../actions';
 
 export default function OrderScreen() {
   const dispatch = useDispatch();
@@ -18,22 +21,78 @@ export default function OrderScreen() {
   const allErrors = useSelector((state) => state.error);
   const allOrder = useSelector((state) => state.order.data);
   const allUserInfo = useSelector((state) => state.userInfo);
-  const params = useParams();
-  // const { id: orderId } = params;
-  
+  const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+
+  const [paidFor, setPaidFor] = useState(false);
+
+  function createOrder(data, actions) {
+    return actions.order
+      .create({
+        purchase_units: [
+          {
+            amount: { value: allOrder.totalPrice },
+          },
+        ],
+      });
+  }
+
+  function handleAprove(orderID) {
+    // Action to update the order with the data returned
+    dispatch(regPaypalOrder(allOrder.id, orderID));
+    //if response is success
+
+    setPaidFor(true);
+
+    //Refresh user's account or suscription status
+
+    //if the response us an error
+    //Alert with the right response.
+  }
+
+  if (paidFor) {
+    // display success message, modal or redirect to the succes pag
+    toast.error("Thank you for your purchase");
+  }
+
+  const onApprove = async (data, actions) => {
+    try {
+      const order = await actions.order.capture();
+      handleAprove(data.orderID);
+    } catch (err) {
+      toast.error(getError(err));
+    }
+  };
+
+  function onCancel() {
+    toast.error("The action was canceled !!");
+  }
+
+  function onError(err) {
+    toast.error(err.message);
+  }
+
+  const loadPayPalScript = (clientId) => {
+    try {
+      paypalDispatch({
+        type: 'resetOptions',
+        value: {
+          'client-id': clientId,
+          currency: 'USD',
+        },
+      });
+      paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+    } catch (err) {
+      toast.error(getError(err));
+    }
+
+  };
 
   useEffect(() => {
-
     if (!allUserInfo) {
       navigateTo('/login');
     }
-    // if ((!allOrder._id ||allOrder._id === undefined) || (allOrder._id !== undefined && allOrder._id !== orderId)) {
-      if ((!allOrder._id ||allOrder._id === undefined)) {
-      // dispatch(getOrder(orderId, allUserInfo.token));
-      dispatch(getOrder(allOrder._id, allUserInfo.token));
-    }
-
-  }, [allUserInfo, navigateTo, dispatch,allOrder._id]);
+    loadPayPalScript(process.env.REACT_APP_PAYPAL_CLIENT_ID);
+  }, [allUserInfo, navigateTo, loadPayPalScript]);
 
 
   return allLoading ? (
@@ -146,9 +205,23 @@ export default function OrderScreen() {
                   {/* <LoadingBox /> */}
                   {/* ) : ( */}
                   <div>
-                  <PayPalCheckoutButtons
+                    {/* <PayPalCheckoutButtons
                       order={allOrder}
-                    ></PayPalCheckoutButtons>
+                    ></PayPalCheckoutButtons> */}
+                    <PayPalButtons
+                      style={{
+                        // color: "silver",
+                        layout: "vertical",
+                        height: 48,
+                        tagline: false,
+                        shape: "",
+                        label: "buynow"
+                      }}
+                      createOrder={createOrder}
+                      onApprove={onApprove}
+                      onCancel={onCancel}
+                      onError={onError}
+                    />
 
                   </div>
                   {/* )}

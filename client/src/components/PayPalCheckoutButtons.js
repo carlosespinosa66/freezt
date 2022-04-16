@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
@@ -8,8 +7,7 @@ import { regPaypalOrder } from '../actions';
 
 export default function PayPalCheckoutButtons(props) {
     const dispatch = useDispatch();
-    const navigateTo = useNavigate();
-    const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
+    const [paypalDispatch] = usePayPalScriptReducer();
     const { order } = props;
     const [paidFor, setPaidFor] = useState(false);
 
@@ -59,16 +57,21 @@ export default function PayPalCheckoutButtons(props) {
         toast.error(err.message);
     }
 
-    const loadPayPalScript = async (clientId) => {
+    const loadPayPalScript = (clientId) => {
+        try {
+            paypalDispatch({
+                type: 'resetOptions',
+                value: {
+                    // 'client-id': clientId,
+                    'client-id': "AXZqDsuO89YYQ2p3NYf3lHQqmXQiOWSZNegW8N-X71x9tRlUZJUvIRGdaerB7XjJPK20nHRHCNrySJv5",
+                    currency: 'USD',
+                },
+            });
+            paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+        } catch (err) {
+            toast.error(getError(err));
+        }
 
-        paypalDispatch({
-            type: 'resetOptions',
-            value: {
-                'client-id': clientId,
-                currency: 'USD',
-            },
-        });
-        paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
     };
 
     useEffect(() => {
