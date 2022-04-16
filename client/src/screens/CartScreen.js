@@ -1,13 +1,9 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import {Row, Col, Card, Button,ListGroup} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
 import MessageBox from '../helpers/MessageBox';
-import ListGroup from 'react-bootstrap/ListGroup';
 import { addProductToCar, removeItemCar } from '../actions';
 
 export default function CartScreen() {

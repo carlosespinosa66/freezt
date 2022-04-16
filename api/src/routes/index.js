@@ -65,7 +65,8 @@ router.post("/users/signin", expressAsyncHandler(async (req, res) => {
 })
 );
 
-router.post("/orders", isAuth, expressAsyncHandler(async (req, res) => {
+// router.post("/orders", isAuth, expressAsyncHandler(async (req, res) => {
+  router.post("/orders", isAuth, expressAsyncHandler(async (req, res) => {
   try {
 
     const newOrder = new Order({
@@ -153,7 +154,8 @@ router.get("/admin/paypal", async (req, res) => {
 
 });
 
-router.put('/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
+router.put('orders/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
+
   try {
     const order = await Order.findById(req.params.id);
     if (order) {
@@ -176,8 +178,6 @@ router.put('/:id/pay', isAuth, expressAsyncHandler(async (req, res) => {
   }
 })
 );
-
-
 
 module.exports = router;
 

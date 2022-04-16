@@ -1,8 +1,6 @@
 import React from 'react';
-import Container from 'react-bootstrap/Container';
 import { Helmet } from 'react-helmet-async';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import {Form, Button, Container} from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";

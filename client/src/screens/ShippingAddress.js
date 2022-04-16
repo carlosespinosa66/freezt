@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import {Form, Button} from 'react-bootstrap';
 import { getError } from '../helpers/utils';
 import { saveShippingAddress } from '../actions';
 import CheckoutSteps from '../helpers/CheckoutSteps';
@@ -35,7 +34,7 @@ export default function ShippingAddress() {
         if (!allUserInfo) {
             navigateTo('/signin?redirect=/shipping');
         }
-    }, [allShipping,navigateTo]);
+    }, [allUserInfo,navigateTo]);
 
     return (
         <div>

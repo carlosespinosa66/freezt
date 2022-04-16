@@ -53,13 +53,12 @@ export function removeItemCar(item) {
   };
 }
 
-export function removeAllItemsCar() {
+export function removeAllCarItems() {
   return {
     type: "CART_CLEAR",
     payload: "",
   };
 }
-
 
 export function getUserInfo(email, password) {
   return async function (dispatch) {
@@ -124,20 +123,19 @@ export function savePaymentMethod(paymentMethod) {
   };
 }
 
-export function newOrderCreate(cartItems, shippingAddress, paymentMethod,
-  itemsPrice, shippingPrice, taxPrice, totalPrice, token) {
+export function newOrderCreate(token,allCart ) {
   return async function (dispatch) {
     dispatch({ type: "ORDER_CREATE_REQUEST" });
     try {
       const { data } = await axios.post('/orders',
         {
-          orderItems: cartItems,
-          shippingAddress: shippingAddress,
-          paymentMethod: paymentMethod,
-          itemsPrice: itemsPrice,
-          shippingPrice: shippingPrice,
-          taxPrice: taxPrice,
-          totalPrice: totalPrice,
+          orderItems: allCart.cartItems,
+          shippingAddress: allCart.shippingAddress,
+          paymentMethod: allCart.paymentMethod,
+          itemsPrice: allCart.itemsPrice,
+          shippingPrice: allCart.shippingPrice,
+          taxPrice: allCart.taxPrice,
+          totalPrice: allCart.totalPrice,
         },
         {
           headers: {authorization: 'Bearer' + " " + token},
@@ -172,6 +170,44 @@ export function getOrder(orderId, token) {
     }
   };
 }
+
+export function regPaypalOrder(orderId, paypalId) {
+  return async function (dispatch) {
+    try {
+      const { data } = await axios.put(`/orders/${orderId}/pay`,{ paypalId });
+      dispatch({
+        type: "PAY_ORDER_SUCCESS",
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: "PAY_ORDER_FAIL",
+        payload: ({ status: error.response.status })
+      });
+
+    }
+  };
+}
+
+  //   return actions.order.capture().then(async function (details,dispatch) {
+  //     try {
+  //       dispatch({ type: 'PAY_REQUEST' });
+  //       const { data } = await axios.put(`/api/orders/${id}/pay`, details,
+  //         {
+  //           headers: { authorization: `Bearer ${token}` },
+  //         }
+  //       );
+  //       dispatch({ type: 'PAY_SUCCESS', payload: data });
+  //     } catch (err) {
+  //       dispatch({ type: 'PAY_FAIL', payload: err.message });
+        
+  //     }
+  //   });
+
+
+
+
+
   // export function loadPayPalScript() {
   //   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
 

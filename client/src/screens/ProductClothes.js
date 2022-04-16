@@ -1,9 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { getProducts } from '../actions';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-
+import {Row, Col} from 'react-bootstrap';
 
 import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';

@@ -1,20 +1,14 @@
 
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams, Link } from 'react-router-dom';
-import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
+import { useNavigate, useParams } from 'react-router-dom';
+import PayPalCheckoutButtons from '../components/PayPalCheckoutButtons'
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 import { Helmet } from 'react-helmet-async';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import ListGroup from 'react-bootstrap/ListGroup';
-import { getOrder } from '../actions';
-import { toast } from 'react-toastify';
-import { getError } from '../helpers/utils';
-require('dotenv').config()
+import {Row, Col, Card, ListGroup} from 'react-bootstrap';
+import {getOrder} from '../actions'
 
 export default function OrderScreen() {
   const dispatch = useDispatch();
@@ -25,56 +19,8 @@ export default function OrderScreen() {
   const allOrder = useSelector((state) => state.order.data);
   const allUserInfo = useSelector((state) => state.userInfo);
   const params = useParams();
-  const { id: orderId } = params;
-  const [{ isPending },paypalDispatch] = usePayPalScriptReducer();
-
-  function createOrder(data, actions) {
-    return actions.order
-      .create({
-        purchase_units: [
-          {
-            amount: { value: allOrder.totalPrice },
-          },
-        ],
-      })
-      .then((orderID) => {
-        return orderID;
-      });
-  }
-
-function onApprove(data, actions) {
-  return actions.order.capture().then(async function (details,dispatch) {
-    try {
-      // dispatch({ type: 'PAY_REQUEST' });
-      // const { data } = await axios.put(`/api/orders/${allOrder._id}/pay`, details,
-      //   {
-      //     headers: { authorization: `Bearer ${allUserInfo.token}` },
-      //   }
-      // );
-      // dispatch({ type: 'PAY_SUCCESS', payload: data });
-      // toast.success('Order is paid');
-    } catch (err) {
-      dispatch({ type: 'PAY_FAIL', payload: getError(err) });
-      toast.error(getError(err));
-    }
-  });
-}
-
-function onError(err) {
-  toast.error(err.message);
-}
-
-  const loadPayPalScript = async (clientId) => {
-
-    paypalDispatch({
-      type: 'resetOptions',
-      value: {
-        'client-id': clientId ,
-        currency: 'USD',
-      },
-    });
-    paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
-  };
+  // const { id: orderId } = params;
+  
 
   useEffect(() => {
 
@@ -82,14 +28,12 @@ function onError(err) {
       navigateTo('/login');
     }
     // if ((!allOrder._id ||allOrder._id === undefined) || (allOrder._id !== undefined && allOrder._id !== orderId)) {
-    //   dispatch(getOrder(orderId, allUserInfo.token));
-    // }
-    // dispatch(loadPayPalScript(allUserInfo.token));
-    loadPayPalScript("AQDF4Pff80v8HYThXKSomBe6e5V0Dm64mtsTLbbKijiTN65DZggNtKIJVj5vbCTIbI81ucIueliO2SDe")
-    // loadPayPalScript(process.env.REACT_APP_PAYPAL_CLIENT_ID)
-    
+      if ((!allOrder._id ||allOrder._id === undefined)) {
+      // dispatch(getOrder(orderId, allUserInfo.token));
+      dispatch(getOrder(allOrder._id, allUserInfo.token));
+    }
 
-  }, [allUserInfo, navigateTo, dispatch]);
+  }, [allUserInfo, navigateTo, dispatch,allOrder._id]);
 
 
   return allLoading ? (
@@ -197,20 +141,19 @@ function onError(err) {
                   </Row>
                 </ListGroup.Item>
                 {/* {!allOrder.isPaid && ( */}
-                  <ListGroup.Item>
-                    {/* {isPending ? ( */}
-                      {/* <LoadingBox /> */}
-                    {/* ) : ( */}
-                      <div>
-                        <PayPalButtons
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onError={onError}
-                        ></PayPalButtons>
-                      </div>
-                    {/* )}
+                <ListGroup.Item>
+                  {/* {isPending ? ( */}
+                  {/* <LoadingBox /> */}
+                  {/* ) : ( */}
+                  <div>
+                  <PayPalCheckoutButtons
+                      order={allOrder}
+                    ></PayPalCheckoutButtons>
+
+                  </div>
+                  {/* )}
                     {allLoadingPay && <LoadingBox></LoadingBox>} */}
-                  </ListGroup.Item>
+                </ListGroup.Item>
                 {/* )} */}
               </ListGroup>
             </Card.Body>

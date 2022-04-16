@@ -2,18 +2,12 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
-import ListGroup from 'react-bootstrap/ListGroup';
+import {Row, Col, Card, Button,ListGroup} from 'react-bootstrap';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { newOrderCreate, removeAllItemsCar } from '../actions';
+import { newOrderCreate, removeAllCarItems } from '../actions';
 import LoadingBox from '../helpers/LoadingBox';
-
-
 
 export default function PlaceOrderScreen() {
   const dispatch = useDispatch();
@@ -24,7 +18,6 @@ export default function PlaceOrderScreen() {
   const allCartItems = useSelector((state) => state.cart.cartItems);
   const allLoading = useSelector((state) => state.loading);
   const allUserInfo = useSelector((state) => state.userInfo);
-  // const allErrors = useSelector((state) => state.error);
   const allOrder = useSelector((state) => state.order.data);
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
@@ -37,14 +30,17 @@ export default function PlaceOrderScreen() {
   function placeOrderHandler(e) {
     e.preventDefault();
     try {
-      dispatch(newOrderCreate(allCartItems, allShipping, allPayment, allCart.itemsPrice,
-        allCart.shippingPrice, allCart.taxPrice, allCart.totalPrice, allUserInfo.token));
-      if (allOrder._id) {
-        dispatch(removeAllItemsCar());
-        navigateTo(`/order/${allOrder._id}`);
-      } else {
-        alert ("No order Id")
-      }
+      dispatch(newOrderCreate(allUserInfo.token, allCart,));
+
+      dispatch(removeAllCarItems());
+
+
+      // if (allOrder._id ) {
+      // navigateTo(`/order/${allOrder._id}`);
+      navigateTo('/order');
+      // } else {
+      // alert("No order Id");
+      // }
       // navigateTo('/order');
     } catch (err) {
       toast.error(getError(err));

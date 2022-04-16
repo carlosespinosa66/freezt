@@ -2,16 +2,11 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetail, addProductToCar } from '../actions';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Card from 'react-bootstrap/Card';
-import Badge from 'react-bootstrap/Badge';
-import Button from 'react-bootstrap/Button';
+import {Row, Col, Card, Button,ListGroup,Badge} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import Rating from '../helpers/Rating';
-import ListGroup from 'react-bootstrap/ListGroup';
 
 export default function ProductDetail() {
   const dispatch = useDispatch();
