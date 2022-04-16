@@ -2,11 +2,11 @@ import React, { useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from 'react-router-dom';
-import {Row, Col, Card, Button,ListGroup} from 'react-bootstrap';
-import CheckoutSteps from '../helpers/CheckoutSteps';
+import { Row, Col, Card, Button, ListGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
 import { newOrderCreate, removeAllCarItems } from '../actions';
+import CheckoutSteps from '../helpers/CheckoutSteps';
 import LoadingBox from '../helpers/LoadingBox';
 
 export default function PlaceOrderScreen() {
