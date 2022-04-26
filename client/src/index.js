@@ -9,14 +9,22 @@ import App from './App';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import reportWebVitals from './reportWebVitals';
 
+
+const initialOptions = {
+  // "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
+  currency: "USD",
+  intent: "capture",
+};
+
+
+
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <HelmetProvider>
-        {/* <PayPalScriptProvider deferLoading={true}> */}
-        <PayPalScriptProvider options={{
-          "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID
-        }}>
+        {/* <PayPalScriptProvider deferLoading={true} options={initialOptions}> */}
+        <PayPalScriptProvider  deferLoading={true} options={{ "client-id": "sb" }}>          
+          
           <App />
         </PayPalScriptProvider>
       </HelmetProvider>

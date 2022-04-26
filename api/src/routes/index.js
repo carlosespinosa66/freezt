@@ -1,3 +1,4 @@
+require("dotenv").config();
 const { Router } = require('express');
 const data = require('../models/data');
 const Product = require('../models/product.js');
@@ -6,8 +7,6 @@ const Order = require('../models/order.js');
 const bcrypt = require('bcryptjs');
 const expressAsyncHandler = require('express-async-handler');
 const { generateToken, isAuth } = require('../middleware/auth');
-const dotenv = require('dotenv');
-dotenv.config();
 
 const router = Router();
 

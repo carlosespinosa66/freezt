@@ -140,20 +140,13 @@ export default function OrderScreen() {
                     </Col>
                   </Row>
                 </ListGroup.Item>
-                {/* {!allOrder.isPaid && ( */}
                 <ListGroup.Item>
-                  {/* {isPending ? ( */}
-                  {/* <LoadingBox /> */}
-                  {/* ) : ( */}
                   <div>
                     <PayPalCheckoutButtons
                       order={allOrder}
                     ></PayPalCheckoutButtons>
                   </div>
-                  {/* )}
-                    {allLoadingPay && <LoadingBox></LoadingBox>} */}
                 </ListGroup.Item>
-                {/* )} */}
               </ListGroup>
             </Card.Body>
           </Card>

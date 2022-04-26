@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch,useSelector } from 'react-redux';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
@@ -8,44 +8,24 @@ import { regPaypalOrder } from '../actions';
 export default function PayPalCheckoutButtons(props) {
   const dispatch = useDispatch();
   const allUserInfo = useSelector((state) => state.userInfo);
-  const [paypalDispatch] = usePayPalScriptReducer();
-  const { order } = props;
-  const [paidFor, setPaidFor] = useState(false);
-
+  const [{options},paypalDispatch] = usePayPalScriptReducer();
+  const { allOrder } = props;
+  
   function createOrder(data, actions) {
     return actions.order.create({
       purchase_units: [
         {
-          amount: { value: order.totalPrice },
+          amount: { value: allOrder.totalPrice },
         },
       ],
     });
   }
 
-  // function handleAprove(orderID) {
-  //   // Action to update the order with the data returned
-  //   dispatch(regPaypalOrder(order.id, orderID));
-  //   //if response is success
-
-
-  //   setPaidFor(true);
-
-  //   //Refresh user's account or suscription status
-
-  //   //if the response us an error
-  //   //Alert with the right response.
-  // }
-
-  // if (paidFor) {
-  //   // display success message, modal or redirect to the succes pag
-  //   toast.error('Thank you for your purchase');
-  // }
-
   const onApprove = async (data, actions) => {
     try {
       const orderPaypal = await actions.order.capture();
 
-      dispatch(regPaypalOrder(order._id, orderPaypal,allUserInfo.token));
+      dispatch(regPaypalOrder(allOrder._id, orderPaypal,allUserInfo.token));
     
     } catch (err) {
       toast.error(getError(err));
@@ -65,11 +45,13 @@ export default function PayPalCheckoutButtons(props) {
       paypalDispatch({
         type: 'resetOptions',
         value: {
+          ...options,
           // 'client-id': clientId,
-          // 'client-id': "AXZqDsuO89YYQ2p3NYf3lHQqmXQiOWSZNegW8N-X71x9tRlUZJUvIRGdaerB7XjJPK20nHRHCNrySJv5",
+          'client-id': "AXZqDsuO89YYQ2p3NYf3lHQqmXQiOWSZNegW8N-X71x9tRlUZJUvIRGdaerB7XjJPK20nHRHCNrySJv5",
           currency: 'USD',
         },
       });
+
       paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
     } catch (err) {
       toast.error(getError(err));
@@ -102,3 +84,41 @@ export default function PayPalCheckoutButtons(props) {
     />
   );
 }
+
+/*
+
+                {!allOrder.isPaid && (
+                <ListGroup.Item>
+                   {isPending ? ( 
+                   <LoadingBox /> 
+                   ) : ( 
+                  <div>
+                    <PayPalCheckoutButtons
+                      order={allOrder}
+                    ></PayPalCheckoutButtons>
+                  </div>
+                  )}
+                    {allLoadingPay && <LoadingBox></LoadingBox>} 
+                </ListGroup.Item>
+                 )} 
+
+*/
+
+/* 
+   <PayPalButtons
+      style={{
+        color: 'blue',
+        layout: 'vertical',
+        height: 40,
+        tagline: false,
+        shape: 'pill',
+        label: 'pay',
+        // tagline:true
+      }}
+      createOrder={createOrder}
+      onApprove={onApprove}
+      onCancel={onCancel}
+      onError={onError}
+    />
+
+*/
