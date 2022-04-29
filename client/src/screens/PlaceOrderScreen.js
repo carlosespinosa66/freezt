@@ -18,7 +18,6 @@ export default function PlaceOrderScreen() {
   const allCartItems = useSelector((state) => state.cart.cartItems);
   const allLoading = useSelector((state) => state.loading);
   const allUserInfo = useSelector((state) => state.userInfo);
-  // const allErrors = useSelector((state) => state.error);
   const allOrder = useSelector((state) => state.order.data);
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
@@ -43,7 +42,7 @@ export default function PlaceOrderScreen() {
 
       dispatch(removeAllCarItems());
       if (!allOrder === undefined) {
-        navigateTo(`/order/${allOrder._id}`);
+        navigateTo(`/order/${allOrder.id}`);
       } else {
         navigateTo(`/order`);
       }

@@ -1,18 +1,27 @@
 require("dotenv").config();
 const { Router } = require('express');
-const data = require('../models/data');
-const Product = require('../models/product.js');
-const User = require('../models/user.js');
-const Order = require('../models/order.js');
+const data = require('../json/data');
+const {
+  Product,
+  Brand,
+  Category,
+  Subcategory,
+  Question,
+  Review,
+  User,
+} = require('../db');
+
+
+
 const bcrypt = require('bcryptjs');
 const expressAsyncHandler = require('express-async-handler');
-const { generateToken, isAuth } = require('../middleware/auth');
+const { generateToken, isAuth } = require('../middleware/auth_video');
 
 const router = Router();
 
 router.get('/products', async (req, res) => {
-  const products = await Product.find();
-  res.status(200).json(products);
+  let dataProduct = await Product.findAll({})
+  res.status(200).json(dataProduct);
 });
 
 router.get('/products/slug/:slug', async (req, res) => {

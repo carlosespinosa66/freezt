@@ -21,8 +21,7 @@ const initialState = {
       ? JSON.parse(localStorage.getItem('shippingAddress'))
       : { location: {} },
     paymentMethod: localStorage.getItem('paymentMethod')
-      ? localStorage.getItem('paymentMethod')
-      : '',
+      ? localStorage.getItem('paymentMethod'):''
   },
 };
 
@@ -49,11 +48,11 @@ function rootReducer(state = initialState, action) {
     case 'CART_ADD_ITEM':
       const newItem = action.payload;
       const itemToVerify = state.cart.cartItems.find(
-        (x) => x._id === newItem._id
+        (x) => x.id === newItem.id
       );
       const cartItems = itemToVerify
         ? state.cart.cartItems.map((item) =>
-            item._id === itemToVerify._id ? newItem : item
+            item.id === itemToVerify.id ? newItem : item
           )
         : [...state.cart.cartItems, newItem];
 
@@ -68,7 +67,7 @@ function rootReducer(state = initialState, action) {
 
     case 'CART_REMOVE_ITEM': {
       const cartItems = state.cart.cartItems.filter(
-        (item) => item._id !== action.payload._id
+        (item) => item.id !== action.payload.id
       );
       localStorage.setItem('cartItems', JSON.stringify(cartItems));
       return {

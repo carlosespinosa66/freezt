@@ -13,10 +13,10 @@ export default function Product(props) {
     const allProducts = useSelector((state) => state.products);
     function addToCartHandler() {
 
-        const itemToAdd = allCart.cartItems.find((x) => x._id === product._id);
+        const itemToAdd = allCart.cartItems.find((x) => x.id === product.id);
         const quantity = itemToAdd ? itemToAdd.quantity + 1 : 1;
-        const itemToVerifyQty = allProducts.find((x) => x._id === product._id);
-        if (Number(quantity) <= Number(itemToVerifyQty.countinstock)) {
+        const itemToVerifyQty = allProducts.find((x) => x.id === product.id);
+        if (Number(quantity) <= Number(itemToVerifyQty.stock)) {
             dispatch(addProductToCar({ ...product, quantity }));
         } else {
             window.alert("No hay inventario del producto");
@@ -35,7 +35,7 @@ export default function Product(props) {
                     </Link>
                     <Rating rating={product.rating} numReviews={product.numReviews}></Rating>
                     <Card.Text>${product.price}</Card.Text>
-                    {product.countinstock === 0 ? <Button variant='light' disabled>Sin Inventario</Button>
+                    {product.stock === 0 ? <Button variant='light' disabled>Sin Inventario</Button>
                         :
                         <Button onClick={() => addToCartHandler(product)}>Add to Cart</Button>}
                 </Card.Body>

@@ -4,10 +4,10 @@ export function getProducts() {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_REQUEST' });
     try {
-      var json = await axios.get('/products');
+      var json = await axios.get('/api/products');
       dispatch({
         type: 'PRODUCTS_SUCCESS',
-        payload: json.data,
+        payload: json.data.data,
       });
     } catch (error) {
       dispatch({
@@ -22,10 +22,10 @@ export function getProductDetail(slug) {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_REQUEST_DETAIL' });
     try {
-      var json = await axios.get(`/products/slug/${slug}`);
+      var json = await axios.get(`/api/products/${slug}`);
       dispatch({
         type: 'PRODUCTS_SUCCESS_DETAIL',
-        payload: json.data,
+        payload: json.data.data,
       });
     } catch (error) {
       dispatch({
@@ -60,15 +60,22 @@ export function removeAllCarItems() {
 export function getUserInfo(email, password) {
   return async function(dispatch) {
     try {
-      const { data } = await axios.post('/users/signin', { email, password });
+      const response = await axios.post('/api/signIn', { email, password });
+      const TOKEN = response.headers['auth-token'];
       dispatch({
         type: 'USER_SIGNIN',
-        payload: data,
+        payload: {
+          email,
+          token: TOKEN,
+          name: response.data.data.name,
+          role: response.data.data.role,
+          google: false,
+        },
       });
     } catch (error) {
       dispatch({
         type: 'USER_SIGNIN_FAIL',
-        payload: { status: error.response.status },
+        payload: '', //{ status: error.response.status },
       });
     }
   };
@@ -135,8 +142,8 @@ export function newOrderCreate(
   return async function(dispatch) {
     dispatch({ type: 'ORDER_CREATE_REQUEST' });
     try {
-      const { data } = await axios.post(
-        '/orders',
+      const data = await axios.post(
+        '/api/auth/orders',
         {
           orderItems: cartItems,
           shippingAddress: shippingAddress,
@@ -147,17 +154,18 @@ export function newOrderCreate(
           totalPrice: totalPrice,
         },
         {
-          headers: { authorization: 'Bearer' + ' ' + token },
+          headers: { 'auth-token': token },
         }
       );
       dispatch({
         type: 'ORDER_CREATE_REQUEST_PROCESS',
-        payload: data,
+        payload: data.data,
       });
     } catch (error) {
       dispatch({
         type: 'ORDER_CREATE_REQUEST_PROCESS_FAIL',
-        payload: { status: error.response.status },
+        // payload: { status: error.response.status },
+        payload: { status: error},
       });
     }
   };
@@ -167,7 +175,7 @@ export function getOrder(orderId, token) {
   return async function(dispatch) {
     try {
       dispatch({ type: 'FETCH_ORDER_REQUEST' });
-      const { data } = await axios.get(`/orders/${orderId}`, {
+      const data = await axios.get(`/orders/${orderId}`, {
         headers: { authorization: 'Bearer' + ' ' + token },
       });
       dispatch({
@@ -180,19 +188,21 @@ export function getOrder(orderId, token) {
   };
 }
 
-export function regPaypalOrder(orderClientId, orderPaypal,token) {
+export function regPaypalOrder(id, info, token) {
   return async function(dispatch) {
     try {
-      const { data } = await axios.put(
-        `/orders/pay/${orderClientId}`,
-        { orderClientId,orderPaypal },
+      
+      const data = await axios.put(
+        `api/auth/orders/pay/${id}`,
+        { info },
         {
-          headers: { authorization: 'Bearer' + ' ' + token },
+          headers: { 'auth-token': token },
         }
       );
+
       dispatch({
         type: 'PAY_ORDER_SUCCESS',
-        payload: data,
+        payload: data.data,
       });
     } catch (error) {
       dispatch({
@@ -203,60 +213,3 @@ export function regPaypalOrder(orderClientId, orderPaypal,token) {
   };
 }
 
-//   return actions.order.capture().then(async function (details,dispatch) {
-//     try {
-//       dispatch({ type: 'PAY_REQUEST' });
-//       const { data } = await axios.put(`/api/orders/${id}/pay`, details,
-//         {
-//           headers: { authorization: `Bearer ${token}` },
-//         }
-//       );
-//       dispatch({ type: 'PAY_SUCCESS', payload: data });
-//     } catch (err) {
-//       dispatch({ type: 'PAY_FAIL', payload: err.message });
-
-//     }
-//   });
-
-// export function loadPayPalScript() {
-//   const [{ isPending }, paypalDispatch] = usePayPalScriptReducer();
-
-//   return async function (dispatch) {
-//     try {
-//       const { data: clientId } = await axios.post('/admin/paypal'); //,
-//       // { headers: { autorization: `${userinfo.token}` }, });
-//       paypalDispatch({
-//         // type: "RESET_PAYPAL_OPTIONS",
-//         type:'resetOptions',
-//         payload: {
-//           'client-id': clientId,
-//           currency: 'USD'
-//         },
-//       });
-//       paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
-//     } catch (error) {
-//       dispatch({
-//         type: "FAIL_PAYPAL_OPTIONS",
-//         payload: ({ message: error.message })
-//       });
-
-//     }
-//   };
-// }
-
-// export function onApprove(data, actions,id,token) {
-//   return actions.order.capture().then(async function (details,dispatch) {
-//     try {
-//       dispatch({ type: 'PAY_REQUEST' });
-//       const { data } = await axios.put(`/api/orders/${id}/pay`, details,
-//         {
-//           headers: { authorization: `Bearer ${token}` },
-//         }
-//       );
-//       dispatch({ type: 'PAY_SUCCESS', payload: data });
-//     } catch (err) {
-//       dispatch({ type: 'PAY_FAIL', payload: err.message });
-
-//     }
-//   });
-// }

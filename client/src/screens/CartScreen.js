@@ -13,8 +13,8 @@ export default function CartScreen() {
     const navigateTo = useNavigate();
 
     function updateCartHandle(itemToAdd, quantity) {
-        const itemToVerifyQty = allProducts.find((x) => x._id === itemToAdd._id);
-        if (Number(quantity) <= Number(itemToVerifyQty.countinstock)) {
+        const itemToVerifyQty = allProducts.find((x) => x.id === itemToAdd.id);
+        if (Number(quantity) <= Number(itemToVerifyQty.stock)) {
             dispatch(addProductToCar({ ...itemToAdd, quantity }));
         }
     }
@@ -44,7 +44,7 @@ export default function CartScreen() {
                     ) : (
                         <ListGroup>
                             {allCartItems.map((item) => (
-                                <ListGroup.Item key="item._id">
+                                <ListGroup.Item key="item.id">
                                     <Row className="aligng-items-center">
                                         <Col md={4}>
                                             <img
@@ -64,7 +64,7 @@ export default function CartScreen() {
                                             <Button
                                                 variant="light"
                                                 onClick={(() => updateCartHandle(item, item.quantity + 1))}
-                                                disabled={item.quantity === item.countinstock}>
+                                                disabled={item.quantity === item.stock}>
                                                 <i className="fas fa-plus-circle"></i>
                                             </Button>
                                         </Col>

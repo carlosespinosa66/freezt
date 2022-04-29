@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { useDispatch,useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
@@ -8,14 +8,14 @@ import { regPaypalOrder } from '../actions';
 export default function PayPalCheckoutButtons(props) {
   const dispatch = useDispatch();
   const allUserInfo = useSelector((state) => state.userInfo);
-  const [{options},paypalDispatch] = usePayPalScriptReducer();
-  const { allOrder } = props;
-  
+  const [{ options }, paypalDispatch] = usePayPalScriptReducer();
+  const allOrder = props.order;
+
   function createOrder(data, actions) {
     return actions.order.create({
       purchase_units: [
         {
-          amount: { value: allOrder.totalPrice },
+          amount: { value: allOrder.total_amount },
         },
       ],
     });
@@ -25,8 +25,7 @@ export default function PayPalCheckoutButtons(props) {
     try {
       const orderPaypal = await actions.order.capture();
 
-      dispatch(regPaypalOrder(allOrder._id, orderPaypal,allUserInfo.token));
-    
+      handleAprove(orderPaypal);
     } catch (err) {
       toast.error(getError(err));
     }
@@ -40,31 +39,53 @@ export default function PayPalCheckoutButtons(props) {
     toast.error(err.message);
   }
 
-  const loadPayPalScript = () => {
+  function handleAprove(orderID) {
+    try {
+      const info = {
+        paymentSource: 'PayPal',
+        shippingPrice: 0,
+        taxPrice: 0,
+        orderIdPayment: orderID,
+        email_address: allOrder.email_address,
+      };
+
+      dispatch(regPaypalOrder(allOrder.id, info, allUserInfo.token));
+
+      // setTimeout(() => {
+      //   dispatch(clearCart());
+      //   localStorage.removeItem('cart');
+      //   dispatch(resetPoducts());
+      //   navigate('/products');
+      // }, 500);
+      // setPaidFor(true);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    try {
+      loadPayPalScript(process.env.REACT_APP_PAYPAL_CLIENT_ID);
+    } catch (err) {
+      toast.error(getError(err));
+    }
+  }, [loadPayPalScript, toast]);
+
+  const loadPayPalScript = async (clientId) => {
     try {
       paypalDispatch({
         type: 'resetOptions',
         value: {
           ...options,
-          // 'client-id': clientId,
-          'client-id': "AXZqDsuO89YYQ2p3NYf3lHQqmXQiOWSZNegW8N-X71x9tRlUZJUvIRGdaerB7XjJPK20nHRHCNrySJv5",
+          'client-id': clientId,
           currency: 'USD',
         },
       });
-
       paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
     } catch (err) {
       toast.error(getError(err));
     }
   };
-
-  useEffect(() => {
-    try {
-      loadPayPalScript();
-    } catch (err) {
-      toast.error(getError(err));
-    }
-  }, [loadPayPalScript]);
 
   return (
     <PayPalButtons

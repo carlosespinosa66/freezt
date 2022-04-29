@@ -22,10 +22,10 @@ export default function ProductDetail() {
 
   function addToCartHandler() {
     
-    const itemToAdd = allCart.cartItems.find((x) => x._id === allDetail._id);
+    const itemToAdd = allCart.cartItems.find((x) => x.id === allDetail.id);
     const quantity = itemToAdd ? itemToAdd.quantity + 1 : 1;
-    const itemToVerifyQty = allProducts.find((x) => x._id === allDetail._id);
-    if (Number(quantity) <= Number(itemToVerifyQty.countinstock)) {
+    const itemToVerifyQty = allProducts.find((x) => x.id === allDetail.id);
+    if (Number(quantity) <= Number(itemToVerifyQty.stock)) {
       dispatch(addProductToCar({ ...allDetail, quantity }));
       navigateTo("/cart")
     } else {
@@ -79,14 +79,14 @@ export default function ProductDetail() {
                   <ListGroup.Item>
                     <Row>
                       <Col> Status: </Col>
-                      <Col> {allDetail.countinstock > 0 ?
+                      <Col> {allDetail.stock > 0 ?
                         <Badge bg="success">In Stock</Badge>
                         :
                         <Badge bg="danger">Unavailable</Badge>}
                       </Col>
                     </Row>
                   </ListGroup.Item>
-                  {allDetail.countinstock > 0 && (
+                  {allDetail.stock > 0 && (
                     <ListGroup.Item>
                       <div className="d-grid">
                         <Button onClick={addToCartHandler} variant="primary">

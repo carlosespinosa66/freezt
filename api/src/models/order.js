@@ -1,58 +1,58 @@
-const mongoose = require('mongoose');
-
-const orderSchema = new mongoose.Schema(
-  {
-    orderItems: [
-      {
-        slug: { type: String, required: true },
-        name: { type: String, required: true },
-        quantity: { type: Number, required: true },
-        image: { type: String, required: true },
-        price: { type: Number, required: true },
-        product: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'Product',
-          required: true,
-        },
-      },
-    ],
-    shippingAddress: {
-      fullName: { type: String, required: true },
-      address: { type: String, required: true },
-      city: { type: String, required: true },
-      country: { type: String, required: true },
-      location: {
-        lat: Number,
-        lng: Number,
-        address: String,
-        name: String,
-        vicinity: String,
-        googleAddressId: String,
-      },
+const { DataTypes } = require("sequelize");
+// Exportamos una funcion que define el modelo
+// Luego le injectamos la conexion a sequelize.
+module.exports = (sequelize) => {
+  sequelize.define("Order", {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
     },
-    paymentMethod: { type: String, required: true },
-    paymentResult: {
-      id: String,
-      status: String,
-      payer_id:String,
-      update_time: String,
-      email_address: String,
+    total_amount: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+      defaultValue: 0,
     },
-    itemsPrice: { type: Number, required: true },
-    shippingPrice: { type: Number, required: true },
-    taxPrice: { type: Number, required: true },
-    totalPrice: { type: Number, required: true },
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
-    isPaid: { type: Boolean, default: false },
-    paidAt: { type: Date },
-    isDelivered: { type: Boolean, default: false },
-    deliveredAt: { type: Date },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-const Order = mongoose.model('Order', orderSchema);
-
-module.exports= Order;
+    orderIdPayment: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    email_address: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      isEmail: true,
+    },
+    billing_address: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    shipping_address: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },    
+    paymentSource: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    shippingPrice: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      defaultValue: 0,
+    },
+    taxPrice: {
+      type: DataTypes.FLOAT,
+      allowNull: true,
+      defaultValue: 0,
+    },
+    paidAt: {
+      type: DataTypes.DATE,
+      allowNull: true,
+    },
+    status: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "PENDING",
+    },
+  });
+};

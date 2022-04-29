@@ -1,24 +1,70 @@
-const mongoose = require('mongoose');
-
-const productSchema = new mongoose.Schema(
-    {
-      name: { type: String, required: true, unique: true },
-      slug: { type: String, required: true, unique: true },
-      image: { type: String, required: true },
-      brand: { type: String, required: true },
-      category: { type: String, required: true },
-      description: { type: String, required: true },
-      price: { type: Number, required: true },
-      countinstock: { type: Number, required: true },
-      rating: { type: Number, required: true },
-      numReviews: { type: Number, required: true },
+const { DataTypes } = require('sequelize');
+// Exportamos una funcion que define el modelo
+// Luego le injectamos la conexion a sequelize.
+module.exports = (sequelize) => {
+  sequelize.define('Product', {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      allowNull: false,
+      autoIncrement: true,
     },
-    {
-      timestamps: true,
-    }
-  );
-
-const Product = mongoose.model('Product', productSchema);
-
-
-module.exports = Product;
+    name: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    slug: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    image: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    price: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    description: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+    },
+    weight: {
+      type: DataTypes.FLOAT,
+      allowNull: false,
+    },
+    stock: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+    discountPercent: {
+      type: DataTypes.FLOAT,
+      defaultValue: 0,
+      allowNull: true,
+    },
+    isInDiscount: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
+      allowNull: true,
+    },
+    discountQty: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: true,
+    },
+    soldCount: {
+      type: DataTypes.INTEGER,
+      defaultValue: 0,
+      allowNull: false,
+    },
+    rating: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    isActive: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true,
+    },
+  });
+};
