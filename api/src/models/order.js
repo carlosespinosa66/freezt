@@ -49,6 +49,11 @@ module.exports = (sequelize) => {
       type: DataTypes.DATE,
       allowNull: true,
     },
+    isPaid: {
+      type: DataTypes.BOOLEAN,
+      allowNull: true,
+      defaultValue:false,
+    },    
     status: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -8,7 +8,7 @@ import { regPaypalOrder } from '../actions';
 export default function PayPalCheckoutButtons(props) {
   const dispatch = useDispatch();
   const allUserInfo = useSelector((state) => state.userInfo);
-  const [{ options }, paypalDispatch] = usePayPalScriptReducer();
+  const [{ options, isPending }, paypalDispatch] = usePayPalScriptReducer();
   const allOrder = props.order;
 
   function createOrder(data, actions) {
@@ -106,24 +106,34 @@ export default function PayPalCheckoutButtons(props) {
   );
 }
 
-/*
-
-                {!allOrder.isPaid && (
-                <ListGroup.Item>
-                   {isPending ? ( 
-                   <LoadingBox /> 
-                   ) : ( 
-                  <div>
-                    <PayPalCheckoutButtons
-                      order={allOrder}
-                    ></PayPalCheckoutButtons>
-                  </div>
-                  )}
-                    {allLoadingPay && <LoadingBox></LoadingBox>} 
-                </ListGroup.Item>
-                 )} 
-
-*/
+{
+  // !allOrder.isPaid && (
+  //   <ListGroup.Item>
+  //     {isPending ? (
+  //       <LoadingBox />
+  //     ) : (
+  //       <div>
+  //         <PayPalButtons
+  //           style={{
+  //             color: 'blue',
+  //             layout: 'vertical',
+  //             height: 40,
+  //             tagline: false,
+  //             shape: 'pill',
+  //             label: 'pay',
+  //             // tagline:true
+  //           }}
+  //           createOrder={createOrder}
+  //           onApprove={onApprove}
+  //           onCancel={onCancel}
+  //           onError={onError}
+  //         />
+  //       </div>
+  //     )}
+  //     {allLoadingPay && <LoadingBox></LoadingBox>}
+  //   </ListGroup.Item>
+  // );
+}
 
 /* 
    <PayPalButtons

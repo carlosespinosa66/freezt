@@ -31,9 +31,9 @@ export default function CartScreen() {
     return (
         <div>
             <Helmet>
-                <title>Carrito de Compras</title>
+                <title>Shopping Cart</title>
             </Helmet>
-            <h1>Carrito de Compras</h1>
+            <h1>Shopping Cart</h1>
 
             <Row>
                 <Col md={8}>
@@ -100,7 +100,7 @@ export default function CartScreen() {
                                         <Button type='button' variant='primary'
                                             onClick={checkOutHandle}
                                             disabled={allCartItems.length === 0}>
-                                            Proceder a la compra
+                                            Proceed to CheckOut
                                         </Button>
                                     </div>
                                 </ListGroup.Item>

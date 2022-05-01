@@ -23,6 +23,7 @@ import CartScreen from "./screens/CartScreen";
 import SigninScreen from "./screens/SigninScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import OrderHistoryScreen from "./screens/OrderHistoryScreen";
+import OrderDetail from "./screens/OrderDetailScreen";
 import ShippingAddress from "./screens/ShippingAddress";
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector, useDispatch } from "react-redux";
@@ -115,6 +116,8 @@ function App() {
               <Route path="/order" element={<OrderScreen />}/>
               <Route path="/profile" element={<ProfileScreen />} />
               <Route path="/orderhistory" element={<OrderHistoryScreen />} />
+              <Route path="/orderdetail/:id" element={<OrderDetail />} />
+              
             </Routes>
           </Container>
         </main>

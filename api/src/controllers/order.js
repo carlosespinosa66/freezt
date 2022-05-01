@@ -43,7 +43,10 @@ const getOrders = async (req, res) => {
         userID: Order.User.id,
         billing_address: Order.billing_address,
         shipping_address: Order.shipping_address,
+        shippingPrice:Order.shippingPrice,
+        taxPrice:Order.taxPrice,
         paidAt: Order.paidAt,
+        isPaid:Order.isPaid,
         details:
           Order.Order_details.length > 0
             ? Order.Order_details.map((detail) => {
@@ -102,7 +105,11 @@ const getUserOrdersServer = async (req, res) => {
         user: Order.User.name + ' ' + Order.User.surname,
         userID: Order.User.id,
         billing_address: Order.billing_address,
+        billing_address: Order.billing_address,
+        shippingPrice:Order.shippingPrice,
+        taxPrice:Order.taxPrice,
         paidAt: Order.paidAt,
+        isPaid:Order.isPaid,
         shipping_address: Order.shipping_address,
         details:
           Order.Order_details.length > 0
@@ -256,6 +263,7 @@ const updateOrder = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
+
 //send actual order (cart) with it's order-details included.
 const getActiveOrder = async (req, res) => {
   try {
@@ -296,6 +304,11 @@ const getActiveOrder = async (req, res) => {
       userID: activeOrder.User.id,
       billing_address: activeOrder.billing_address,
       shipping_address: activeOrder.shipping_address,
+      billing_address: Order.billing_address,
+      shippingPrice:Order.shippingPrice,
+      taxPrice:Order.taxPrice,
+      paidAt:Order.paidAt,
+      isPaid:Order.isPaid,
       details:
         activeOrder.Order_details.length > 0
           ? activeOrder.Order_details.map((detail) => {
@@ -316,7 +329,6 @@ const getActiveOrder = async (req, res) => {
       .status(200)
       .send({ successMsg: 'Here is your order.', data: activeOrder });
   } catch (error) {
-    console.log(error);
     res.status(500).send({ errorMsg: error.message });
   }
 };
@@ -569,9 +581,12 @@ const getUserOrders = async (id) => {
           total_amount: Order.total_amount,
           email_address: Order.email_address,
           billing_address: Order.billing_address,
+          shippingPrice:Order.shippingPrice,
+          taxPrice:Order.taxPrice,
           UserID: Order.User.id,
           status: Order.status,
           paidAt: Order.paidAt,
+          isPaid:Order.isPaid,
           detail:
             Order.Order_details.length > 0
               ? Order.Order_details.map((detail) => {

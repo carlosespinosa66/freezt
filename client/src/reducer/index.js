@@ -2,11 +2,12 @@ const initialState = {
   products: [],
   detail: [],
   error: '',
-  // order: {},
+  orders: [],
   loading: false,
   loadingPay: false,
   successPay: false,
   fullBox: false,
+  orderHistory:[],
   order: localStorage.getItem('order')
     ? JSON.parse(localStorage.getItem('order'))
     : {},
@@ -21,7 +22,8 @@ const initialState = {
       ? JSON.parse(localStorage.getItem('shippingAddress'))
       : { location: {} },
     paymentMethod: localStorage.getItem('paymentMethod')
-      ? localStorage.getItem('paymentMethod'):''
+      ? localStorage.getItem('paymentMethod')
+      : '',
   },
 };
 
@@ -106,6 +108,7 @@ function rootReducer(state = initialState, action) {
         error: '',
         fullBox: false,
         order: {},
+        orders: {},
         successPay: false,
         loadingPay: false,
         userInfo: null,
@@ -157,20 +160,26 @@ function rootReducer(state = initialState, action) {
       localStorage.removeItem('cartItems');
       return { ...state, loading: false, order: action.payload };
 
-    case 'FETCH_ORDER_REQUEST':
-      return { ...state, loading: true, error: '' };
+    case 'USER_ORDERS_REQUEST':
+      return { ...state, loading: true };
 
-    case 'FETCH_ORDER_SUCCESS':
-      return { ...state, loading: false, order: action.payload, error: '' };
+    case 'USER_ORDERS_SUCCESS':
+      return { ...state, orders: action.payload, loading: false };
 
-    case 'FETCH_ORDER_FAIL':
+    case 'USER_ORDERS_FAIL':
       return { ...state, loading: false, error: action.payload };
+
+    case 'ORDER_FROM_HISTORY':
+      const orderDetail = state.orders.find((x) => parseInt(x.id) === parseInt(action.payload));
+      localStorage.setItem('orderDetail', JSON.stringify(orderDetail));
+
+      return { ...state, orderHistory: orderDetail, loading: false };
 
     case 'PAY_ORDER_REQUEST':
       return { ...state, loadingPay: true };
 
     case 'PAY_ORDER_SUCCESS':
-      // localStorage.removeItem('order');
+      localStorage.removeItem('order');
       localStorage.setItem('order', JSON.stringify(action.payload));
       return {
         ...state,

@@ -5,6 +5,7 @@ import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
 import { addProductToCar } from '../actions';
 import Rating from '../helpers/Rating';
+import { toast } from 'react-toastify';
 
 export default function Product(props) {
     const { product } = props;
@@ -19,7 +20,8 @@ export default function Product(props) {
         if (Number(quantity) <= Number(itemToVerifyQty.stock)) {
             dispatch(addProductToCar({ ...product, quantity }));
         } else {
-            window.alert("No hay inventario del producto");
+            toast.info("There isn't stock available",{ position: "top-center"});
+            // window.alert("No hay inventario del producto");
         }
     }
 

@@ -1,5 +1,14 @@
 import axios from 'axios';
 
+export function getOrderFromHistory(id)  {
+  
+  return {
+    type: 'ORDER_FROM_HISTORY',
+    payload: id,
+  };
+}
+
+
 export function getProducts() {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_REQUEST' });
@@ -37,6 +46,7 @@ export function getProductDetail(slug) {
 }
 
 export function addProductToCar(item) {
+  
   return {
     type: 'CART_ADD_ITEM',
     payload: item,
@@ -165,33 +175,48 @@ export function newOrderCreate(
       dispatch({
         type: 'ORDER_CREATE_REQUEST_PROCESS_FAIL',
         // payload: { status: error.response.status },
-        payload: { status: error},
+        payload: { status: error },
       });
     }
   };
 }
 
-export function getOrder(orderId, token) {
+export function getOrdersUser (token) {
   return async function(dispatch) {
+    dispatch({ type: 'USER_ORDERS_REQUEST' });
     try {
-      dispatch({ type: 'FETCH_ORDER_REQUEST' });
-      const data = await axios.get(`/orders/${orderId}`, {
-        headers: { authorization: 'Bearer' + ' ' + token },
+      const userOrders = await axios.get('/api/auth/orders/user', {
+        headers: {
+          'auth-token': token,
+        },
       });
       dispatch({
-        type: 'FETCH_ORDER_SUCCESS',
-        payload: data,
+        type: 'USER_ORDERS_SUCCESS',
+        payload: userOrders.data.data,
       });
-    } catch (err) {
-      dispatch({ type: 'FETCH_ORDER_FAIL', payload: err.response.status });
+    } catch (error) {
+      dispatch({ type: 'USER_ORDERS_FAIL', payload: error.response.status });
     }
   };
-}
+};
+
+// export function getOrderFromHistory(id) {
+//   console.log(id);  
+// try{
+//   return {
+//     type: 'ORDER_FROM_HISTORY',
+//     payload: id
+//   };
+//     } catch (error) {
+//       console.log(error)
+//     }  
+// }
+
+
 
 export function regPaypalOrder(id, info, token) {
   return async function(dispatch) {
     try {
-      
       const data = await axios.put(
         `api/auth/orders/pay/${id}`,
         { info },
@@ -212,4 +237,3 @@ export function regPaypalOrder(id, info, token) {
     }
   };
 }
-
