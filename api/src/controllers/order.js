@@ -304,11 +304,11 @@ const getActiveOrder = async (req, res) => {
       userID: activeOrder.User.id,
       billing_address: activeOrder.billing_address,
       shipping_address: activeOrder.shipping_address,
-      billing_address: Order.billing_address,
-      shippingPrice:Order.shippingPrice,
-      taxPrice:Order.taxPrice,
-      paidAt:Order.paidAt,
-      isPaid:Order.isPaid,
+      billing_address: activeOrder.billing_address,
+      shippingPrice:activeOrder.shippingPrice,
+      taxPrice:activeOrder.taxPrice,
+      paidAt:activeOrder.paidAt,
+      isPaid:activeOrder.isPaid,
       details:
         activeOrder.Order_details.length > 0
           ? activeOrder.Order_details.map((detail) => {
@@ -332,6 +332,71 @@ const getActiveOrder = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
+
+const getHistoryOrder = async (req, res) => {
+  try {
+    const userId = req.userID;
+    const id = req.params.id
+
+    let historyOrder = await Order.findOne({
+      where: {
+        id: id,
+      },
+      include: [
+        {
+          model: Order_detail,
+          attributes: ['amount', 'quantity'],
+          include: [
+            {
+              model: Product,
+              attributes: ['name', 'id', 'image', 'price', 'stock'],
+            },
+          ],
+        },
+      ],
+    });
+    if (!historyOrder) {
+      return res
+        .status(404)
+        .send({ errorMsg: "You don't have an active order." });
+    }
+    historyOrder = {
+      id: historyOrder.id,
+      total_amount: historyOrder.total_amount,
+      email_address: historyOrder.email_address,
+      status: historyOrder.status,
+      billing_address: historyOrder.billing_address,
+      shipping_address: historyOrder.shipping_address,
+      billing_address: historyOrder.billing_address,
+      shippingPrice:historyOrder.shippingPrice,
+      paymentSource: historyOrder.paymentSource,
+      taxPrice:historyOrder.taxPrice,
+      paidAt:historyOrder.paidAt,
+      isPaid:historyOrder.isPaid,
+      details:
+      historyOrder.Order_details.length > 0
+          ? historyOrder.Order_details.map((detail) => {
+              return {
+                id: detail.id,
+                amount: detail.amount,
+                quantity: detail.quantity,
+                productName: detail.Product.name,
+                productId: detail.Product.id,
+                image: detail.Product.image,
+                price: detail.Product.price,
+                stock: detail.Product.stock,
+              };
+            })
+          : [],
+    };
+    res
+      .status(200)
+      .send({ successMsg: 'Here is your order.', data: historyOrder });
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
 
 // *******add and remove a product from the detail******
 
@@ -690,4 +755,5 @@ module.exports = {
   getUserOrders,
   updatePaypalOrder,
   updateOrder,
+  getHistoryOrder,
 };

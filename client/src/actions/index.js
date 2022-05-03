@@ -1,14 +1,5 @@
 import axios from 'axios';
 
-export function getOrderFromHistory(id)  {
-  
-  return {
-    type: 'ORDER_FROM_HISTORY',
-    payload: id,
-  };
-}
-
-
 export function getProducts() {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_REQUEST' });
@@ -46,7 +37,6 @@ export function getProductDetail(slug) {
 }
 
 export function addProductToCar(item) {
-  
   return {
     type: 'CART_ADD_ITEM',
     payload: item,
@@ -181,7 +171,7 @@ export function newOrderCreate(
   };
 }
 
-export function getOrdersUser (token) {
+export function getOrdersUser(token) {
   return async function(dispatch) {
     dispatch({ type: 'USER_ORDERS_REQUEST' });
     try {
@@ -198,21 +188,50 @@ export function getOrdersUser (token) {
       dispatch({ type: 'USER_ORDERS_FAIL', payload: error.response.status });
     }
   };
+}
+
+export function getHistoryOrderUser(token, id) {
+  return async function(dispatch) {
+    try {
+      const historyOrder = await axios.get(`/api/auth/orders/hist/${id}`, {
+        headers: {
+          'auth-token': token,
+        },
+      });
+      dispatch({
+        type: 'ORDER_FROM_HISTORY',
+        payload: historyOrder.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'ORDER_FROM_HISTORY_FAIL',
+        payload: error.response.status,
+      });
+    }
+  };
+}
+
+export const getOrdersAdmin = (token) => {
+  return async function(dispatch) {
+    try {
+      const allOrders = await axios.get(`/api/admin/orders`, {
+        headers: {
+          'auth-token': token,
+        },
+      });
+
+      dispatch({
+        type: 'ALL_ORDERS_ADMIN_SUCCESS',
+        payload: allOrders.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'ALL_ORDERS_ADMIN_FAIL',
+        payload: error.response.status,
+      });
+    }
+  };
 };
-
-// export function getOrderFromHistory(id) {
-//   console.log(id);  
-// try{
-//   return {
-//     type: 'ORDER_FROM_HISTORY',
-//     payload: id
-//   };
-//     } catch (error) {
-//       console.log(error)
-//     }  
-// }
-
-
 
 export function regPaypalOrder(id, info, token) {
   return async function(dispatch) {

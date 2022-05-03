@@ -10,6 +10,7 @@ const {
   deleteProductsOrder,
   updatePaypalOrder,
   updateOrder,
+  getHistoryOrder,
 } = require("../controllers/order");
 const { isLoggedIn, isAdmin } = require("../middleware/auth");
 
@@ -20,9 +21,10 @@ const orderRouter = express.Router();
 //user
 orderRouter.post("/auth/orders", isLoggedIn, createOrder); //a new product is added to the cart here
 
-
 orderRouter.put("/auth/orders/info/:id", isLoggedIn, updateOrder);
+orderRouter.get("/auth/orders/hist/:id", isLoggedIn, getHistoryOrder);
 orderRouter.get("/auth/orders/user", isLoggedIn, getUserOrdersServer);
+
 orderRouter.put("/auth/orders/add", isLoggedIn, addProductsOrder); // add one more existing product +
 orderRouter.put("/auth/orders/remove", isLoggedIn, removeProductsOrder); //remove one more existing product -
 orderRouter.delete(

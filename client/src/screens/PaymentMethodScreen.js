@@ -18,8 +18,6 @@ export default function PaymentMethodScreen() {
     function submitHandler(e) {
         e.preventDefault();
         dispatch(savePaymentMethod(paymentMethodName))
-        // dispatch(savePaymentMethod(e.target.value))
-        
         navigateTo('/placeorder')
         try {
         } catch (err) {

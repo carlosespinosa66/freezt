@@ -18,20 +18,20 @@ export default function OrderHistoryScreen() {
   const allUserInfo = useSelector((state) => state.userInfo.token);
   const allOrders = useSelector((state) => state.orders);
 
-  useEffect(() => {
-    try {
-      dispatch(getOrdersUser(allUserInfo));
-    } catch (err) {
-      toast.error(getError(err));
-    }
-  }, [getOrdersUser]);
+  // useEffect(() => {
+  //   try {
+  //     dispatch(getOrders(allUserInfo));
+  //   } catch (err) {
+  //     toast.error(getError(err));
+  //   }
+  // }, [getOrdersUser]);
 
   return (
     <div>
       <Helmet>
-        <title>Historial de Ordenes</title>
+        <title>Administrar Usuarios</title>
       </Helmet>
-      <h1>Historial de Ordenes</h1>
+      <h1>Administrar Usuarios</h1>
       {allLoading ? (
         <LoadingBox></LoadingBox>
       ) : allErrors ? (
@@ -40,16 +40,16 @@ export default function OrderHistoryScreen() {
         <table className='table'>
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Fecha</th>
-              <th>Total</th>
-              <th>Pagada</th>
-              <th>Enviada</th>
-              <th>Acciones</th>
+              <th>Correo</th>
+              <th>Nombre</th>
+              <th>Rol</th>
+              <th>Google</th>
+              <th>Estado</th>
+              <th>Acción</th>
             </tr>
           </thead>
           <tbody>
-            {!allOrders ? (<LoadingBox></LoadingBox>):(
+            {/* {!allOrders ? (<LoadingBox></LoadingBox>):(
               allOrders.map((order) => (
                 <tr key={order.id}>
                   <td>{order.id}</td>
@@ -70,17 +70,15 @@ export default function OrderHistoryScreen() {
                         navigateTo(`/orderdetail/${order.id}`);
                       }}
                     >
-                      Detalles
+                      Details
                     </Button>
                   </td>
                 </tr>
               ))
-            )}
+            )} */}
           </tbody>
         </table>
       )}
     </div>
   );
 }
-
-            

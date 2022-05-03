@@ -5,18 +5,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #ede3e3;
 }
-/* header {
-  background-color: #404040;
+ header {
+  /* background-color: #404040; */
   padding:1rem;
 }
 
-header a {
+/* header a {
   color: #ffffff;
   font-weight: bold;
   text-decoration: none;
 
-} */
+}  */
 
 .site-container{
   min-height:100vh ;
@@ -49,6 +50,7 @@ main {
 .product img {
   width:100%;
   max-width: 400px;
+  border:none;
 }
 
 .product-info {
@@ -78,5 +80,10 @@ main {
 .checkout-steps > div.active{
   border-bottom: 0.2rem solid #f08000;
   color:#f08000
+}
+
+
+.btnProduct{
+  border-radius: 40% 0% 40% 0%;
 }
 

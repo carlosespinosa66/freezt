@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
 import LoadingBox from '../helpers/LoadingBox';
@@ -8,7 +8,6 @@ import MessageBox from '../helpers/MessageBox';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { getOrderFromHistory } from '../actions';
 import moment from 'moment';
 
 import { useDispatch } from 'react-redux';
@@ -25,7 +24,6 @@ export default function OrderScreen() {
   const allOrder = useSelector((state) => state.order.data);
   const allItems = useSelector((state) => state.order.Order_details);
   const allUserInfo = useSelector((state) => state.userInfo);
-  const { id } = useParams();
   const [{ options, isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   function handleFinished() {
@@ -83,15 +81,11 @@ export default function OrderScreen() {
       if (!allUserInfo) {
         navigateTo('/login');
       }
-      if (id) {
-        dispatch(getOrderFromHistory(id));
-      } else {
         loadPayPalScript(process.env.REACT_APP_PAYPAL_CLIENT_ID);
-      }
     } catch (err) {
       toast.error(getError(err));
     }
-  }, [allUserInfo, navigateTo, loadPayPalScript, toast, getOrderFromHistory]);
+  }, [allUserInfo, navigateTo, loadPayPalScript, toast]);
 
   const loadPayPalScript = async (clientId) => {
     try {
@@ -248,7 +242,7 @@ export default function OrderScreen() {
                         Order History
                       </Button>
                       <Button type='button' onClick={handleFinished}>
-                        Finish
+                        More Products
                       </Button>
                     </div>
                   )}

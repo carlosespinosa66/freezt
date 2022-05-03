@@ -4,7 +4,7 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrdersUser } from '../actions/index';
+import { getOrdersAdmin } from '../actions/index';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
@@ -16,22 +16,22 @@ export default function OrderHistoryScreen() {
   const allLoading = useSelector((state) => state.loading);
   const allErrors = useSelector((state) => state.error);
   const allUserInfo = useSelector((state) => state.userInfo.token);
-  const allOrders = useSelector((state) => state.orders);
+  const allOrders = useSelector((state) => state.totalorders);
 
   useEffect(() => {
     try {
-      dispatch(getOrdersUser(allUserInfo));
+      dispatch(getOrdersAdmin(allUserInfo));
     } catch (err) {
       toast.error(getError(err));
     }
-  }, [getOrdersUser]);
+  }, [getOrdersAdmin]);
 
   return (
     <div>
       <Helmet>
-        <title>Historial de Ordenes</title>
+        <title>Administrar Ordenes</title>
       </Helmet>
-      <h1>Historial de Ordenes</h1>
+      <h1>Administrar Ordenes</h1>
       {allLoading ? (
         <LoadingBox></LoadingBox>
       ) : allErrors ? (
@@ -65,12 +65,20 @@ export default function OrderHistoryScreen() {
                     <Button
                       type='button'
                       variant='secondary'
-                      
                       onClick={() => {
                         navigateTo(`/orderdetail/${order.id}`);
                       }}
                     >
                       Detalles
+                    </Button>
+                    <Button
+                      type='button'
+                      variant='secondary'
+                      onClick={() => {
+                        navigateTo(`/orderdetail/${order.id}`);
+                      }}
+                    >
+                      Modificar
                     </Button>
                   </td>
                 </tr>
@@ -83,4 +91,3 @@ export default function OrderHistoryScreen() {
   );
 }
 
-            

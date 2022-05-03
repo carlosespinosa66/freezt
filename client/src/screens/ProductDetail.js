@@ -9,6 +9,7 @@ import MessageBox from '../helpers/MessageBox';
 import Rating from '../helpers/Rating';
 
 export default function ProductDetail() {
+  
   const dispatch = useDispatch();
   const allDetail = useSelector((state) => state.detail);
   const allLoading = useSelector((state) => state.loading);

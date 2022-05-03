@@ -1,13 +1,15 @@
 const initialState = {
   products: [],
+  productedit:[],
   detail: [],
   error: '',
   orders: [],
+  totalorders: [],
   loading: false,
   loadingPay: false,
   successPay: false,
   fullBox: false,
-  orderHistory:[],
+  orderHistory: [],
   order: localStorage.getItem('order')
     ? JSON.parse(localStorage.getItem('order'))
     : {},
@@ -33,7 +35,15 @@ function rootReducer(state = initialState, action) {
       return { ...state, loading: true, error: '' };
 
     case 'PRODUCTS_SUCCESS':
-      return { ...state, products: action.payload, loading: false, error: '' };
+      return {
+        ...state,
+        products: action.payload,
+        orders: [],
+        orderHistory: [],
+        totalorders: [],
+        loading: false,
+        error: '',
+      };
 
     case 'PRODUCTS_FAIL':
       return { ...state, loading: false, products: '', error: action.payload };
@@ -102,6 +112,7 @@ function rootReducer(state = initialState, action) {
       localStorage.removeItem('shippingAddress');
       localStorage.removeItem('paymentMethod');
       localStorage.removeItem('order');
+      localStorage.removeItem('orderHistory');
       return {
         ...state,
         loading: false,
@@ -164,16 +175,34 @@ function rootReducer(state = initialState, action) {
       return { ...state, loading: true };
 
     case 'USER_ORDERS_SUCCESS':
-      return { ...state, orders: action.payload, loading: false };
+      return {
+        ...state,
+        orders: action.payload,
+        orderHistory: [],
+        products: [],
+        loading: false,
+      };
 
     case 'USER_ORDERS_FAIL':
       return { ...state, loading: false, error: action.payload };
 
     case 'ORDER_FROM_HISTORY':
-      const orderDetail = state.orders.find((x) => parseInt(x.id) === parseInt(action.payload));
-      localStorage.setItem('orderDetail', JSON.stringify(orderDetail));
+      return {
+        ...state,
+        orderHistory: action.payload,
+        orders: [],
+        products: [],
+        loading: false,
+      };
 
-      return { ...state, orderHistory: orderDetail, loading: false };
+    case 'ALL_ORDERS_ADMIN_SUCCESS':
+      return {
+        ...state,
+        totalorders: action.payload,
+        orderHistory: [],
+        products: [],
+        loading: false,
+      };
 
     case 'PAY_ORDER_REQUEST':
       return { ...state, loadingPay: true };

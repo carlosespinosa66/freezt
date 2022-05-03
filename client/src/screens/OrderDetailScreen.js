@@ -7,7 +7,7 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { getOrderFromHistory } from '../actions';
+import { getHistoryOrderUser } from '../actions';
 import moment from 'moment';
 
 import { useDispatch } from 'react-redux';
@@ -31,19 +31,15 @@ export default function OrderDetail() {
     navigateTo('/MenClothes');
   }
   
-  function onError(err) {
-    toast.error(err.message);
-  }
-
   useEffect(() => {
     try {
       if (id) {
-        dispatch(getOrderFromHistory(id));
+        dispatch(getHistoryOrderUser(allUserInfo.token,id));
       }
     } catch (err) {
       toast.error(getError(err));
     }
-  }, [getOrderFromHistory, toast]);
+  }, [getHistoryOrderUser, toast]);
 
   return allLoading ? (
     <LoadingBox></LoadingBox>
@@ -91,31 +87,34 @@ export default function OrderDetail() {
             </Card.Body>
           </Card>
 
-          {/* <Card className='mb-3'>
+          <Card className='mb-3'>
             <Card.Body>
               <Card.Title>Items</Card.Title>
+              {!allItems ? (<LoadingBox></LoadingBox>):(              
               <ListGroup variant='flush'>
                 {allItems.map((item) => (
-                  <ListGroup.Item key={item.Product.id}>
+                  <ListGroup.Item key={item.productId}>
                     <Row className='align-items-center'>
                       <Col md={6}>
                         <img
-                          src={item.Product.image}
-                          alt={item.Product.name}
+                          src={item.image}
+                          alt={item.productName}
                           className='img-fluid rounded img-thumbnail'
                         ></img>{' '}
-                        {item.Product.name}
+                        {item.productName}
                       </Col>
                       <Col md={3}>
                         <span>{item.quantity}</span>
                       </Col>
-                      <Col md={3}>${item.Product.price * item.quantity}</Col>
+                      <Col md={3}>${item.price * item.quantity}</Col>
                     </Row>
                   </ListGroup.Item>
                 ))}
+
               </ListGroup>
+              )}
             </Card.Body>
-          </Card> */}
+          </Card>
         </Col>
         <Col ms={4}>
           <Card className='mb-3'>
@@ -160,7 +159,7 @@ export default function OrderDetail() {
                         Order History
                       </Button>
                     <Button type='button' onClick={handleFinished}>
-                      Finish
+                      More Products
                     </Button>
                   </div>
                 </ListGroup.Item>

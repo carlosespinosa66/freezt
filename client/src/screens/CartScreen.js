@@ -27,7 +27,6 @@ export default function CartScreen() {
         navigateTo('/signin?redirect=/shipping');
     }
 
-
     return (
         <div>
             <Helmet>
