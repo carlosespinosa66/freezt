@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from '../actions/Products';
+import { getFilterProductsType } from '../actions/Products';
 import {Row, Col} from 'react-bootstrap';
 
 import Product from '../components/Product';
@@ -8,22 +8,22 @@ import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 
-export default function ProductClothes() {
+export default function MenClothes() {
     const dispatch = useDispatch();
     const allProducts = useSelector((state) => state.products);
     const allLoading = useSelector((state) => state.loading);
     const allErrors = useSelector((state) => state.error);
 
     useEffect(() => {
-        dispatch(getProducts());
+        dispatch(getFilterProductsType('Hombre'));
     }, [dispatch]);
 
     return (
         <div>
             <Helmet>
-                <title>Men Sport Clothing</title>
+                <title>Productos Masculinos</title>
             </Helmet>
-            <h1>Featured Products</h1>
+            <h2>Productos Masculinos</h2>
             <div className="products">
                 {allLoading ? (<LoadingBox/>
                 ) : 

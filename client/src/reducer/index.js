@@ -11,7 +11,7 @@ const initialState = {
   fullBox: false,
   orderHistory: [],
   users: [],
-  userDetail:[],
+  userDetail: [],
   order: localStorage.getItem('order')
     ? JSON.parse(localStorage.getItem('order'))
     : {},
@@ -36,10 +36,8 @@ function rootReducer(state = initialState, action) {
     case 'ADMIN_GET_USERS':
       return { ...state, users: action.payload };
 
-      case 'ADMIN_GET_USER_INFO':
-        return { ...state, userDetail: action.payload };
-  
-      
+    case 'ADMIN_GET_USER_INFO':
+      return { ...state, userDetail: action.payload };
 
     case 'PRODUCTS_REQUEST':
       return { ...state, loading: true, error: '' };
@@ -54,6 +52,80 @@ function rootReducer(state = initialState, action) {
         detail: [],
         loading: false,
         error: '',
+      };
+
+    case 'PRODUCTS_FILTER_SUCCESS':
+      return {
+        ...state,
+        products: action.payload,
+        orders: [],
+        orderHistory: [],
+        totalorders: [],
+        detail: [],
+        loading: false,
+        error: '',
+      };
+
+    case 'ORDER_PRODUCTS_BY_ANY_ITEM':
+      let sortedArr;
+      if (action.payload === 'asc_stock') {
+        sortedArr = state.products.sort(function(a, b) {
+          if (a.stock > b.stock) {
+            return 1;
+          }
+          if (b.stock > a.stock) {
+            return -1;
+          }
+        });
+      } else if (action.payload === 'desc_stock') {
+        sortedArr = state.products.sort(function(a, b) {
+          if (a.stock > b.stock) {
+            return -1;
+          }
+          if (b.stock > a.stock) {
+            return 1;
+          }
+        });
+      } else if (action.payload === 'asc_price') {
+        sortedArr = state.products.sort(function(a, b) {
+          if (parseInt(a.price) > parseInt(b.price)) {
+            return 1;
+          }
+          if (parseInt(b.price) > parseInt(a.price)) {
+            return -1;
+          }
+        });
+      } else if (action.payload === 'desc_price') {
+        sortedArr = state.products.sort(function(a, b) {
+          if (parseInt(a.price) > parseInt(b.price)) {
+            return -1;
+          }
+          if (parseInt(b.price) > parseInt(a.price)) {
+            return 1;
+          }
+        });
+      } else if (action.payload === 'asc_name') {
+        sortedArr = state.products.sort(function(a, b) {
+          if (a.name > b.name) {
+            return 1;
+          }
+          if (b.name > a.name) {
+            return -1;
+          }
+        });
+      } else if (action.payload === 'desc_name') {
+        sortedArr = state.products.sort(function(a, b) {
+          if (a.name > b.name) {
+            return -1;
+          }
+          if (b.name > a.name) {
+            return 1;
+          }
+        });
+      }
+      return {
+        ...state,
+        products: sortedArr,
       };
 
     case 'PRODUCTS_FAIL':

@@ -29,7 +29,7 @@ const createProduct = async (req, res) => {
       !description ||
       !weight ||
       !stock ||
-      !discountPercent 
+      !discountPercent
     ) {
       res.status(402).send({ errorMsg: 'Missing data.' });
     } else {
@@ -74,14 +74,7 @@ const updateProduct = async (req, res) => {
       genres,
       isActive,
     } = req.body;
-    if (
-      !name ||
-      !description ||
-      !price ||
-      !image ||
-      !weight ||
-      !stock 
-    ) {
+    if (!name || !description || !price || !image || !weight || !stock) {
       res.status(402).send({ errorMsg: 'Missing data.' });
     } else {
       let productToUpdate = await Product.findOne({
@@ -127,20 +120,6 @@ const getSingleProduct = async (req, res) => {
         },
         include: [
           {
-            model: Brand,
-            attributes: ['name'],
-          },
-          {
-            model: Subcategory,
-            attributes: ['name'],
-            include: [
-              {
-                model: Category,
-                attributes: ['name', 'id'],
-              },
-            ],
-          },
-          {
             model: Question,
             attributes: ['title', 'description', 'answer', 'id'],
           },
@@ -150,7 +129,7 @@ const getSingleProduct = async (req, res) => {
             include: [
               {
                 model: User,
-                attributes: ['name','surname'],
+                attributes: ['name', 'surname'],
               },
             ],
           },
@@ -165,7 +144,7 @@ const getSingleProduct = async (req, res) => {
           image: singleProduct.image,
           price: singleProduct.price,
           description: singleProduct.description,
-          rating:singleProduct.rating,
+          rating: singleProduct.rating,
           weight: singleProduct.weight,
           stock: singleProduct.stock,
           isInDiscount: singleProduct.isInDiscount,
@@ -195,25 +174,96 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
+const getFilterProductsType = async (req, res) => {
+  const { genres } = req.query;
+  try {
+    if (!genres) {
+      res.status(400).send({ errorMsg: 'Missing data.' });
+    } else {
+      let filterProduct = await Product.findAll({
+        where: {
+          genres,
+        },
+      });
+      if (!filterProduct) {
+        res.status(404).send({ errorMsg: 'Product not found.' });
+      } else {
+        filterProduct = filterProduct.map((product) => {
+          return {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            description: product.description,
+            rating: product.rating,
+            weight: product.weight,
+            stock: product.stock,
+            isInDiscount: product.isInDiscount,
+            discountPercent: product.discountPercent,
+            isActive: product.isActive,
+            genres: product.genres,
+          };
+        });
+        res
+          .status(200)
+          .send({ successMsg: 'Here is your product.', data: filterProduct });
+      }
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
+const getFilterProductsState = async (req, res) => {
+  const { state } = req.query;
+  if (state==="active"){
+    isActive=true
+  } else {
+    isActive=false
+  }
+  try {
+    if (!state) {
+      res.status(400).send({ errorMsg: 'Missing data.' });
+    } else {
+      let filterProduct = await Product.findAll({
+        where: {
+          isActive,
+        },
+      });
+      if (!filterProduct) {
+        res.status(404).send({ errorMsg: 'Product not found.' });
+      } else {
+        filterProduct = filterProduct.map((product) => {
+          return {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            description: product.description,
+            rating: product.rating,
+            weight: product.weight,
+            stock: product.stock,
+            isInDiscount: product.isInDiscount,
+            discountPercent: product.discountPercent,
+            isActive: product.isActive,
+            genres: product.genres,
+          };
+        });
+        res
+          .status(200)
+          .send({ successMsg: 'Here is your product.', data: filterProduct });
+      }
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
+
 const getProducts = async (req, res) => {
   try {
-    
     let dataProduct = await Product.findAll({
       include: [
-        {
-          model: Brand,
-          attributes: ['name'],
-        },
-        {
-          model: Subcategory,
-          attributes: ['name'],
-          include: [
-            {
-              model: Category,
-              attributes: ['name', 'id'],
-            },
-          ],
-        },
         {
           model: Question,
           attributes: ['title', 'description', 'answer', 'id'],
@@ -224,15 +274,15 @@ const getProducts = async (req, res) => {
           include: [
             {
               model: User,
-              attributes: ['name','surname'],
+              attributes: ['name', 'surname'],
             },
           ],
         },
       ],
     });
-     if (!dataProduct) {
-       res.status(404).send({ errorMsg: 'There are no products available.' });
-     } else {
+    if (!dataProduct) {
+      res.status(404).send({ errorMsg: 'There are no products available.' });
+    } else {
       // totalreviews = dataProduct[0].reviews.length >0 ? dataProduct[0].reviews.map((review) => {return { review }}) : [],
       dataProduct = dataProduct.map((product) => {
         return {
@@ -241,7 +291,7 @@ const getProducts = async (req, res) => {
           image: product.image,
           price: product.price,
           description: product.description,
-          rating:product.rating,
+          rating: product.rating,
           weight: product.weight,
           stock: product.stock,
           isInDiscount: product.isInDiscount,
@@ -267,7 +317,6 @@ const getProducts = async (req, res) => {
         .status(200)
         .json({ successMsg: 'Here are your products.', data: dataProduct });
     }
-
   } catch (error) {
     res.status(500).json({ errorMsg: error.message });
   }
@@ -298,5 +347,7 @@ module.exports = {
   updateProduct,
   getProducts,
   getSingleProduct,
+  getFilterProductsType,
+  getFilterProductsState,
   deleteProduct,
 };

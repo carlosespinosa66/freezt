@@ -2,8 +2,8 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen';
 import ProductDetail from './screens/ProductDetailScreen';
-import ProductClothes from './screens/ProductClothesScreen';
-import WomenClothes from './screens/WomenClothesScreen';
+import MenClothes from './screens/ProductMenClothesScreen';
+import WomenClothes from './screens/ProductWomenClothesScreen';
 import WeAre from './screens/WeAreScreen';
 import Order from './screens/OrderScreen';
 import Signup from './screens/SignupScreen';
@@ -22,10 +22,13 @@ import OrderDetail from './screens/OrderDetailScreen';
 import ShippingAddress from './screens/ShippingAddressScreen';
 import OrdersAdmin from './screens/OrdersAdminScreen';
 import ProductsAdmin from './screens/ProductsAdminScreen';
+import ProductAdd from './screens/ProductsAdminAddScreen';
 import ProductEdit from './screens/ProductsAdminEditScreen';
 import UsersAdmin from './screens/UsersAdminScreen';
 import SignOut from './screens/SignOutScreen';
 import UsersAdminEdit from './screens/UsersAdminEditScreen';
+import UsersAdd from './screens/UsersAdminAddScreen';
+
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
@@ -46,21 +49,21 @@ function App() {
                 <Navbar.Brand>
                   <img
                     src='/freezt.png'
-                    width='100'
-                    height='45'
+                    width='60'
+                    height='25'
                     className='d-inline-block align-top'
                     alt='freezt logo'
                   />
                 </Navbar.Brand>
               </LinkContainer>
               <LinkContainer to='/WeAre'>
-                <Navbar.Brand>Freezt</Navbar.Brand>
+                <Navbar.Brand>FREEZT</Navbar.Brand>
               </LinkContainer>
               <LinkContainer to='/MenClothes'>
-                <Navbar.Brand>Hombre</Navbar.Brand>
+                <Navbar.Brand>HOMBRE</Navbar.Brand>
               </LinkContainer>
               <LinkContainer to='/WomenClothes'>
-                <Navbar.Brand>Mujer</Navbar.Brand>
+                <Navbar.Brand>MUJER</Navbar.Brand>
               </LinkContainer>
               <Nav className='me-auto'>
                 <Link to='/cart' className='nav-link'>
@@ -119,7 +122,7 @@ function App() {
             <Routes>
               <Route path='/' element={<HomeScreen />} />
               <Route path='/products/:id' element={<ProductDetail />} />
-              <Route path='/MenClothes' element={<ProductClothes />} />
+              <Route path='/MenClothes' element={<MenClothes />} />
               <Route path='/WomenClothes' element={<WomenClothes />} />
               <Route path='/WeAre' element={<WeAre />} />
               <Route path='/cart' element={<Cart />} />
@@ -135,9 +138,12 @@ function App() {
               <Route path='/orderhistory' element={<OrderHistory />} />
               <Route path='/orderadmin' element={<OrdersAdmin />} />
               <Route path='/productsadmin' element={<ProductsAdmin />} />
+              <Route path='/productsadd' element={<ProductAdd />} />
               <Route path='/productedit/:id' element={<ProductEdit />} />
               <Route path='/useradminedit/:id' element={<UsersAdminEdit />} />              
               <Route path='/usersadmin' element={<UsersAdmin />} />
+              <Route path='/usersadd' element={<UsersAdd />} />
+              
               <Route path='/signout' element={<SignOut />} />
             </Routes>
           </Container>

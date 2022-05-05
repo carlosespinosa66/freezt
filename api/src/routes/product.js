@@ -3,6 +3,8 @@ const {
   createProduct,
   updateProduct,
   getProducts,
+  getFilterProductsType,
+  getFilterProductsState,
   getSingleProduct,
   deleteProduct,
 } = require("../controllers/product.js");
@@ -14,6 +16,9 @@ const { isLoggedIn, isAdmin } = require("../middleware/auth");
 
 //guest and user
 productRouter.get("/products", getProducts);
+productRouter.get("/products/genres", getFilterProductsType);
+productRouter.get("/products/state", getFilterProductsState);
+
 productRouter.get("/products/:id", getSingleProduct);
 
 //admin

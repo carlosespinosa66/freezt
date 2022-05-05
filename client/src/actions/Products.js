@@ -1,77 +1,139 @@
 import axios from 'axios';
 
 export function getProducts() {
-    return async function(dispatch) {
-      dispatch({ type: 'PRODUCTS_REQUEST' });
-      try {
-        var json = await axios.get('/api/products');
-        dispatch({
-          type: 'PRODUCTS_SUCCESS',
-          payload: json.data.data,
-        });
-      } catch (error) {
-        dispatch({
-          type: 'PRODUCTS_FAIL',
-          payload: { message: error.message },
-        });
-      }
-    };
-  }
-  
-  export function getProductDetail(id) {
-    return async function(dispatch) {
-      dispatch({ type: 'PRODUCTS_REQUEST_DETAIL' });
-      try {
-        var json = await axios.get(`/api/products/${id}`);
-        dispatch({
-          type: 'PRODUCTS_SUCCESS_DETAIL',
-          payload: json.data.data,
-        });
-      } catch (error) {
-        dispatch({
-          type: 'PRODUCTS_FAIL_DETAIL',
-          payload: { message: error.message },
-        });
-      }
-    };
-  }
-  
-  export const updateProduct = (product, token) => {
-    return async function(dispatch) {
-      try {
-        const json = await axios.put(`/api/admin/products/${product.id}`, product, {
-          headers: { 'auth-token': token },
-        });
-        dispatch({
-          type: 'PRODUCTS_UPDATE_SUCCESS',
-          payload: json.data.data,
-        });
-      } catch (error) {
-        dispatch({
-          type: 'PRODUCTS_UPDATE_FAIL',
-          payload: '', //{ status: error.response.status },
-        });
-      }
-    };
+  return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_REQUEST' });
+    try {
+      var json = await axios.get('/api/products');
+      dispatch({
+        type: 'PRODUCTS_SUCCESS',
+        payload: json.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_FAIL',
+        payload: { message: error.message },
+      });
+    }
   };
-  
-  export function addProductToCar(item) {
-    return {
-      type: 'CART_ADD_ITEM',
-      payload: item,
+}
+
+export function getFilterProductsType(filter) {
+  return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_FILTER_REQUEST' });
+    try {
+      const json = await axios.get('/api/products/genres?genres=' + filter);
+
+      dispatch({
+        type: 'PRODUCTS_FILTER_SUCCESS',
+        payload: json.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_FILTER_FAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+}
+
+export function getFilterProductsState(state) {
+  return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_FILTER_REQUEST' });
+    try {
+      const json = await axios.get('/api/products/state?state=' + state);
+
+      dispatch({
+        type: 'PRODUCTS_FILTER_SUCCESS',
+        payload: json.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_FILTER_FAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+}
+export function getProductDetail(id) {
+  return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_REQUEST_DETAIL' });
+    try {
+      var json = await axios.get(`/api/products/${id}`);
+      dispatch({
+        type: 'PRODUCTS_SUCCESS_DETAIL',
+        payload: json.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_FAIL_DETAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+}
+
+export const createProduct = (product, token) => {
+  try {
+    return async (dispatch) => {
+      await axios.post("/api/admin/products/", product, {
+        headers: {
+          'auth-token': token,
+        },
+      });
     };
+  } catch (error) {
+    alert(error);
   }
-  
-  export function removeItemCar(item) {
-    return {
-      type: 'CART_REMOVE_ITEM',
-      payload: item,
-    };
-  }
-  
-  export function removeAllCarItems() {
-    return {
-      type: 'CART_CLEAR',
-      payload: '',
-    };
-  }
+};
+
+export const updateProduct = (product, token) => {
+  return async function(dispatch) {
+    try {
+      const json = await axios.put(
+        `/api/admin/products/${product.id}`,
+        product,
+        {
+          headers: { 'auth-token': token },
+        }
+      );
+      dispatch({
+        type: 'PRODUCTS_UPDATE_SUCCESS',
+        payload: json.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_UPDATE_FAIL',
+        payload: '', //{ status: error.response.status },
+      });
+    }
+  };
+};
+
+export function OrderByAnyItem(payload) {
+  return {
+    type: 'ORDER_PRODUCTS_BY_ANY_ITEM',
+    payload: payload,
+  };
+}
+
+export function addProductToCar(item) {
+  return {
+    type: 'CART_ADD_ITEM',
+    payload: item,
+  };
+}
+
+export function removeItemCar(item) {
+  return {
+    type: 'CART_REMOVE_ITEM',
+    payload: item,
+  };
+}
+
+export function removeAllCarItems() {
+  return {
+    type: 'CART_CLEAR',
+    payload: '',
+  };
+}

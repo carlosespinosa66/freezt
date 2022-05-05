@@ -48,9 +48,9 @@ server.use((req, res, next) => {
 server.use("/api", productRouter);
 server.use("/api", userRouter);
 server.use("/api", countryRouter);
-server.use("/api", categoryRouter);
-server.use("/api", brandRouter);
-server.use("/api", subCategoryRouter);
+// server.use("/api", categoryRouter);
+// server.use("/api", brandRouter);
+// server.use("/api", subCategoryRouter);
 server.use("/api", orderRouter);
 server.use("/api", reviewsRouter);
 server.use("/api", questionsRouter);

@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductDetail, updateProduct } from '../actions/Products';
+import { createProduct } from '../actions/Products';
 import { Form, Row, Col, Card, Button, InputGroup } from 'react-bootstrap';
 
-export default function ProductEdit() {
+export default function ProductAdd() {
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const { id } = useParams();
-  const allDetail = useSelector((state) => state.detail);
   const allUserInfo = useSelector((state) => state.userInfo);
 
   const [input, setInput] = useState({
@@ -35,7 +33,7 @@ export default function ProductEdit() {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      dispatch(updateProduct(input, allUserInfo.token));
+      dispatch(createProduct(input, allUserInfo.token));
       navigateTo('/productsadmin');
     }
     setValidated(true);
@@ -57,37 +55,12 @@ export default function ProductEdit() {
     }
   };
 
-  useEffect(() => {
-    const showEditData = () => {
-      setInput({
-        id: allDetail.id,
-        name: allDetail.name,
-        image: allDetail.image,
-        price: allDetail.price,
-        description: allDetail.description,
-        weight: allDetail.weight,
-        stock: allDetail.stock,
-        discountPercent: allDetail.discountPercent,
-        isInDiscount: allDetail.isInDiscount,
-        rating: allDetail.rating,
-        genres: allDetail.genres,
-        isActive: allDetail.isActive,
-      });
-    };
-
-    if (allDetail.length <= 0) {
-      dispatch(getProductDetail(id));
-    }
-
-    showEditData();
-  }, [allDetail, getProductDetail, id]);
-
   return (
     <div>
       <Helmet>
-        <title>Modificar Producto</title>
+        <title>Crear Producto</title>
       </Helmet>
-      <h2>Modificar Producto</h2>
+      <h2>Crear Producto</h2>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className='mb-3'>
           <Form.Group as={Col} md='4' controlId='name'>
@@ -249,5 +222,4 @@ export default function ProductEdit() {
     </div>
   );
 }
-
 

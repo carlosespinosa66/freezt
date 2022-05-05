@@ -30,20 +30,31 @@ export default function OrderHistoryScreen() {
       <Helmet>
         <title>Administrar Usuarios</title>
       </Helmet>
-      <h1>Administrar Usuarios</h1>
+      <h2>Administrar Usuarios</h2>
       {allLoading ? (
         <LoadingBox></LoadingBox>
       ) : allErrors ? (
         <MessageBox variant='danger'>{allErrors}</MessageBox>
       ) : (
         <table className='table'>
+          <thead> </thead>
           <thead>
             <tr>
               <th>Correo</th>
               <th>Nombre</th>
               <th>Rol</th>
               <th>Estado</th>
-              <th>Acción</th>
+              <th>
+                <Button
+                  type='button'
+                  variant='secondary'
+                  onClick={() => {
+                    navigateTo('/usersadd');
+                  }}
+                >
+                  Adicionar
+                </Button>
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -66,7 +77,7 @@ export default function OrderHistoryScreen() {
                         navigateTo(`/useradminedit/${user.id}`);
                       }}
                     >
-                      Details
+                      Modificar
                     </Button>
                   </td>
                 </tr>

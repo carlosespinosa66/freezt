@@ -1,0 +1,44 @@
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from "react-redux";
+import { getFilterProductsType } from '../actions/Products';
+import {Row, Col} from 'react-bootstrap';
+
+import Product from '../components/Product';
+import { Helmet } from 'react-helmet-async';
+import LoadingBox from '../helpers/LoadingBox';
+import MessageBox from '../helpers/MessageBox';
+
+export default function MenClothes() {
+    const dispatch = useDispatch();
+    const allProducts = useSelector((state) => state.products);
+    const allLoading = useSelector((state) => state.loading);
+    const allErrors = useSelector((state) => state.error);
+
+    useEffect(() => {
+        dispatch(getFilterProductsType('Mujer'));
+    }, [dispatch]);
+
+    return (
+        <div>
+            <Helmet>
+                <title>Productos Femeninos</title>
+            </Helmet>
+            <h2>Productos Femeninos</h2>
+            <div className="products">
+                {allLoading ? (<LoadingBox/>
+                ) : 
+                allErrors.message ? (<MessageBox variant="danger">{allErrors.message}</MessageBox>
+                ) : 
+                (
+                    <Row>
+                        {allProducts.map(product => (
+                            <Col key={product.id} sm={6} md={4} lg={3} className="mb-3">
+                                <Product product={product}></Product>
+                            </Col>
+                        ))}
+                    </Row>
+                )}
+            </div>
+        </div>
+    );
+}

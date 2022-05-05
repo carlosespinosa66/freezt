@@ -2,31 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getProductDetail, updateProduct } from '../actions/Products';
+import { updateUserInfo, getUserEditInfo } from '../actions/Users';
 import { Form, Row, Col, Card, Button, InputGroup } from 'react-bootstrap';
 
-export default function ProductEdit() {
+export default function UsersAdminAdd() {
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const { id } = useParams();
-  const allDetail = useSelector((state) => state.detail);
   const allUserInfo = useSelector((state) => state.userInfo);
+  const allUserDetail = useSelector((state) => state.userDetail);
 
   const [input, setInput] = useState({
-    id: '',
     name: '',
-    image: '',
-    price: '',
-    description: '',
-    weight: '',
-    stock: '',
-    discountPercent: '',
-    isInDiscount: '',
-    rating: '',
-    genres: '',
+    surname: '',
+    email: '',
+    billing_address: '',
+    default_shipping_address: '',
+    role: '',
+    signedInWithGoogle: '',
     isActive: '',
-    imageFile: '',
+    needsPasswordReset: '',
   });
 
   const handleSubmit = (event) => {
@@ -35,8 +31,8 @@ export default function ProductEdit() {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      dispatch(updateProduct(input, allUserInfo.token));
-      navigateTo('/productsadmin');
+      dispatch(updateUserInfo(input, allUserInfo.token));
+      navigateTo('/usersadmin');
     }
     setValidated(true);
   };
@@ -48,7 +44,7 @@ export default function ProductEdit() {
         [e.target.name]: e.target.checked,
       });
     } else if (e.target.type === 'file') {
-      input.image = '/images/' + e.target.files[0].name;
+      input.image = e.target.value;
     } else {
       setInput({
         ...input,
@@ -60,37 +56,33 @@ export default function ProductEdit() {
   useEffect(() => {
     const showEditData = () => {
       setInput({
-        id: allDetail.id,
-        name: allDetail.name,
-        image: allDetail.image,
-        price: allDetail.price,
-        description: allDetail.description,
-        weight: allDetail.weight,
-        stock: allDetail.stock,
-        discountPercent: allDetail.discountPercent,
-        isInDiscount: allDetail.isInDiscount,
-        rating: allDetail.rating,
-        genres: allDetail.genres,
-        isActive: allDetail.isActive,
+        name: allUserDetail.name,
+        surname: allUserDetail.surname,
+        email: allUserDetail.email,
+        billing_address: allUserDetail.billing_address,
+        default_shipping_address: allUserDetail.default_shipping_address,
+        role: allUserDetail.role,
+        signedInWithGoogle: allUserDetail.signedInWithGoogle,
+        isActive: allUserDetail.isActive,
+        needsPasswordReset: allUserDetail.needsPasswordReset,
       });
     };
 
-    if (allDetail.length <= 0) {
-      dispatch(getProductDetail(id));
+    if (allUserDetail.length <= 0) {
+      dispatch(getUserEditInfo(id, allUserInfo.token));
     }
-
     showEditData();
-  }, [allDetail, getProductDetail, id]);
+  }, [getUserEditInfo, allUserInfo, allUserDetail]);
 
   return (
     <div>
       <Helmet>
-        <title>Modificar Producto</title>
+        <title>Crear Usuarios</title>
       </Helmet>
-      <h2>Modificar Producto</h2>
+      <h2>Crear Usuarios</h2>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
         <Row className='mb-3'>
-          <Form.Group as={Col} md='4' controlId='name'>
+          <Form.Group as={Col} md='3' controlId='name'>
             <Form.Label>Nombre</Form.Label>
             <Form.Control
               required
@@ -104,82 +96,73 @@ export default function ProductEdit() {
               Ingrese el Nombre
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md='2' controlId='price'>
-            <Form.Label>Precio:</Form.Label>
+          <Form.Group as={Col} md='3' controlId='surname'>
+            <Form.Label>Apellidos</Form.Label>
             <Form.Control
               required
-              type='number'
-              placeholder='Precio'
+              type='text'
+              name='surname'
+              placeholder='Apellidos'
+              defaultValue={input.surname}
+              onChange={(e) => handleInputChange(e)}
+            />
+            <Form.Control.Feedback type='invalid'>
+              Ingrese el Apellido
+            </Form.Control.Feedback>
+          </Form.Group>
+
+          <Form.Group as={Col} md='4' controlId='email'>
+            <Form.Label>Correo</Form.Label>
+            <Form.Control
+              required
+              type='email'
+              placeholder='email'
               name='price'
-              defaultValue={input.price}
+              defaultValue={input.email}
               onChange={(e) => handleInputChange(e)}
             />
             <Form.Control.Feedback type='invalid'>
-              Ingrese el Precio
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md='2' controlId='stock'>
-            <Form.Label>Inventario:</Form.Label>
-            <Form.Control
-              required
-              type='number'
-              name='stock'
-              placeholder='Inventario'
-              defaultValue={input.stock}
-              onChange={(e) => handleInputChange(e)}
-            />
-            <Form.Control.Feedback type='invalid'>
-              Ingrese el Inventario
-            </Form.Control.Feedback>
-          </Form.Group>
-          <Form.Group as={Col} md='2' controlId='weight'>
-            <Form.Label>Peso (Kgs):</Form.Label>
-            <Form.Control
-              required
-              type='number'
-              name='weight'
-              placeholder='Peso'
-              defaultValue={input.weight}
-              onChange={(e) => handleInputChange(e)}
-            />
-            <Form.Control.Feedback type='invalid'>
-              Ingrese el Peso
+              Ingrese el Correo
             </Form.Control.Feedback>
           </Form.Group>
         </Row>
+
         <Row className='mb-3'>
-          <Form.Group as={Col} md='6' controlId='description'>
-            <Form.Label>Descripción</Form.Label>
+          <Form.Group as={Col} md='5' controlId='billing_address'>
+            <Form.Label>Dirección de Facturación</Form.Label>
             <Form.Control
               as='textarea'
-              placeholder='Descripción'
+              placeholder='Dirección de Facturación'
               required
-              name='description'
-              defaultValue={input.description}
+              name='billing_address'
+              defaultValue={input.billing_address}
               style={{ height: '100px' }}
               onChange={(e) => handleInputChange(e)}
             />
             <Form.Control.Feedback type='invalid'>
-              Ingrese la Descripción.
+              Ingrese la Dirección.
             </Form.Control.Feedback>
           </Form.Group>
-
-          <Form.Group as={Col} md='2' controlId='discountpercent'>
-            <Form.Label>Descuento %</Form.Label>
+          <Form.Group as={Col} md='5' controlId='default_shipping_address'>
+            <Form.Label>Dirección de Envío</Form.Label>
             <Form.Control
-              type='number'
-              placeholder='Descuento'
+              as='textarea'
+              placeholder='Dirección de Envío'
               required
-              name='discountPercent'
-              defaultValue={input.discountPercent}
+              name='default_shipping_address'
+              defaultValue={input.default_shipping_address}
+              style={{ height: '100px' }}
               onChange={(e) => handleInputChange(e)}
             />
             <Form.Control.Feedback type='invalid'>
-              Ingrese el Descuento.
+              Ingrese la Dirección de Envío.
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md='1' controlId='isindiscount'>
-            <Form.Label>Promoción</Form.Label>
+        </Row>
+
+        <Row className='mb-3'>
+          <Form.Group as={Col} md='2' controlId='isindiscount'>
+            <Form.Label>Admin</Form.Label>
             <Form.Check
               type='switch'
               id='isInDiscount'
@@ -188,7 +171,7 @@ export default function ProductEdit() {
               onChange={(e) => handleInputChange(e)}
             />
           </Form.Group>
-          <Form.Group as={Col} md='1' controlId='isactive'>
+          <Form.Group as={Col} md='2' controlId='isactive'>
             <Form.Label>Activo</Form.Label>
             <Form.Check
               type='switch'
@@ -198,49 +181,46 @@ export default function ProductEdit() {
               onChange={(e) => handleInputChange(e)}
             />
           </Form.Group>
-        </Row>
-        <Row>
-          <Form.Group controlId='formFile' as={Col} md='6'>
-            <Form.Label>Imagen</Form.Label>
-            <Form.Control
-              type='file'
-              name='imageFile'
+
+          <Form.Group as={Col} md='2' controlId='signedInWithGoogle'>
+            <Form.Label>Google Logon</Form.Label>
+            <Form.Check
+              type='switch'
+              id='signedInWithGoogle'
+              name='signedInWithGoogle'
+              checked={input.signedInWithGoogle}
               onChange={(e) => handleInputChange(e)}
             />
-            <Form.Control.Feedback type='invalid'>
-              Ingrese la Imagen.
-            </Form.Control.Feedback>
           </Form.Group>
 
+          <Form.Group as={Col} md='2' controlId='needsPasswordReset'>
+            <Form.Label>Password Reset</Form.Label>
+            <Form.Check
+              type='switch'
+              id='needsPasswordReset'
+              name='needsPasswordReset'
+              checked={input.needsPasswordReset}
+              onChange={(e) => handleInputChange(e)}
+            />
+          </Form.Group>
           <Form.Group as={Col} md='2' controlId='genres'>
-            <Form.Label>Género: {input.genres}</Form.Label>
+            <Form.Label>Role: {input.role}</Form.Label>
             <Form.Select
               name='genres'
-              defaultValue={input.genres}
+              defaultValue={input.role}
               onChange={(e) => handleInputChange(e)}
             >
               <option value=''></option>
-              <option value='Hombre'>Hombre</option>
-              <option value='Mujer'>Mujer</option>
+              <option value='Admin'>Admin</option>
+              <option value='User'>User</option>
             </Form.Select>
           </Form.Group>
-          <Card as={Col} md='1'>
-            <div>
-              <img
-                src={input.image}
-                height='150'
-                width='150'
-                className='d-inline-block align-top'
-                alt='freezt logo'
-              />
-            </div>
-          </Card>
         </Row>
 
         <Button type='submit'>Grabar</Button>
         <Button
           onClick={() => {
-            navigateTo('/productsadmin');
+            navigateTo('/usersadmin');
           }}
         >
           Cancelar
@@ -249,5 +229,3 @@ export default function ProductEdit() {
     </div>
   );
 }
-
-

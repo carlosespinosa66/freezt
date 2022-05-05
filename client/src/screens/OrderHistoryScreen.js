@@ -31,13 +31,14 @@ export default function OrderHistory() {
       <Helmet>
         <title>Historial de Ordenes</title>
       </Helmet>
-      <h1>Historial de Ordenes</h1>
+      <h2>Historial de Ordenes</h2>
       {allLoading ? (
         <LoadingBox></LoadingBox>
       ) : allErrors ? (
         <MessageBox variant='danger'>{allErrors}</MessageBox>
       ) : (
         <table className='table'>
+          <thead> </thead>
           <thead>
             <tr>
               <th>ID</th>
