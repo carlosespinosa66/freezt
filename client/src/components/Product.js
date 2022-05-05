@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { addProductToCar } from '../actions';
+import { addProductToCar } from '../actions/Products';
 import Rating from '../helpers/Rating';
 import { toast } from 'react-toastify';
 
@@ -27,8 +27,8 @@ export default function Product(props) {
 
   return (
     <Card >
-      <div className='product' key={product.slug}>
-        <Link to={`/products/${product.slug}`}>
+      <div className='product' key={product.id}>
+        <Link to={`/products/${product.id}`}>
           <img
             src={product.image}
             className='card-img-top'
@@ -36,7 +36,7 @@ export default function Product(props) {
           />
         </Link>
         <Card.Body>
-          <Link to={`/products/${product.slug}`}>
+          <Link to={`/products/${product.id}`}>
             <Card.Title>{product.name}</Card.Title>
           </Link>
           <Rating

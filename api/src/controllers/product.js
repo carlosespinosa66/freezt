@@ -17,19 +17,19 @@ const createProduct = async (req, res) => {
       image,
       weight,
       stock,
-      soldCount,
-      SubcategoryId,
-      BrandId,
+      isInDiscount,
+      discountPercent,
+      genres,
+      isActive,
     } = req.body;
     if (
       !name ||
-      !SubcategoryId ||
-      !BrandId ||
       !image ||
       !price ||
       !description ||
       !weight ||
-      !stock
+      !stock ||
+      !discountPercent 
     ) {
       res.status(402).send({ errorMsg: 'Missing data.' });
     } else {
@@ -41,9 +41,10 @@ const createProduct = async (req, res) => {
           image,
           weight,
           stock,
-          soldCount,
-          SubcategoryId,
-          BrandId,
+          isInDiscount,
+          discountPercent,
+          genres,
+          isActive,
         },
       });
       created
@@ -68,9 +69,10 @@ const updateProduct = async (req, res) => {
       image,
       weight,
       stock,
-      soldCount,
-      BrandId,
-      SubcategoryId,
+      isInDiscount,
+      discountPercent,
+      genres,
+      isActive,
     } = req.body;
     if (
       !name ||
@@ -78,11 +80,7 @@ const updateProduct = async (req, res) => {
       !price ||
       !image ||
       !weight ||
-      !stock ||
-      !soldCount ||
-      !BrandId ||
-      !SubcategoryId ||
-      !id
+      !stock 
     ) {
       res.status(402).send({ errorMsg: 'Missing data.' });
     } else {
@@ -101,9 +99,10 @@ const updateProduct = async (req, res) => {
           image,
           weight,
           stock,
-          soldCount,
-          BrandId,
-          SubcategoryId,
+          isInDiscount,
+          discountPercent,
+          genres,
+          isActive,
         });
         res.status(200).send({
           successMsg: 'Product successfully updated.',
@@ -124,7 +123,7 @@ const getSingleProduct = async (req, res) => {
     } else {
       let singleProduct = await Product.findOne({
         where: {
-          slug:id,
+          id,
         },
         include: [
           {
@@ -164,22 +163,15 @@ const getSingleProduct = async (req, res) => {
           id: singleProduct.id,
           name: singleProduct.name,
           image: singleProduct.image,
-          slug:singleProduct.slug,
           price: singleProduct.price,
           description: singleProduct.description,
+          rating:singleProduct.rating,
           weight: singleProduct.weight,
           stock: singleProduct.stock,
-          soldCount: singleProduct.soldCount,
-          BrandId: singleProduct.BrandId,
-          brand: singleProduct.Brand.name,
-          SubcategoryId: singleProduct.SubcategoryId,
-          subcategory: singleProduct.Subcategory.name,
-          CategoryId: singleProduct.Subcategory.Category.id,
-          category: singleProduct.Subcategory.Category.name,
           isInDiscount: singleProduct.isInDiscount,
           discountPercent: singleProduct.discountPercent,
-          discountQty: singleProduct.discountQty,
           isActive: singleProduct.isActive,
+          genres: singleProduct.genres,
           questions:
             singleProduct.Questions.length > 0
               ? singleProduct.Questions.map((question) => {
@@ -247,22 +239,15 @@ const getProducts = async (req, res) => {
           id: product.id,
           name: product.name,
           image: product.image,
-          slug:product.slug,
           price: product.price,
           description: product.description,
+          rating:product.rating,
           weight: product.weight,
           stock: product.stock,
-          soldCount: product.soldCount,
-          BrandId: product.BrandId,
-          brand: product.Brand.name,
-          SubcategoryId: product.SubcategoryId,
-          subcategory: product.Subcategory.name,
-          CategoryId: product.Subcategory.Category.id,
-          category: product.Subcategory.Category.name,
           isInDiscount: product.isInDiscount,
           discountPercent: product.discountPercent,
-          discountQty: product.discountQty,
           isActive: product.isActive,
+          genres: product.genres,
           questions:
             product.Questions.length > 0
               ? product.Questions.map((question) => {

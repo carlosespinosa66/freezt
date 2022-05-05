@@ -1,0 +1,119 @@
+import axios from 'axios';
+
+export function getUserInfo(email, password) {
+  return async function(dispatch) {
+    try {
+      const response = await axios.post('/api/signIn', { email, password });
+      const TOKEN = response.headers['auth-token'];
+      dispatch({
+        type: 'USER_SIGNIN',
+        payload: {
+          email,
+          token: TOKEN,
+          name: response.data.data.name,
+          role: response.data.data.role,
+          google: false,
+        },
+      });
+    } catch (error) {
+      dispatch({
+        type: 'USER_SIGNIN_FAIL',
+        payload: '', //{ status: error.response.status },
+      });
+    }
+  };
+}
+
+export const getAllUsers = (token) => {
+  try {
+    return async (dispatch) => {
+      const allUsers = await axios.get('/api/admin/users', {
+        headers: {
+          'auth-token': token,
+        },
+      });
+      return dispatch({
+        type: 'ADMIN_GET_USERS',
+        payload: allUsers.data.users,
+      });
+    };
+  } catch (error) {
+    alert(error);
+  }
+};
+
+
+export const getUserEditInfo = (id,token) => {
+  try {
+    return async (dispatch) => {
+      const allUsers = await axios.get('/api/admin/users', {
+        headers: {
+          'auth-token': token,
+        },
+      });
+      return dispatch({
+        type: 'ADMIN_GET_USER_INFO',
+        payload: allUsers.data.users,
+      });
+    };
+  } catch (error) {
+    alert(error);
+  }
+};
+
+
+export function regUserInfo(name, email, password) {
+  return async function(dispatch) {
+    try {
+      const { data } = await axios.post('/users/signup', {
+        name,
+        email,
+        password,
+      });
+      dispatch({
+        type: 'USER_SIGNUP',
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'USER_SIGNUP_FAIL',
+        payload: { status: error.response.status },
+      });
+    }
+  };
+}
+
+export function updateUserInfo(user, token) {
+  return async function(dispatch) {
+    try {
+      const { data } = await axios.post('/users/signup', user, {
+        headers: {
+          'auth-token': token,
+        },
+      });
+      dispatch({
+        type: 'USER_SIGNUP',
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'USER_SIGNUP_FAIL',
+        payload: { status: error.response.status },
+      });
+    }
+  };
+}
+
+export function putUserSignOut() {
+  return {
+    type: 'USER_SIGN_OUT',
+    payload: '',
+  };
+}
+
+export function putUserReset() {
+  return {
+    type: 'USER_RESET_STATE',
+    payload: '',
+  };
+}

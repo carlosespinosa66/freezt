@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getProductDetail, addProductToCar } from '../actions';
+import { getProductDetail, addProductToCar } from '../actions/Products';
 import {Row, Col, Card, Button,ListGroup,Badge} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../helpers/LoadingBox';
@@ -19,7 +19,7 @@ export default function ProductDetail() {
   const navigateTo = useNavigate()
 
   const params = useParams();
-  const { slug } = params;
+  const { id } = params;
 
   function addToCartHandler() {
     
@@ -35,8 +35,8 @@ export default function ProductDetail() {
   }
 
   useEffect(() => {
-    dispatch(getProductDetail(slug));
-  }, [dispatch, slug]);
+    dispatch(getProductDetail(id));
+  }, [getProductDetail,dispatch, id]);
 
   return (
 
@@ -44,7 +44,7 @@ export default function ProductDetail() {
     ) : allErrors ? (<MessageBox variant="danger">{allErrors}</MessageBox>
     ) : (
       <div>
-        <h1>{slug}</h1>
+        <h3>{allDetail.name}</h3>
         <Row>
           <Col md={3}>
             <img className="img-large" src={allDetail.image} alt={allDetail.name} />
@@ -55,7 +55,7 @@ export default function ProductDetail() {
                 <Helmet>
                   <title>{allDetail.name}</title>
                 </Helmet>
-                <h1>{allDetail.name}</h1>
+                <h5>{allDetail.name}</h5>
               </ListGroup.Item>
               <ListGroup.Item>
                 <Rating rating={allDetail.rating} numReview={allDetail.numReview} >

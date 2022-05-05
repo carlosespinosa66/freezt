@@ -13,10 +13,6 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    slug: {
-      type: DataTypes.STRING,
-      allowNull: true,
-    },
     image: {
       type: DataTypes.STRING,
       allowNull: true,
@@ -47,19 +43,14 @@ module.exports = (sequelize) => {
       defaultValue: false,
       allowNull: true,
     },
-    discountQty: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-      allowNull: true,
-    },
-    soldCount: {
-      type: DataTypes.INTEGER,
-      defaultValue: 0,
-      allowNull: false,
-    },
     rating: {
       type: DataTypes.INTEGER,
       allowNull: true,
+    },
+    genres:{
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: "Hombre",
     },
     isActive: {
       type: DataTypes.BOOLEAN,

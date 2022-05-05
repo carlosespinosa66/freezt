@@ -7,7 +7,7 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { getHistoryOrderUser } from '../actions';
+import { getHistoryOrderUser } from '../actions/Orders';
 import moment from 'moment';
 
 import { useDispatch } from 'react-redux';

@@ -1,50 +1,45 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import HomeScreen from './screens/HomeScreen';
-import ProductDetail from './screens/ProductDetail';
-import ProductClothes from './screens/ProductClothes';
-import WomenClothes from './screens/WomenClothes';
-import WeAre from './screens/WeAre';
-import OrderScreen from './screens/OrderScreen';
-import SignupScreen from './screens/SignupScreen';
-import PaymentMethodScreen from './screens/PaymentMethodScreen';
-import PlaceOrderScreen from './screens/PlaceOrderScreen';
+import ProductDetail from './screens/ProductDetailScreen';
+import ProductClothes from './screens/ProductClothesScreen';
+import WomenClothes from './screens/WomenClothesScreen';
+import WeAre from './screens/WeAreScreen';
+import Order from './screens/OrderScreen';
+import Signup from './screens/SignupScreen';
+import PaymentMethod from './screens/PaymentMethodScreen';
+import PlaceOrder from './screens/PlaceOrderScreen';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropDown from 'react-bootstrap/NavDropDown';
 import Container from 'react-bootstrap/Container';
-import CartScreen from './screens/CartScreen';
-import SigninScreen from './screens/SigninScreen';
-import ProfileScreen from './screens/ProfileScreen';
-import OrderHistoryScreen from './screens/OrderHistoryScreen';
+import Cart from './screens/CartScreen';
+import Signin from './screens/SigninScreen';
+import Profile from './screens/ProfileScreen';
+import OrderHistory from './screens/OrderHistoryScreen';
 import OrderDetail from './screens/OrderDetailScreen';
-import ShippingAddress from './screens/ShippingAddress';
-import OrdersAdminScreen from './screens/OrdersAdminScreen';
+import ShippingAddress from './screens/ShippingAddressScreen';
+import OrdersAdmin from './screens/OrdersAdminScreen';
 import ProductsAdmin from './screens/ProductsAdminScreen';
-import ProductEdit from './screens/ProductEditScreen';
+import ProductEdit from './screens/ProductsAdminEditScreen';
 import UsersAdmin from './screens/UsersAdminScreen';
+import SignOut from './screens/SignOutScreen';
+import UsersAdminEdit from './screens/UsersAdminEditScreen';
 import { LinkContainer } from 'react-router-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { putUserSignOut } from './actions';
+import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
-  const dispatch = useDispatch();
   const allCart = useSelector((state) => state.cart);
   const allUserInfo = useSelector((state) => state.userInfo);
-
-  function signoutHandler() {
-    dispatch(putUserSignOut());
-  }
 
   return (
     <Router>
       <div className='d-flex flex-column site-container'>
         <ToastContainer position='bottom-center' limit={1} />
         <header>
-          {/* <Navbar bg='dark' variant='dark' fixed="top" > */}
           <Navbar bg='dark' variant='dark'>
             <Container className='mt-2'>
               <LinkContainer to='/'>
@@ -88,7 +83,7 @@ function App() {
                     <LinkContainer to='/orderhistory'>
                       <NavDropDown.Item>Order History</NavDropDown.Item>
                     </LinkContainer>
-                    <NavDropDown.Divider />
+                    {/* <NavDropDown.Divider /> */}
                     {allUserInfo.role === 'admin' && (
                       <LinkContainer to='/orderadmin'>
                         <NavDropDown.Item>Admin Orders</NavDropDown.Item>
@@ -99,19 +94,16 @@ function App() {
                         <NavDropDown.Item>Admin Products</NavDropDown.Item>
                       </LinkContainer>
                     )}
+
                     {allUserInfo.role === 'admin' && (
-                    <LinkContainer to='/usersadmin'>
-                      <NavDropDown.Item>Admin Users</NavDropDown.Item>
-                    </LinkContainer>
+                      <LinkContainer to='/usersadmin'>
+                        <NavDropDown.Item>Admin Users</NavDropDown.Item>
+                      </LinkContainer>
                     )}
                     <NavDropDown.Divider />
-                    <Link
-                      className='dropdown-item'
-                      to='#signout'
-                      onClick={signoutHandler}
-                    >
-                      Sign Out
-                    </Link>
+                    <LinkContainer to='/signout'>
+                      <NavDropDown.Item>Sign Out</NavDropDown.Item>
+                    </LinkContainer>
                   </NavDropDown>
                 ) : (
                   <Link className='nav-link' to='/signin'>
@@ -126,27 +118,27 @@ function App() {
           <Container>
             <Routes>
               <Route path='/' element={<HomeScreen />} />
-              <Route path='/products/:slug' element={<ProductDetail />} />
-              {/* <Route path="/product/:slug" element={<WomenDetail />} /> */}
+              <Route path='/products/:id' element={<ProductDetail />} />
               <Route path='/MenClothes' element={<ProductClothes />} />
               <Route path='/WomenClothes' element={<WomenClothes />} />
               <Route path='/WeAre' element={<WeAre />} />
-              {/* <Route path="/WeAre" element={<OrderScreen />} /> */}
-              <Route path='/cart' element={<CartScreen />} />
-              <Route path='/signin' element={<SigninScreen />} />
-              <Route path='/signup' element={<SignupScreen />} />
+              <Route path='/cart' element={<Cart />} />
+              <Route path='/signin' element={<Signin />} />
+              <Route path='/signup' element={<Signup />} />
               <Route path='/shipping' element={<ShippingAddress />} />
-              <Route path='/payment' element={<PaymentMethodScreen />} />
-              <Route path='/placeorder' element={<PlaceOrderScreen />} />
-              <Route path='/order/:id' element={<OrderScreen />} />
-              <Route path='/order' element={<OrderScreen />} />
-              <Route path='/profile' element={<ProfileScreen />} />
-              <Route path='/orderhistory' element={<OrderHistoryScreen />} />
+              <Route path='/payment' element={<PaymentMethod />} />
+              <Route path='/placeorder' element={<PlaceOrder />} />
+              <Route path='/profile' element={<Profile />} />
+              <Route path='/order' element={<Order />} />
+              <Route path='/order/:id' element={<Order />} />
               <Route path='/orderdetail/:id' element={<OrderDetail />} />
-              <Route path='/orderadmin' element={<OrdersAdminScreen />} />
+              <Route path='/orderhistory' element={<OrderHistory />} />
+              <Route path='/orderadmin' element={<OrdersAdmin />} />
               <Route path='/productsadmin' element={<ProductsAdmin />} />
-              <Route path='/usersadmin' element={<UsersAdmin />} />
               <Route path='/productedit/:id' element={<ProductEdit />} />
+              <Route path='/useradminedit/:id' element={<UsersAdminEdit />} />              
+              <Route path='/usersadmin' element={<UsersAdmin />} />
+              <Route path='/signout' element={<SignOut />} />
             </Routes>
           </Container>
         </main>

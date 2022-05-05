@@ -5,11 +5,12 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Row, Col, Card, Button, ListGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { newOrderCreate, removeAllCarItems } from '../actions';
+import {  removeAllCarItems } from '../actions/Cart';
+import { newOrderCreate } from '../actions/Orders';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 import LoadingBox from '../helpers/LoadingBox';
 
-export default function PlaceOrderScreen() {
+export default function PlaceOrder() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const allCart = useSelector((state) => state.cart);
@@ -18,7 +19,6 @@ export default function PlaceOrderScreen() {
   const allCartItems = useSelector((state) => state.cart.cartItems);
   const allLoading = useSelector((state) => state.loading);
   const allUserInfo = useSelector((state) => state.userInfo);
-  const allOrder = useSelector((state) => state.order.data);
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
   allCart.itemsPrice = round2(allCartItems.reduce((a, c) => Number(a) + Number(c.quantity) * Number(c.price), 0));
@@ -41,11 +41,11 @@ export default function PlaceOrderScreen() {
       ));
 
       dispatch(removeAllCarItems());
-      if (!allOrder === undefined) {
-        navigateTo(`/order/${allOrder.id}`);
-      } else {
+      // if (!allOrder === undefined) {
+      //   navigateTo(`/order/${allOrder.id}`);
+      // } else {
         navigateTo(`/order`);
-      }
+      // }
 
     } catch (err) {
       toast.error(getError(err));

@@ -4,13 +4,13 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrdersUser } from '../actions/index';
+import { getOrdersUser } from '../actions/Orders';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
 import moment from 'moment';
 
-export default function OrderHistoryScreen() {
+export default function OrderHistory() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const allLoading = useSelector((state) => state.loading);
@@ -49,11 +49,13 @@ export default function OrderHistoryScreen() {
             </tr>
           </thead>
           <tbody>
-            {!allOrders ? (<LoadingBox></LoadingBox>):(
+            {!allOrders ? (
+              <LoadingBox></LoadingBox>
+            ) : allOrders.length > 0 ? (
               allOrders.map((order) => (
                 <tr key={order.id}>
                   <td>{order.id}</td>
-                  <td>{moment(order.paidAt).format('LLL')}</td> 
+                  <td>{moment(order.paidAt).format('LLL')}</td>
                   <td>{order.total_amount.toFixed(2)}</td>
                   <td>{order.isPaid ? 'Yes' : 'No'}</td>
                   <td>
@@ -65,7 +67,6 @@ export default function OrderHistoryScreen() {
                     <Button
                       type='button'
                       variant='secondary'
-                      
                       onClick={() => {
                         navigateTo(`/orderdetail/${order.id}`);
                       }}
@@ -75,6 +76,10 @@ export default function OrderHistoryScreen() {
                   </td>
                 </tr>
               ))
+            ) : (
+              <MessageBox variant='danger'>
+                "No hay ordenes para mostrar en la base de datos."
+              </MessageBox>
             )}
           </tbody>
         </table>
@@ -82,5 +87,3 @@ export default function OrderHistoryScreen() {
     </div>
   );
 }
-
-            

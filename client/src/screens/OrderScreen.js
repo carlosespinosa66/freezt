@@ -13,9 +13,9 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 
-import { regPaypalOrder } from '../actions';
+import { regPaypalOrder } from '../actions/Orders';
 
-export default function OrderScreen() {
+export default function Order() {
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const allLoading = useSelector((state) => state.loading);

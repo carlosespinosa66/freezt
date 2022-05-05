@@ -4,11 +4,10 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrdersUser } from '../actions/index';
+import { getAllUsers } from '../actions/Users';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import moment from 'moment';
 
 export default function OrderHistoryScreen() {
   const dispatch = useDispatch();
@@ -16,15 +15,15 @@ export default function OrderHistoryScreen() {
   const allLoading = useSelector((state) => state.loading);
   const allErrors = useSelector((state) => state.error);
   const allUserInfo = useSelector((state) => state.userInfo.token);
-  const allOrders = useSelector((state) => state.orders);
+  const allUsers = useSelector((state) => state.users);
 
-  // useEffect(() => {
-  //   try {
-  //     dispatch(getOrders(allUserInfo));
-  //   } catch (err) {
-  //     toast.error(getError(err));
-  //   }
-  // }, [getOrdersUser]);
+  useEffect(() => {
+    try {
+      dispatch(getAllUsers(allUserInfo));
+    } catch (err) {
+      toast.error(getError(err));
+    }
+  }, [getAllUsers, allUserInfo]);
 
   return (
     <div>
@@ -43,31 +42,28 @@ export default function OrderHistoryScreen() {
               <th>Correo</th>
               <th>Nombre</th>
               <th>Rol</th>
-              <th>Google</th>
               <th>Estado</th>
               <th>Acción</th>
             </tr>
           </thead>
           <tbody>
-            {/* {!allOrders ? (<LoadingBox></LoadingBox>):(
-              allOrders.map((order) => (
-                <tr key={order.id}>
-                  <td>{order.id}</td>
-                  <td>{moment(order.paidAt).format('LLL')}</td> 
-                  <td>{order.total_amount.toFixed(2)}</td>
-                  <td>{order.isPaid ? 'Yes' : 'No'}</td>
+            {!allUsers ? (
+              <LoadingBox></LoadingBox>
+            ) : (
+              allUsers.map((user) => (
+                <tr key={user.id}>
+                  <td>{user.email}</td>
                   <td>
-                    {order.isDelivered
-                      ? moment(order.deliveredAt).format('LL')
-                      : 'No'}
+                    {user.name} {user.surname}
                   </td>
+                  <td>{user.role}</td>
+                  <td>{user.isActive ? 'Activo' : 'Desactivado'}</td>
                   <td>
                     <Button
                       type='button'
                       variant='secondary'
-                      
                       onClick={() => {
-                        navigateTo(`/orderdetail/${order.id}`);
+                        navigateTo(`/useradminedit/${user.id}`);
                       }}
                     >
                       Details
@@ -75,7 +71,7 @@ export default function OrderHistoryScreen() {
                   </td>
                 </tr>
               ))
-            )} */}
+            )}
           </tbody>
         </table>
       )}

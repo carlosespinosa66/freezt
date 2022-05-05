@@ -4,7 +4,7 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProducts } from '../actions/index';
+import { getProducts } from '../actions/Products';
 import { Button } from 'react-bootstrap';
 
 export default function ProductsAdmin() {
@@ -57,7 +57,7 @@ export default function ProductsAdmin() {
                   <td>{product.name}</td>
                   <td>{product.price}</td>
                   <td>{product.stock}</td>
-                  <td>Masculino</td>
+                  <td>{product.genres}</td>
                   <td>{product.isActive ? 'Activo' : 'Inactivo'}</td>
                   <td>
                     <Button
@@ -65,7 +65,7 @@ export default function ProductsAdmin() {
                       variant='secondary'
                       onClick={() => {
                         navigateTo(`/productedit/${product.id}`);
-                      }}
+                      }}                      
                     >
                       Modificar
                     </Button>

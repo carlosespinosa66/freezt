@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { getProducts } from '../actions';
+import { getProducts } from '../actions/Products';
 import {Row, Col} from 'react-bootstrap';
 
 import Product from '../components/Product';
@@ -32,7 +32,7 @@ export default function ProductClothes() {
                 (
                     <Row>
                         {allProducts.map(product => (
-                            <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
+                            <Col key={product.id} sm={6} md={4} lg={3} className="mb-3">
                                 <Product product={product}></Product>
                             </Col>
                         ))}

@@ -4,9 +4,9 @@ import { Link, useNavigate } from "react-router-dom";
 import {Row, Col, Card, Button,ListGroup} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import MessageBox from '../helpers/MessageBox';
-import { addProductToCar, removeItemCar } from '../actions';
+import { addProductToCar, removeItemCar } from '../actions/Cart';
 
-export default function CartScreen() {
+export default function Cart() {
     const dispatch = useDispatch();
     const allCartItems = useSelector((state) => state.cart.cartItems);
     const allProducts = useSelector((state) => state.products);

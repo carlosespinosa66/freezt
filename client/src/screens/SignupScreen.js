@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
-import { regUserInfo } from '../actions'; //putUserReset
+import { regUserInfo } from '../actions/Users'; //putUserReset
 import { getError } from '../helpers/utils';
 
 

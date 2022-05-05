@@ -1,6 +1,6 @@
 const initialState = {
   products: [],
-  productedit:[],
+  productedit: [],
   detail: [],
   error: '',
   orders: [],
@@ -10,6 +10,8 @@ const initialState = {
   successPay: false,
   fullBox: false,
   orderHistory: [],
+  users: [],
+  userDetail:[],
   order: localStorage.getItem('order')
     ? JSON.parse(localStorage.getItem('order'))
     : {},
@@ -31,6 +33,14 @@ const initialState = {
 
 function rootReducer(state = initialState, action) {
   switch (action.type) {
+    case 'ADMIN_GET_USERS':
+      return { ...state, users: action.payload };
+
+      case 'ADMIN_GET_USER_INFO':
+        return { ...state, userDetail: action.payload };
+  
+      
+
     case 'PRODUCTS_REQUEST':
       return { ...state, loading: true, error: '' };
 
@@ -41,6 +51,7 @@ function rootReducer(state = initialState, action) {
         orders: [],
         orderHistory: [],
         totalorders: [],
+        detail: [],
         loading: false,
         error: '',
       };

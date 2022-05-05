@@ -17,9 +17,7 @@ const data = {
     ],
     products: [
         {
-            // _id:'1',
-            name: 'Nike_Slim_shirt_1',
-            slug: 'Nike_slim_shirt_1',
+            name: 'Nike Slim shirt 1',
             category: 'Shirts',
             image: '/images/c1.jpg',
             price: 120,
@@ -30,9 +28,7 @@ const data = {
             description: 'high quality shirt',
         },
         {
-            // _id:'2',
-            name: 'Adidas_Slim_shirt_2',
-            slug: 'Adidas_slim_shirt_2',
+            name: 'Adidas Slim shirt 2',
             category: 'Shirts',
             image: '/images/c2.jpg',
             price: 120,
@@ -45,9 +41,7 @@ const data = {
 
         },
         {
-            // _id:'3',
-            name: 'Nike_Slim_Pant_3',
-            slug: 'nike_slim_Pant_3',
+            name: 'Nike Slim Pant 3',
             category: 'Pants',
             image: '/images/c3.jpg',
             price: 120,
@@ -58,9 +52,7 @@ const data = {
             description: 'high quality Pant',
         },
         {
-            // _id:'4',
-            name: 'Adidas_Slim_Pant_4',
-            slug: 'Adidas_slim_Pant_4',
+            name: 'Adidas Slim Pant 4',
             category: 'Shirts',
             image: '/images/c4.jpg',
             price: 120,
@@ -71,9 +63,7 @@ const data = {
             description: 'high quality Pant',
         },
         {
-            // _id:'5',
-            name: 'Adidas_Slim_Pant_5',
-            slug: 'Adidas_slim_Pant_5',
+            name: 'Adidas Slim Pant 5',
             category: 'Shirts',
             image: '/images/c5.jpg',
             price: 120,
@@ -84,9 +74,7 @@ const data = {
             description: 'high quality Pant',
         },
         {
-            // _id:'6',
-            name: 'Adidas_Slim_Pant_6',
-            slug: 'Adidas_slim_Pant_6',
+            name: 'Adidas Slim Pant 6',
             category: 'Shirts',
             image: '/images/c6.jpg',
             price: 120,
@@ -97,9 +85,7 @@ const data = {
             description: 'high quality Pant',
         },
         {
-            // _id:'7',
-            name: 'Nike_Slim_shirt_7',
-            slug: 'Nike_slim_shirt_7',
+            name: 'Nike Slim shirt 7',
             category: 'Shirts',
             image: '/images/p1.jpg',
             price: 120,
@@ -110,9 +96,7 @@ const data = {
             description: 'high quality shirt',
         },
         {
-            // _id:'8',
-            name: 'Adidas_Slim_shirt_8',
-            slug: 'Adidas_slim_shirt_8',
+            name: 'Adidas Slim shirt 8',
             category: 'Shirts',
             image: '/images/p2.jpg',
             price: 120,
@@ -125,9 +109,7 @@ const data = {
 
         },
         {
-            // _id:'9',
-            name: 'Nike_Slim_Pant_9',
-            slug: 'nike_slim_Pant_9',
+            name: 'Nike Slim Pant 9',
             category: 'Pants',
             image: '/images/p3.jpg',
             price: 120,
@@ -138,9 +120,7 @@ const data = {
             description: 'high quality Pant',
         },
         {
-            // _id:'10',
-            name: 'Adidas_Slim_Pant_10',
-            slug: 'Adidas_slim_Pant_10',
+            name: 'Adidas Slim Pant 10',
             category: 'Shirts',
             image: '/images/p4.jpg',
             price: 120,

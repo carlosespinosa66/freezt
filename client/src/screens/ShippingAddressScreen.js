@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
 import {Form, Button} from 'react-bootstrap';
 import { getError } from '../helpers/utils';
-import { saveShippingAddress } from '../actions';
+import { saveShippingAddress } from '../actions/Orders';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 
 export default function ShippingAddress() {

@@ -1,7 +1,7 @@
 import React from 'react';
 import { Carousel } from 'react-bootstrap';
 
-export default function HomeScreen() {
+export default function Home() {
   return (
     <div>
       <Carousel variant='dark' interval={2000}>

@@ -6,9 +6,9 @@ import CheckoutSteps from '../helpers/CheckoutSteps';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { savePaymentMethod } from '../actions';
+import { savePaymentMethod } from '../actions/Orders';
 
-export default function PaymentMethodScreen() {
+export default function PaymentMethod() {
     const dispatch = useDispatch();
     const allShipping = useSelector((state) => state.cart.shippingAddress);
     const allPayment = useSelector((state) => state.cart.paymentMethod);

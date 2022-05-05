@@ -71,15 +71,12 @@ const bulkCreateProducts = async () => {
       await Product.findOrCreate({
         where: {
           name: data[i].name,
-          slug:data[i].slug,
           image: data[i].image,
           price: data[i].price,
           description: data[i].description,
           weight: data[i].weight,
           stock: data[i].stock,
-          soldCount: data[i].soldCount,
-          BrandId: data[i].BrandId,
-          SubcategoryId: data[i].SubcategoryId,
+          genres: data[i].genres,
         },
       });
     }

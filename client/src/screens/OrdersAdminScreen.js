@@ -4,13 +4,13 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrdersAdmin } from '../actions/index';
+import { getOrdersAdmin } from '../actions/Orders';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
 import moment from 'moment';
 
-export default function OrderHistoryScreen() {
+export default function OrderHistory() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const allLoading = useSelector((state) => state.loading);
