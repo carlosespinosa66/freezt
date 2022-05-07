@@ -12,6 +12,30 @@
     "needsPasswordReset": false
   },  
   {
+    "name": "Juan Pablo",
+    "surname": "Espinosa",
+    "password": "123",
+    "email": "juan@gmail.com",
+    "billing_address": "Medellin",
+    "default_shipping_address": "Medellin",
+    "role": "admin",
+    "isActive": true,
+    "CountryId": 244,
+    "needsPasswordReset": false
+  },  
+  {
+    "name": "Daniel",
+    "surname": "Betancur",
+    "password": "123",
+    "email": "daniel@gmail.com",
+    "billing_address": "Medellin",
+    "default_shipping_address": "Medellin",
+    "role": "admin",
+    "isActive": true,
+    "CountryId": 244,
+    "needsPasswordReset": false
+  },  
+  {
     "name": "Axel",
     "surname": "Lois",
     "password": "admin123",

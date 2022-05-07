@@ -16,8 +16,7 @@ conn.sync({ force: false }).then(() => {
   server.listen(PORT, async () => {
     console.log('%s listening at ' + PORT); // eslint-disable-line no-console
 
-    
-    // Fill database from here. Disable the second time if force: false is activated
+        // Fill database from here. Disable the second time if force: false is activated
     // await bulkCreateCategories();
     // await bulkCreateBrands();
     // await bulkCreateSubcategories();

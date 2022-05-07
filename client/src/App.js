@@ -12,7 +12,7 @@ import PlaceOrder from './screens/PlaceOrderScreen';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
-import NavDropDown from 'react-bootstrap/NavDropDown';
+import NavDropDown from 'react-bootstrap/NavDropDown'
 import Container from 'react-bootstrap/Container';
 import Cart from './screens/CartScreen';
 import UsersSignin from './screens/UsersSigninScreen';
