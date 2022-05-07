@@ -1,18 +1,17 @@
-import React, { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useEffect,useState } from 'react';
+import { useSelector,useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
+import { Form, Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { getHistoryOrderUser } from '../actions/Orders';
+import { getHistoryOrderUser,updateOrderStatus } from '../actions/Orders';
 import moment from 'moment';
 
-import { useDispatch } from 'react-redux';
 
-export default function OrderDetail() {
+export default function OrdersAdminEdit() {
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const allLoading = useSelector((state) => state.loading);
@@ -23,17 +22,27 @@ export default function OrderDetail() {
   const allUserInfo = useSelector((state) => state.userInfo);
   const { id } = useParams();
 
+  const [input, setInput] = useState({
+    id: id,
+    status: allOrder.status,
+    email_address:allUserInfo.email
+  });
+
   function handleOrders() {
     navigateTo('/orderadmin');
   }
 
-  function handleOrdersHistory() {
-    navigateTo('/orderhistory');
+  function handleFinished() {
+    dispatch(updateOrderStatus(id, input, allUserInfo.token))
+    navigateTo('/orderadmin');
   }
 
-  function handleFinished() {
-    navigateTo('/MenClothes');
-  }
+  const handleInputChange = function(e) {
+    setInput({
+      ...input,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   useEffect(() => {
     try {
@@ -54,7 +63,7 @@ export default function OrderDetail() {
       <Helmet>
         <title>Order History Detail</title>
       </Helmet>
-      <h1 className='my-3'>Orden {allOrder.id}</h1>
+      <h2 className='my-3'>Orden {allOrder.id}</h2>
       {!allOrder ? (
         <LoadingBox></LoadingBox>
       ) : (
@@ -63,36 +72,28 @@ export default function OrderDetail() {
             <Card className='mb-3'>
               <Card.Body>
                 <Card.Title>Envío</Card.Title>
-                <Card.Text>
-                  <strong>Nombre:</strong> {allUserInfo.name} <br />
-                  <strong>Dirección: </strong> {allOrder.shipping_address}
-                </Card.Text>
+                <strong>Nombre:</strong> {allUserInfo.name} <br />
+                <strong>Dirección: </strong> {allOrder.shipping_address}
                 {allOrder.isDelivered ? (
                   <MessageBox variant='success'>
-                    Enviada a la dirección: {allOrder.deliveredAt}
+                    Enviada a la dirección {allOrder.deliveredAt}
                   </MessageBox>
                 ) : (
                   <MessageBox variant='danger'>No ha sido enviada.</MessageBox>
                 )}
-              </Card.Body>
-            </Card>
-            <Card className='mb-3'>
-              <Card.Body>
-                {/* <Card.Title>Forma de Pago</Card.Title> */}
-                <Card.Text>
-                  <strong>Forma de Pago</strong> {allOrder.paymentSource}
-                </Card.Text>
+                <strong>Forma de Pago:</strong> {allOrder.paymentSource}
                 {allOrder.isPaid ? (
                   <MessageBox variant='success'>
-                    Estado: {allOrder.status}. Pagada el día: {moment(allOrder.paidAt).format('LLLL')}
-                    {/* Pagada el día: {moment(allOrder.paidAt).format('LLLL')} */}
+                    Estado: {allOrder.status}. Pagada el día:{' '}
+                    {moment(allOrder.paidAt).format('LLLL')}
                   </MessageBox>
                 ) : (
-                  <MessageBox variant='danger'>Estado: {allOrder.status}. No ha sido Pagada</MessageBox>
+                  <MessageBox variant='danger'>
+                    Estado: {allOrder.status}. No ha sido Pagada
+                  </MessageBox>
                 )}
               </Card.Body>
             </Card>
-
             <Card className='mb-3'>
               <Card.Body>
                 <Card.Title>Artículos Comprados</Card.Title>
@@ -126,26 +127,23 @@ export default function OrderDetail() {
           <Col ms={4}>
             <Card className='mb-3'>
               <Card.Body>
-                <Card.Title>Resumen de la Orden</Card.Title>
+                <Card.Title>Resumen Orden</Card.Title>
                 <ListGroup variant='flush'>
                   <ListGroup.Item>
                     <Row>
                       <Col>Valor Artículos</Col>
-                      {/* <Col>${allOrder.total_amount.toFixed(2)}</Col> */}
                       <Col>${allOrder.total_amount}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Envío</Col>
-                      {/* <Col>${allOrder.shippingPrice.toFixed(2)}</Col> */}
                       <Col>${allOrder.shippingPrice}</Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <Row>
                       <Col>Impuestos</Col>
-                      {/* <Col>${allOrder.taxPrice.toFixed(2)}</Col> */}
                       <Col>${allOrder.taxPrice}</Col>
                     </Row>
                   </ListGroup.Item>
@@ -155,29 +153,34 @@ export default function OrderDetail() {
                         <strong>Total Orden</strong>
                       </Col>
                       <Col>
-                        {/* <strong>${allOrder.total_amount.toFixed(2)}</strong> */}
                         <strong>${allOrder.total_amount}</strong>
                       </Col>
                     </Row>
                   </ListGroup.Item>
                   <ListGroup.Item>
                     <div className='d-grid'>
-                      {allUserInfo.role !== 'admin' && (
-                        <Button type='button' onClick={handleOrdersHistory}>
-                          Ordenes
-                        </Button>
-                      )}
-                      {allUserInfo.role !== 'admin' && (
-                        <Button type='button' onClick={handleFinished}>
-                          Productos
-                        </Button>
-                      )}
-
-                      {allUserInfo.role === 'admin' && (
-                        <Button type='button' onClick={handleOrders}>
-                          Ordenes
-                        </Button>
-                      )}
+                      <Row>
+                        <Col>
+                          <Form.Select
+                            name='status'
+                            defaultValue={input.status}
+                            onChange={(e) => handleInputChange(e)}
+                          >
+                            <option></option>
+                            <option value='DISPATCHED'>Enviada</option>
+                            <option value='DELIVERED'>Entregada</option>
+                            <option value='FINISHED'>Finalizada</option>
+                          </Form.Select>
+                        </Col>
+                        <Col>
+                          <Button type='button' onClick={handleFinished}>
+                            Grabar
+                          </Button>
+                          <Button type='button' onClick={handleOrders}>
+                            Ordenes
+                          </Button>
+                        </Col>
+                      </Row>
                     </div>
                   </ListGroup.Item>
                 </ListGroup>

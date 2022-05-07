@@ -1,8 +1,5 @@
 const {
   Product,
-  Brand,
-  Category,
-  Subcategory,
   Question,
   Review,
   User,

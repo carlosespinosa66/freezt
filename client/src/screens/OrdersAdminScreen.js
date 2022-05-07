@@ -43,6 +43,7 @@ export default function OrderHistory() {
             <tr>
               <th>ID</th>
               <th>Fecha</th>
+              <th>Estado</th>
               <th>Total</th>
               <th>Pagada</th>
               <th>Enviada</th>
@@ -55,6 +56,7 @@ export default function OrderHistory() {
                 <tr key={order.id}>
                   <td>{order.id}</td>
                   <td>{moment(order.paidAt).format('LLL')}</td> 
+                  <td>{order.status}</td>
                   <td>{order.total_amount.toFixed(2)}</td>
                   <td>{order.isPaid ? 'Yes' : 'No'}</td>
                   <td>
@@ -76,7 +78,7 @@ export default function OrderHistory() {
                       type='button'
                       variant='secondary'
                       onClick={() => {
-                        navigateTo(`/orderdetail/${order.id}`);
+                        navigateTo(`/orderadminedit/${order.id}`);
                       }}
                     >
                       Modificar

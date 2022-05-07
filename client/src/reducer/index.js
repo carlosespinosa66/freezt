@@ -12,9 +12,10 @@ const initialState = {
   orderHistory: [],
   users: [],
   userDetail: [],
-  order: localStorage.getItem('order')
-    ? JSON.parse(localStorage.getItem('order'))
-    : {},
+  order:[],
+  // order: localStorage.getItem('order')
+  //   ? JSON.parse(localStorage.getItem('order'))
+  //   : {},
   userInfo: localStorage.getItem('userInfo')
     ? JSON.parse(localStorage.getItem('userInfo'))
     : null,
@@ -39,20 +40,33 @@ function rootReducer(state = initialState, action) {
     case 'ADMIN_GET_USER_INFO':
       return { ...state, userDetail: action.payload };
 
-    case 'PRODUCTS_REQUEST':
+    case 'PRODUCTS_ALL_REQUEST':
       return { ...state, loading: true, error: '' };
 
-    case 'PRODUCTS_SUCCESS':
+    case 'PRODUCTS_ALL_SUCCESS':
       return {
         ...state,
         products: action.payload,
         orders: [],
         orderHistory: [],
+        order: [],
         totalorders: [],
         detail: [],
         loading: false,
         error: '',
       };
+
+    case 'PRODUCTS_ALL_FAIL':
+      return { ...state, loading: false, products: '', error: action.payload };
+
+    case 'PRODUCTS_CREATE_SUCCESS':
+      return { ...state, loading: false, error: '' };
+
+    case 'PRODUCTS_CREATE_REQUEST':
+      return { ...state, loading: true, error: '' };
+
+    case 'PRODUCTS_CREATE_FAIL':
+      return { ...state, loading: false, error: '' };
 
     case 'PRODUCTS_FILTER_SUCCESS':
       return {
@@ -128,9 +142,6 @@ function rootReducer(state = initialState, action) {
         products: sortedArr,
       };
 
-    case 'PRODUCTS_FAIL':
-      return { ...state, loading: false, products: '', error: action.payload };
-
     case 'PRODUCTS_REQUEST_DETAIL':
       return { ...state, loading: true, error: '' };
 
@@ -195,7 +206,7 @@ function rootReducer(state = initialState, action) {
       localStorage.removeItem('shippingAddress');
       localStorage.removeItem('paymentMethod');
       localStorage.removeItem('order');
-      localStorage.removeItem('orderHistory');
+
       return {
         ...state,
         loading: false,
@@ -243,16 +254,22 @@ function rootReducer(state = initialState, action) {
     case 'ORDER_CREATE_REQUEST':
       return { ...state, loading: true };
 
-    case 'ORDER_CREATE_SUCCESS':
-      return { ...state, loading: false };
-
     case 'ORDER_CREATE_FAIL':
       return { ...state, loading: false };
 
-    case 'ORDER_CREATE_REQUEST_PROCESS':
-      localStorage.setItem('order', JSON.stringify(action.payload));
-      localStorage.removeItem('cartItems');
+    case 'ORDER_CREATE_SUCCESS':
+      // localStorage.setItem('order', JSON.stringify(action.payload));
+      // localStorage.removeItem('cartItems');
       return { ...state, loading: false, order: action.payload };
+
+    case 'UPDATE_ORDER_STATUS_REQUEST':
+      return { ...state, loading: true };
+
+    case 'UPDATE_ORDER_STATUS_SUCCESS':
+      return { ...state, loading: false };
+
+    case 'UPDATE_ORDER_STATUS__FAIL':
+      return { ...state, loading: false };
 
     case 'USER_ORDERS_REQUEST':
       return { ...state, loading: true };

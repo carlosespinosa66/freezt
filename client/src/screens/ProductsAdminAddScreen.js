@@ -10,6 +10,7 @@ export default function ProductAdd() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const allUserInfo = useSelector((state) => state.userInfo);
+  const [orden, setOrden] = useState('');
 
   const [input, setInput] = useState({
     id: '',
@@ -20,10 +21,10 @@ export default function ProductAdd() {
     weight: '',
     stock: '',
     discountPercent: '',
-    isInDiscount: '',
+    isInDiscount: false,
     rating: '',
     genres: '',
-    isActive: '',
+    isActive: true,
     imageFile: '',
   });
 
@@ -47,6 +48,7 @@ export default function ProductAdd() {
       });
     } else if (e.target.type === 'file') {
       input.image = '/images/' + e.target.files[0].name;
+      setOrden(`Ordered ${e.target.value}`);
     } else {
       setInput({
         ...input,
@@ -142,7 +144,6 @@ export default function ProductAdd() {
             <Form.Control
               type='number'
               placeholder='Descuento'
-              required
               name='discountPercent'
               defaultValue={input.discountPercent}
               onChange={(e) => handleInputChange(e)}
@@ -173,22 +174,34 @@ export default function ProductAdd() {
           </Form.Group>
         </Row>
         <Row>
-          <Form.Group controlId='formFile' as={Col} md='6'>
+          <Form.Group controlId='formFile' as={Col} md='4'>
             <Form.Label>Imagen</Form.Label>
             <Form.Control
               type='file'
               name='imageFile'
+              required
               onChange={(e) => handleInputChange(e)}
             />
             <Form.Control.Feedback type='invalid'>
               Ingrese la Imagen.
             </Form.Control.Feedback>
           </Form.Group>
-
+          <Form.Group as={Col} md='2' controlId='genres'>
+            <div>
+              <img
+                src={input.image}
+                height='150'
+                width='180'
+                className='d-inline-block align-top'
+                alt='Foto Producto'
+              />
+            </div>
+          </Form.Group>
           <Form.Group as={Col} md='2' controlId='genres'>
             <Form.Label>Género: {input.genres}</Form.Label>
             <Form.Select
               name='genres'
+              required
               defaultValue={input.genres}
               onChange={(e) => handleInputChange(e)}
             >
@@ -196,20 +209,11 @@ export default function ProductAdd() {
               <option value='Hombre'>Hombre</option>
               <option value='Mujer'>Mujer</option>
             </Form.Select>
-          </Form.Group>
-          <Card as={Col} md='1'>
-            <div>
-              <img
-                src={input.image}
-                height='150'
-                width='150'
-                className='d-inline-block align-top'
-                alt='freezt logo'
-              />
-            </div>
-          </Card>
+            <Form.Control.Feedback type='invalid'>
+              Ingrese el género.
+            </Form.Control.Feedback>            
+          </Form.Group>          
         </Row>
-
         <Button type='submit'>Grabar</Button>
         <Button
           onClick={() => {

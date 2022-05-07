@@ -42,10 +42,10 @@ export default function SigninScreen() {
       <Helmet>
         <title>Sign In</title>
       </Helmet>
-      <h1 className='my-3'>Sign In</h1>
+      <h1 className='my-3'>Ingreso</h1>
       <Form onSubmit={submitHandler}>
         <Form.Group className='mb-3' controlId='email'>
-          <Form.Label>Email </Form.Label>
+          <Form.Label>Correo</Form.Label>
           <Form.Control
             type='email'
             required
@@ -53,7 +53,7 @@ export default function SigninScreen() {
           />
         </Form.Group>
         <Form.Group className='mb-3' controlId='password'>
-          <Form.Label>Password</Form.Label>
+          <Form.Label>Clave</Form.Label>
           <Form.Control
             type='password'
             required
@@ -61,11 +61,11 @@ export default function SigninScreen() {
           />
         </Form.Group>
         <div className='mb-3'>
-          <Button type='submit'>Sign In</Button>
+          <Button type='submit'>Ingresar</Button>
         </div>
         <div className='mb-3'>
-          New Customer ? {'  '}
-          <Link to={`/signup?redirect=${redirect}`}>Create Your Account</Link>
+          Cliente Nuevo ? {'  '}
+          <Link to={`/signup?redirect=${redirect}`}>Cliente Nuevo</Link>
         </div>
       </Form>
     </Container>

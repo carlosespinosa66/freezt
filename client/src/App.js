@@ -6,7 +6,7 @@ import MenClothes from './screens/ProductMenClothesScreen';
 import WomenClothes from './screens/ProductWomenClothesScreen';
 import WeAre from './screens/WeAreScreen';
 import Order from './screens/OrderScreen';
-import Signup from './screens/SignupScreen';
+import UsersSignup from './screens/UsersSignupScreen';
 import PaymentMethod from './screens/PaymentMethodScreen';
 import PlaceOrder from './screens/PlaceOrderScreen';
 import Navbar from 'react-bootstrap/Navbar';
@@ -15,17 +15,18 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropDown from 'react-bootstrap/NavDropDown';
 import Container from 'react-bootstrap/Container';
 import Cart from './screens/CartScreen';
-import Signin from './screens/SigninScreen';
-import Profile from './screens/ProfileScreen';
+import UsersSignin from './screens/UsersSigninScreen';
 import OrderHistory from './screens/OrderHistoryScreen';
 import OrderDetail from './screens/OrderDetailScreen';
 import ShippingAddress from './screens/ShippingAddressScreen';
 import OrdersAdmin from './screens/OrdersAdminScreen';
+import OrdersAdminEdit from './screens/OrdersAdminEditScreen';
 import ProductsAdmin from './screens/ProductsAdminScreen';
 import ProductAdd from './screens/ProductsAdminAddScreen';
 import ProductEdit from './screens/ProductsAdminEditScreen';
+import UsersProfile from './screens/UsersProfileScreen';
 import UsersAdmin from './screens/UsersAdminScreen';
-import SignOut from './screens/SignOutScreen';
+import UsersSignOut from './screens/UsersSignOutScreen';
 import UsersAdminEdit from './screens/UsersAdminEditScreen';
 import UsersAdd from './screens/UsersAdminAddScreen';
 
@@ -81,42 +82,44 @@ function App() {
                 {allUserInfo ? (
                   <NavDropDown title={allUserInfo.name} id='basic-nav-dropdown'>
                     <LinkContainer to='/profile'>
-                      <NavDropDown.Item>User Profile</NavDropDown.Item>
+                      <NavDropDown.Item>Perfil</NavDropDown.Item>
                     </LinkContainer>
-                    <LinkContainer to='/orderhistory'>
-                      <NavDropDown.Item>Order History</NavDropDown.Item>
-                    </LinkContainer>
-                    {/* <NavDropDown.Divider /> */}
+                    {allUserInfo.role !== 'admin' && (
+                      <LinkContainer to='/orderhistory'>
+                        <NavDropDown.Item>Mis Ordenes</NavDropDown.Item>
+                      </LinkContainer>
+                    )}
                     {allUserInfo.role === 'admin' && (
                       <LinkContainer to='/orderadmin'>
-                        <NavDropDown.Item>Admin Orders</NavDropDown.Item>
+                        <NavDropDown.Item>Administrar Ordenes</NavDropDown.Item>
                       </LinkContainer>
                     )}
                     {allUserInfo.role === 'admin' && (
                       <LinkContainer to='/productsadmin'>
-                        <NavDropDown.Item>Admin Products</NavDropDown.Item>
+                        <NavDropDown.Item>Administrar Productos</NavDropDown.Item>
                       </LinkContainer>
                     )}
 
                     {allUserInfo.role === 'admin' && (
                       <LinkContainer to='/usersadmin'>
-                        <NavDropDown.Item>Admin Users</NavDropDown.Item>
+                        <NavDropDown.Item>Administrar Usuarios</NavDropDown.Item>
                       </LinkContainer>
                     )}
                     <NavDropDown.Divider />
                     <LinkContainer to='/signout'>
-                      <NavDropDown.Item>Sign Out</NavDropDown.Item>
+                      <NavDropDown.Item>Salir</NavDropDown.Item>
                     </LinkContainer>
                   </NavDropDown>
                 ) : (
                   <Link className='nav-link' to='/signin'>
-                    Sign In
+                    Ingresar
                   </Link>
                 )}
               </Nav>
             </Container>
           </Navbar>
         </header>
+
         <main>
           <Container>
             <Routes>
@@ -124,38 +127,38 @@ function App() {
               <Route path='/products/:id' element={<ProductDetail />} />
               <Route path='/MenClothes' element={<MenClothes />} />
               <Route path='/WomenClothes' element={<WomenClothes />} />
-              <Route path='/WeAre' element={<WeAre />} />
+              <Route path='/WeAre' element={<WeAre/>} />
               <Route path='/cart' element={<Cart />} />
-              <Route path='/signin' element={<Signin />} />
-              <Route path='/signup' element={<Signup />} />
+              <Route path='/signin' element={<UsersSignin />} />
+              <Route path='/signup' element={<UsersSignup />} />
               <Route path='/shipping' element={<ShippingAddress />} />
               <Route path='/payment' element={<PaymentMethod />} />
               <Route path='/placeorder' element={<PlaceOrder />} />
-              <Route path='/profile' element={<Profile />} />
+              <Route path='/profile' element={<UsersProfile />} />
               <Route path='/order' element={<Order />} />
               <Route path='/order/:id' element={<Order />} />
               <Route path='/orderdetail/:id' element={<OrderDetail />} />
               <Route path='/orderhistory' element={<OrderHistory />} />
               <Route path='/orderadmin' element={<OrdersAdmin />} />
+              <Route path='/orderadminedit/:id' element={<OrdersAdminEdit />} />
               <Route path='/productsadmin' element={<ProductsAdmin />} />
               <Route path='/productsadd' element={<ProductAdd />} />
               <Route path='/productedit/:id' element={<ProductEdit />} />
-              <Route path='/useradminedit/:id' element={<UsersAdminEdit />} />              
+              <Route path='/useradminedit/:id' element={<UsersAdminEdit />} />
               <Route path='/usersadmin' element={<UsersAdmin />} />
               <Route path='/usersadd' element={<UsersAdd />} />
-              
-              <Route path='/signout' element={<SignOut />} />
+              <Route path='/signout' element={<UsersSignOut />} />
             </Routes>
           </Container>
         </main>
 
         <footer class='p-1 bg-dark text-white text-center position-relative'>
           <div class='container'>
-            <p class='lead'>All Rights Reserved</p>
-            <a href='#'>
+            <p class='lead'>Todos los Derechos Reservados</p>
+            <a href='/'>
               <i className='bi bi-twitter text-white mx-2'></i>
             </a>
-            <a href='#'>
+            <a href='https://www.facebook.com/freeztwear'>
               <i className='bi bi-facebook text-white mx-2'></i>
             </a>
             <a href='#'>

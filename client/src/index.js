@@ -9,18 +9,15 @@ import App from './App';
 import { PayPalScriptProvider } from '@paypal/react-paypal-js';
 import reportWebVitals from './reportWebVitals';
 
-// const initialOptions = {
-//   "client-id": process.env.REACT_APP_PAYPAL_CLIENT_ID,
-//   currency: "USD",
-//   intent: "capture",
-// };
+import axios from "axios"
+
+axios.defaults.baseURL = process.env.REACT_APP_API || "http://localhost:3001";
+// "proxy": "http://localhost:3001",
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <HelmetProvider>
-        {/* <PayPalScriptProvider deferLoading={true} options={initialOptions}> */}
-        {/* <PayPalScriptProvider deferLoading={true} options={{ 'client-id': 'sb' }}> */}
         <PayPalScriptProvider  deferLoading={true} options={{ "client-id": "sb" }}>
           <App />
         </PayPalScriptProvider>

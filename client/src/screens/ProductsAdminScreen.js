@@ -107,9 +107,7 @@ export default function ProductsAdmin() {
               <th>Tipo</th>
               <th>Promoción</th>
               <th>Estado</th>
-              {/* <th>Acción</th> */}
               <th>
-
               <Button
                   type='button'
                   variant='secondary'

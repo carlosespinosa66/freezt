@@ -2,16 +2,16 @@ import axios from 'axios';
 
 export function getProducts() {
   return async function(dispatch) {
-    dispatch({ type: 'PRODUCTS_REQUEST' });
+    dispatch({ type: 'PRODUCTS_ALL_REQUEST' });
     try {
       var json = await axios.get('/api/products');
       dispatch({
-        type: 'PRODUCTS_SUCCESS',
+        type: 'PRODUCTS_ALL_SUCCESS',
         payload: json.data.data,
       });
     } catch (error) {
       dispatch({
-        type: 'PRODUCTS_FAIL',
+        type: 'PRODUCTS_ALL_FAIL',
         payload: { message: error.message },
       });
     }
@@ -73,22 +73,31 @@ export function getProductDetail(id) {
   };
 }
 
-export const createProduct = (product, token) => {
-  try {
-    return async (dispatch) => {
-      await axios.post("/api/admin/products/", product, {
+export function createProduct(product, token) {
+  return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_CREATE_REQUEST' });
+    try {
+      const json = await axios.post('/api/admin/products/', product, {
         headers: {
           'auth-token': token,
         },
       });
-    };
-  } catch (error) {
-    alert(error);
-  }
-};
+      dispatch({
+        type: 'PRODUCTS_CREATE_SUCCESS',
+        payload: '',
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_CREATE_FAIL',
+        payload: '',
+      });
+    }
+  };
+}
 
-export const updateProduct = (product, token) => {
+export function updateProduct(product, token) {
   return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_UPDATE_REQUEST' });
     try {
       const json = await axios.put(
         `/api/admin/products/${product.id}`,
@@ -108,8 +117,7 @@ export const updateProduct = (product, token) => {
       });
     }
   };
-};
-
+}
 export function OrderByAnyItem(payload) {
   return {
     type: 'ORDER_PRODUCTS_BY_ANY_ITEM',

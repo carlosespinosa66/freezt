@@ -12,6 +12,7 @@ export default function ProductEdit() {
   const { id } = useParams();
   const allDetail = useSelector((state) => state.detail);
   const allUserInfo = useSelector((state) => state.userInfo);
+  const [orden, setOrden] = useState('');
 
   const [input, setInput] = useState({
     id: '',
@@ -49,6 +50,7 @@ export default function ProductEdit() {
       });
     } else if (e.target.type === 'file') {
       input.image = '/images/' + e.target.files[0].name;
+      setOrden(`Ordered ${e.target.value}`);
     } else {
       setInput({
         ...input,
@@ -200,7 +202,7 @@ export default function ProductEdit() {
           </Form.Group>
         </Row>
         <Row>
-          <Form.Group controlId='formFile' as={Col} md='6'>
+          <Form.Group controlId='formFile' as={Col} md='4'>
             <Form.Label>Imagen</Form.Label>
             <Form.Control
               type='file'
@@ -211,7 +213,17 @@ export default function ProductEdit() {
               Ingrese la Imagen.
             </Form.Control.Feedback>
           </Form.Group>
-
+          <Form.Group as={Col} md='2' controlId='genres'>
+            <div>
+              <img
+                src={input.image}
+                height='150'
+                width='180'
+                className='d-inline-block align-top'
+                alt='Foto Producto'
+              />
+            </div>
+          </Form.Group>
           <Form.Group as={Col} md='2' controlId='genres'>
             <Form.Label>Género: {input.genres}</Form.Label>
             <Form.Select
@@ -223,18 +235,7 @@ export default function ProductEdit() {
               <option value='Hombre'>Hombre</option>
               <option value='Mujer'>Mujer</option>
             </Form.Select>
-          </Form.Group>
-          <Card as={Col} md='1'>
-            <div>
-              <img
-                src={input.image}
-                height='150'
-                width='150'
-                className='d-inline-block align-top'
-                alt='freezt logo'
-              />
-            </div>
-          </Card>
+          </Form.Group>          
         </Row>
 
         <Button type='submit'>Grabar</Button>
