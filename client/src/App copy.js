@@ -45,31 +45,43 @@ function App() {
       <div className='d-flex flex-column site-container'>
         <ToastContainer position='bottom-center' limit={1} />
         <header>
-          <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
-            <Container className='mt-1'>
-              <LinkContainer to='/'>
-                <Navbar.Brand>
-                  <img
-                    src='/freezt.png'
-                    width='60'
-                    height='25'
-                    className='d-inline-block align-top'
-                    alt='freezt logo'
-                  />
-                </Navbar.Brand>
-              </LinkContainer>
-                  <LinkContainer to='/WeAre'>
-                    <Navbar.Brand>FREEZT</Navbar.Brand>
-                  </LinkContainer>
-              <Navbar.Toggle aria-controls='responsive-navbar-nav' />
-              <Navbar.Collapse id='responsive-navbar-nav'>
+          <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+          {/* <Navbar.Collapse id='responsive-navbar-nav'> */}
+            <Navbar bg='dark' variant='dark'>
+              <Container className='mt-2'>
+                <LinkContainer to='/'>
+                  <Navbar.Brand>
+                    <img
+                      src='/freezt.png'
+                      width='60'
+                      height='25'
+                      className='d-inline-block align-top'
+                      alt='freezt logo'
+                    />
+                  </Navbar.Brand>
+                </LinkContainer>
+                <LinkContainer to='/WeAre'>
+                  <Navbar.Brand>FREEZT</Navbar.Brand>
+                </LinkContainer>
+                <LinkContainer to='/MenClothes'>
+                  <Navbar.Brand>HOMBRE</Navbar.Brand>
+                </LinkContainer>
+                <LinkContainer to='/WomenClothes'>
+                  <Navbar.Brand>MUJER</Navbar.Brand>
+                </LinkContainer>
                 <Nav className='me-auto'>
-                  <LinkContainer to='/MenClothes'>
-                    <Navbar.Brand>HOMBRE</Navbar.Brand>
-                  </LinkContainer>
-                  <LinkContainer to='/WomenClothes'>
-                    <Navbar.Brand>MUJER</Navbar.Brand>
-                  </LinkContainer>
+                  <Link to='/cart' className='nav-link'>
+                    {/* Cart */}
+                    <i className='bi bi-cart3'></i>
+                    {allCart.cartItems.length > 0 && (
+                      <Badge pill bg='danger'>
+                        {allCart.cartItems.reduce(
+                          (acum, currItem) => acum + currItem.quantity,
+                          0
+                        )}
+                      </Badge>
+                    )}
+                  </Link>
                   {allUserInfo ? (
                     <NavDropdown
                       title={allUserInfo.name}
@@ -97,6 +109,7 @@ function App() {
                           </NavDropdown.Item>
                         </LinkContainer>
                       )}
+
                       {allUserInfo.role === 'admin' && (
                         <LinkContainer to='/usersadmin'>
                           <NavDropdown.Item>
@@ -115,33 +128,21 @@ function App() {
                     </Link>
                   )}
                 </Nav>
-                <Nav>
-                  <Form className='d-flex'>
-                    <Form.Control
-                      type='search'
-                      placeholder='Buscar'
-                      className='me-1'
-                      name='search'
-                      aria-label='Search'
-                    />
-                    <Button variant='outline-info'>Buscar</Button>
-                  </Form>
-                  <Link to='/cart' className='nav-link'>
-                    <i className='bi bi-cart3'></i>
-                    {allCart.cartItems.length > 0 && (
-                      <Badge pill bg='danger'>
-                        {allCart.cartItems.reduce(
-                          (acum, currItem) => acum + currItem.quantity,
-                          0
-                        )}
-                      </Badge>
-                    )}
-                  </Link>
-                </Nav>
-              </Navbar.Collapse>
-            </Container>
-          </Navbar>
+                <Form className='d-flex'>
+                  <Form.Control
+                    type='search'
+                    placeholder='Buscar'
+                    className='me-2'
+                    name='search'
+                    aria-label='Search'
+                  />
+                  <Button variant='outline-success'>Buscar</Button>
+                </Form>
+              </Container>
+            </Navbar>
+          {/* </Navbar.Collapse> */}
         </header>
+
         <main>
           <Container>
             <Routes>
@@ -203,28 +204,28 @@ export default App;
 
 {
   /* <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-<Container>
-<Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-<Navbar.Collapse id="responsive-navbar-nav">
-  <Nav className="me-auto">
-    <Nav.Link href="#features">Features</Nav.Link>
-    <Nav.Link href="#pricing">Pricing</Nav.Link>
-    <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-      <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-      <NavDropdown.Divider />
-      <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-    </NavDropdown>
-  </Nav>
-  <Nav>
-    <Nav.Link href="#deets">More deets</Nav.Link>
-    <Nav.Link eventKey={2} href="#memes">
-      Dank memes
-    </Nav.Link>
-  </Nav>
-</Navbar.Collapse>
-</Container>
+  <Container>
+  <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
+  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
+  <Navbar.Collapse id="responsive-navbar-nav">
+    <Nav className="me-auto">
+      <Nav.Link href="#features">Features</Nav.Link>
+      <Nav.Link href="#pricing">Pricing</Nav.Link>
+      <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
+        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
+        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
+        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
+        <NavDropdown.Divider />
+        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
+      </NavDropdown>
+    </Nav>
+    <Nav>
+      <Nav.Link href="#deets">More deets</Nav.Link>
+      <Nav.Link eventKey={2} href="#memes">
+        Dank memes
+      </Nav.Link>
+    </Nav>
+  </Navbar.Collapse>
+  </Container>
 </Navbar> */
 }
