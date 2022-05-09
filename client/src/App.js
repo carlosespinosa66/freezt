@@ -14,7 +14,7 @@ import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
-import {Button,Form} from 'react-bootstrap';
+import { Button, Form } from 'react-bootstrap';
 
 import Cart from './screens/CartScreen';
 import UsersSignin from './screens/UsersSigninScreen';
@@ -45,94 +45,102 @@ function App() {
       <div className='d-flex flex-column site-container'>
         <ToastContainer position='bottom-center' limit={1} />
         <header>
-          <Navbar bg='dark' variant='dark'>
-            <Container className='mt-2'>
-              <LinkContainer to='/'>
-                <Navbar.Brand>
-                  <img
-                    src='/freezt.png'
-                    width='60'
-                    height='25'
-                    className='d-inline-block align-top'
-                    alt='freezt logo'
-                  />
-                </Navbar.Brand>
-              </LinkContainer>
-              <LinkContainer to='/WeAre'>
-                <Navbar.Brand>FREEZT</Navbar.Brand>
-              </LinkContainer>
-              <LinkContainer to='/MenClothes'>
-                <Navbar.Brand>HOMBRE</Navbar.Brand>
-              </LinkContainer>
-              <LinkContainer to='/WomenClothes'>
-                <Navbar.Brand>MUJER</Navbar.Brand>
-              </LinkContainer>
-              <Nav className='me-auto'>
-                <Link to='/cart' className='nav-link'>
-                  {/* Cart */}
-                  <i className='bi bi-cart3'></i>
-                  {allCart.cartItems.length > 0 && (
-                    <Badge pill bg='danger'>
-                      {allCart.cartItems.reduce(
-                        (acum, currItem) => acum + currItem.quantity,
-                        0
-                      )}
-                    </Badge>
-                  )}
-                </Link>
-                {allUserInfo ? (
-                  <NavDropdown title={allUserInfo.name} id='basic-nav-dropdown'>
-                    <LinkContainer to='/profile'>
-                      <NavDropdown.Item>Perfil</NavDropdown.Item>
-                    </LinkContainer>
-                    {allUserInfo.role !== 'admin' && (
-                      <LinkContainer to='/orderhistory'>
-                        <NavDropdown.Item>Mis Ordenes</NavDropdown.Item>
-                      </LinkContainer>
+          <Navbar.Toggle aria-controls='responsive-navbar-nav' />
+          {/* <Navbar.Collapse id='responsive-navbar-nav'> */}
+            <Navbar bg='dark' variant='dark'>
+              <Container className='mt-2'>
+                <LinkContainer to='/'>
+                  <Navbar.Brand>
+                    <img
+                      src='/freezt.png'
+                      width='60'
+                      height='25'
+                      className='d-inline-block align-top'
+                      alt='freezt logo'
+                    />
+                  </Navbar.Brand>
+                </LinkContainer>
+                <LinkContainer to='/WeAre'>
+                  <Navbar.Brand>FREEZT</Navbar.Brand>
+                </LinkContainer>
+                <LinkContainer to='/MenClothes'>
+                  <Navbar.Brand>HOMBRE</Navbar.Brand>
+                </LinkContainer>
+                <LinkContainer to='/WomenClothes'>
+                  <Navbar.Brand>MUJER</Navbar.Brand>
+                </LinkContainer>
+                <Nav className='me-auto'>
+                  <Link to='/cart' className='nav-link'>
+                    {/* Cart */}
+                    <i className='bi bi-cart3'></i>
+                    {allCart.cartItems.length > 0 && (
+                      <Badge pill bg='danger'>
+                        {allCart.cartItems.reduce(
+                          (acum, currItem) => acum + currItem.quantity,
+                          0
+                        )}
+                      </Badge>
                     )}
-                    {allUserInfo.role === 'admin' && (
-                      <LinkContainer to='/orderadmin'>
-                        <NavDropdown.Item>Administrar Ordenes</NavDropdown.Item>
-                      </LinkContainer>
-                    )}
-                    {allUserInfo.role === 'admin' && (
-                      <LinkContainer to='/productsadmin'>
-                        <NavDropdown.Item>
-                          Administrar Productos
-                        </NavDropdown.Item>
-                      </LinkContainer>
-                    )}
-
-                    {allUserInfo.role === 'admin' && (
-                      <LinkContainer to='/usersadmin'>
-                        <NavDropdown.Item>
-                          Administrar Usuarios
-                        </NavDropdown.Item>
-                      </LinkContainer>
-                    )}
-                    <NavDropdown.Divider />
-                    <LinkContainer to='/signout'>
-                      <NavDropdown.Item>Salir</NavDropdown.Item>
-                    </LinkContainer>
-                  </NavDropdown>
-                ) : (
-                  <Link className='nav-link' to='/signin'>
-                    Ingresar
                   </Link>
-                )}
-              </Nav>
-              <Form className='d-flex'>
-                <Form.Control
-                  type='search'
-                  placeholder='Buscar'
-                  className='me-2'
-                  name="search"
-                  aria-label='Search'
-                />
-                <Button variant='outline-success'>Buscar</Button>
-              </Form>
-            </Container>
-          </Navbar>
+                  {allUserInfo ? (
+                    <NavDropdown
+                      title={allUserInfo.name}
+                      id='basic-nav-dropdown'
+                    >
+                      <LinkContainer to='/profile'>
+                        <NavDropdown.Item>Perfil</NavDropdown.Item>
+                      </LinkContainer>
+                      {allUserInfo.role !== 'admin' && (
+                        <LinkContainer to='/orderhistory'>
+                          <NavDropdown.Item>Mis Ordenes</NavDropdown.Item>
+                        </LinkContainer>
+                      )}
+                      {allUserInfo.role === 'admin' && (
+                        <LinkContainer to='/orderadmin'>
+                          <NavDropdown.Item>
+                            Administrar Ordenes
+                          </NavDropdown.Item>
+                        </LinkContainer>
+                      )}
+                      {allUserInfo.role === 'admin' && (
+                        <LinkContainer to='/productsadmin'>
+                          <NavDropdown.Item>
+                            Administrar Productos
+                          </NavDropdown.Item>
+                        </LinkContainer>
+                      )}
+
+                      {allUserInfo.role === 'admin' && (
+                        <LinkContainer to='/usersadmin'>
+                          <NavDropdown.Item>
+                            Administrar Usuarios
+                          </NavDropdown.Item>
+                        </LinkContainer>
+                      )}
+                      <NavDropdown.Divider />
+                      <LinkContainer to='/signout'>
+                        <NavDropdown.Item>Salir</NavDropdown.Item>
+                      </LinkContainer>
+                    </NavDropdown>
+                  ) : (
+                    <Link className='nav-link' to='/signin'>
+                      Ingresar
+                    </Link>
+                  )}
+                </Nav>
+                <Form className='d-flex'>
+                  <Form.Control
+                    type='search'
+                    placeholder='Buscar'
+                    className='me-2'
+                    name='search'
+                    aria-label='Search'
+                  />
+                  <Button variant='outline-success'>Buscar</Button>
+                </Form>
+              </Container>
+            </Navbar>
+          {/* </Navbar.Collapse> */}
         </header>
 
         <main>
@@ -194,7 +202,8 @@ function App() {
 
 export default App;
 
-{/* <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+{
+  /* <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
   <Container>
   <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
   <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -218,4 +227,5 @@ export default App;
     </Nav>
   </Navbar.Collapse>
   </Container>
-</Navbar> */}
+</Navbar> */
+}
