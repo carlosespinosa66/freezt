@@ -19,6 +19,7 @@ export function getUserInfo(email, password) {
         },
       });
     } catch (error) {
+      console.log(error)
       dispatch({
         type: 'USER_SIGNIN_FAIL',
         payload: '', //{ status: error.response.status },

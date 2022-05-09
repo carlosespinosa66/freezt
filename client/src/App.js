@@ -58,12 +58,12 @@ function App() {
                   />
                 </Navbar.Brand>
               </LinkContainer>
-                  <LinkContainer to='/WeAre'>
-                    <Navbar.Brand>FREEZT</Navbar.Brand>
-                  </LinkContainer>
               <Navbar.Toggle aria-controls='responsive-navbar-nav' />
               <Navbar.Collapse id='responsive-navbar-nav'>
                 <Nav className='me-auto'>
+                  <LinkContainer to='/WeAre'>
+                    <Navbar.Brand>FREEZT</Navbar.Brand>
+                  </LinkContainer>
                   <LinkContainer to='/MenClothes'>
                     <Navbar.Brand>HOMBRE</Navbar.Brand>
                   </LinkContainer>
