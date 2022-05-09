@@ -12,10 +12,8 @@ import PlaceOrder from './screens/PlaceOrderScreen';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import NavDropDown from 'react-bootstrap/NavDropDown';
 import Container from 'react-bootstrap/Container';
-import {Button,Form} from 'react-bootstrap';
-
 import Cart from './screens/CartScreen';
 import UsersSignin from './screens/UsersSigninScreen';
 import OrderHistory from './screens/OrderHistoryScreen';
@@ -67,6 +65,8 @@ function App() {
               <LinkContainer to='/WomenClothes'>
                 <Navbar.Brand>MUJER</Navbar.Brand>
               </LinkContainer>
+
+              
               <Nav className='me-auto'>
                 <Link to='/cart' className='nav-link'>
                   {/* Cart */}
@@ -81,56 +81,46 @@ function App() {
                   )}
                 </Link>
                 {allUserInfo ? (
-                  <NavDropdown title={allUserInfo.name} id='basic-nav-dropdown'>
+                  <NavDropDown title={allUserInfo.name} id='basic-nav-dropdown'>
                     <LinkContainer to='/profile'>
-                      <NavDropdown.Item>Perfil</NavDropdown.Item>
+                      <NavDropDown.Item>Perfil</NavDropDown.Item>
                     </LinkContainer>
                     {allUserInfo.role !== 'admin' && (
                       <LinkContainer to='/orderhistory'>
-                        <NavDropdown.Item>Mis Ordenes</NavDropdown.Item>
+                        <NavDropDown.Item>Mis Ordenes</NavDropDown.Item>
                       </LinkContainer>
                     )}
                     {allUserInfo.role === 'admin' && (
                       <LinkContainer to='/orderadmin'>
-                        <NavDropdown.Item>Administrar Ordenes</NavDropdown.Item>
+                        <NavDropDown.Item>Administrar Ordenes</NavDropDown.Item>
                       </LinkContainer>
                     )}
                     {allUserInfo.role === 'admin' && (
                       <LinkContainer to='/productsadmin'>
-                        <NavDropdown.Item>
+                        <NavDropDown.Item>
                           Administrar Productos
-                        </NavDropdown.Item>
+                        </NavDropDown.Item>
                       </LinkContainer>
                     )}
 
                     {allUserInfo.role === 'admin' && (
                       <LinkContainer to='/usersadmin'>
-                        <NavDropdown.Item>
+                        <NavDropDown.Item>
                           Administrar Usuarios
-                        </NavDropdown.Item>
+                        </NavDropDown.Item>
                       </LinkContainer>
                     )}
-                    <NavDropdown.Divider />
+                    <NavDropDown.Divider />
                     <LinkContainer to='/signout'>
-                      <NavDropdown.Item>Salir</NavDropdown.Item>
+                      <NavDropDown.Item>Salir</NavDropDown.Item>
                     </LinkContainer>
-                  </NavDropdown>
+                  </NavDropDown>
                 ) : (
                   <Link className='nav-link' to='/signin'>
                     Ingresar
                   </Link>
                 )}
               </Nav>
-              <Form className='d-flex'>
-                <Form.Control
-                  type='search'
-                  placeholder='Buscar'
-                  className='me-2'
-                  name="search"
-                  aria-label='Search'
-                />
-                <Button variant='outline-success'>Buscar</Button>
-              </Form>
             </Container>
           </Navbar>
         </header>
@@ -194,28 +184,16 @@ function App() {
 
 export default App;
 
-{/* <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+
+{/* <Navbar>
   <Container>
-  <Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-  <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-  <Navbar.Collapse id="responsive-navbar-nav">
-    <Nav className="me-auto">
-      <Nav.Link href="#features">Features</Nav.Link>
-      <Nav.Link href="#pricing">Pricing</Nav.Link>
-      <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-        <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-        <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-        <NavDropdown.Divider />
-        <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-      </NavDropdown>
-    </Nav>
-    <Nav>
-      <Nav.Link href="#deets">More deets</Nav.Link>
-      <Nav.Link eventKey={2} href="#memes">
-        Dank memes
-      </Nav.Link>
-    </Nav>
-  </Navbar.Collapse>
+    <Navbar.Brand href="#home">Navbar with text</Navbar.Brand>
+    <Navbar.Toggle />
+    <Navbar.Collapse className="justify-content-end">
+      <Navbar.Text>
+        Signed in as: <a href="#login">Mark Otto</a>
+      </Navbar.Text>
+    </Navbar.Collapse>
   </Container>
-</Navbar> */}
+</Navbar>
+ */}

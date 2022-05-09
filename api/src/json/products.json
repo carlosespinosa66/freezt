@@ -138,5 +138,61 @@
     "weight": 5,
     "stock": 5,
     "genres":"Hombre"
+  },
+  {
+    "name": "Nike Slim shirt 11",
+    "category": "Shirts",
+    "image": "/images/p1.jpg",
+    "price": 120,
+    "countinstock": 0,
+    "brand": "Nike",
+    "rating": 4.0,
+    "numReviews": "10",
+    "description": "high quality shirt",
+    "weight": 5,
+    "stock": 5,
+    "genres":"Mujer"
+  },
+  {
+    "name": "Adidas Slim shirt 12",
+    "category": "Shirts",
+    "image": "/images/p2.jpg",
+    "price": 120,
+    "countinstock": 10,
+    "brand": "Adidas",
+    "rating": 4.5,
+    "numReviews": "10",
+    "description": "high quality shirt",
+    "weight": 5,
+    "stock": 5,
+    "genres":"Mujer"
+  },
+  {
+    "name": "Nike Slim Pant 13",
+    "category": "Pants",
+    "image": "/images/p3.jpg",
+    "price": 120,
+    "countinstock": 10,
+    "brand": "Nike",
+    "rating": 4.5,
+    "numReviews": "10",
+    "description": "high quality Pant",
+    "weight": 5,
+    "stock": 5,
+    "genres":"Mujer"
+  },
+  {
+    "name": "Adidas Slim Pant 14",
+    "category": "Shirts",
+    "image": "/images/p4.jpg",
+    "price": 120,
+    "countinstock": 10,
+    "brand": "Adidas",
+    "rating": 4.5,
+    "numReviews": "10",
+    "description": "high quality Pant",
+    "weight": 5,
+    "stock": 5,
+    "genres":"Mujer"
   }
 ]

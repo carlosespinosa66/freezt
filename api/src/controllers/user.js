@@ -1,17 +1,17 @@
-const { User, Order, OrderDetail, Country } = require("../db");
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
-const sequelize = require("sequelize");
-const { sendMailPassword } = require("./mailer");
-require("dotenv").config();
+const { User, Order, OrderDetail, Country } = require('../db');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
+const sequelize = require('sequelize');
+const { sendMailPassword } = require('./mailer');
+require('dotenv').config();
 
-const URL_PWD = process.env.USER_PWD_CHANGE_URL || "http://localhost:3000";
+const URL_PWD = process.env.USER_PWD_CHANGE_URL || 'http://localhost:3000';
 
 const createUser = async (req, res) => {
   try {
     let { name, surname, email, password, CountryId } = req.body;
     if (!name || !surname || !email || !CountryId || !password) {
-      res.status(400).send({ errorMsg: "Missing data." });
+      res.status(400).send({ errorMsg: 'Missing data.' });
     } else {
       const isUserCreated = await User.findOne({
         where: {
@@ -20,7 +20,7 @@ const createUser = async (req, res) => {
         },
       });
       if (isUserCreated) {
-        res.status(400).send({ errorMsg: "Email already exists." });
+        res.status(400).send({ errorMsg: 'Email already exists.' });
       } else {
         password = await bcrypt.hash(password, 8);
 
@@ -37,11 +37,11 @@ const createUser = async (req, res) => {
         await newUser.update({ activationToken: token });
         await sendMailPassword(
           email,
-          "Please activate your account to continue.",
+          'Please activate your account to continue.',
           `<p>Click <a href="${URL_PWD}/validateAccount/${token}">here</a> to activate your account.</p>`
         );
         res.status(201).send({
-          successMsg: "User activation email sent.",
+          successMsg: 'User activation email sent.',
         });
       }
     }
@@ -54,7 +54,7 @@ const activateAccount = async (req, res) => {
   try {
     let activationToken = req.params.id;
     if (!activationToken) {
-      return res.status(400).send({ errorMsg: "Invalid activation token" });
+      return res.status(400).send({ errorMsg: 'Invalid activation token' });
     }
     const payload = jwt.verify(activationToken, process.env.SECRET_KEY);
     await User.update(
@@ -66,7 +66,7 @@ const activateAccount = async (req, res) => {
         },
       }
     );
-    res.status(200).send({ successMsg: "User successfully activated." });
+    res.status(200).send({ successMsg: 'User successfully activated.' });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
@@ -75,15 +75,15 @@ const activateAccount = async (req, res) => {
 const updateUser = async (req, res) => {
   const id = req.userID;
   if (!id) {
-    return res.status(400).send({ errorMsg: "Id not provided." });
+    return res.status(400).send({ errorMsg: 'Id not provided.' });
   }
   let user = await User.findOne({ where: { id } });
   if (!user) {
-    return res.status(404).send({ errorMsg: "User not found." });
+    return res.status(404).send({ errorMsg: 'User not found.' });
   }
   if (user.signedInWithGoogle) {
     return res.status(400).send({
-      errorMsg: "You cannot modify all your data, please try other route.",
+      errorMsg: 'You cannot modify all your data, please try other route.',
     });
   }
   let {
@@ -103,7 +103,7 @@ const updateUser = async (req, res) => {
       !default_shipping_address ||
       !CountryId
     ) {
-      return res.status(400).send({ errorMsg: "Missing data." });
+      return res.status(400).send({ errorMsg: 'Missing data.' });
     }
     if (email !== user.email) {
       let doesEmailExist = await User.findOne({
@@ -113,7 +113,7 @@ const updateUser = async (req, res) => {
         },
       });
       if (doesEmailExist) {
-        return res.status(400).send({ errorMsg: "Email is already in use." });
+        return res.status(400).send({ errorMsg: 'Email is already in use.' });
       }
     }
     let updatedUser = await user.update({
@@ -125,7 +125,7 @@ const updateUser = async (req, res) => {
       CountryId,
     });
     res.status(200).send({
-      successMsg: "User successfully updated.",
+      successMsg: 'User successfully updated.',
       data: updatedUser,
     });
   } catch (error) {
@@ -137,14 +137,14 @@ const getSingleUser = async (req, res) => {
   try {
     let id = req.userID;
     if (!id) {
-      res.status(400).send({ errorMsg: "Missing data." });
+      res.status(400).send({ errorMsg: 'Missing data.' });
     } else {
       let user = await User.findOne({
         where: { id },
         include: [
           {
             model: Country,
-            attributes: ["id", "name", "code"],
+            attributes: ['id', 'name', 'code'],
           },
         ],
       });
@@ -160,9 +160,9 @@ const getSingleUser = async (req, res) => {
         };
         return res
           .status(200)
-          .send({ successfulMsg: "Here is your user data.", data: user });
+          .send({ successfulMsg: 'Here is your user data.', data: user });
       }
-      res.status(404).send({ errorMsg: "User not found." });
+      res.status(404).send({ errorMsg: 'User not found.' });
     }
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
@@ -176,15 +176,15 @@ const googleSignIn = async (req, res) => {
       where: { email, signedInWithGoogle: true },
     });
     if (!user) {
-      return res.status(404).send({ errorMsg: "User not found." });
+      return res.status(404).send({ errorMsg: 'User not found.' });
     }
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
     await User.update(
-      { tokens: sequelize.fn("array_append", sequelize.col("tokens"), token) },
+      { tokens: sequelize.fn('array_append', sequelize.col('tokens'), token) },
       { where: { id: user.id } }
     );
-    res.header("auth-token", token).send({
-      successMsg: "You signed in successfully.",
+    res.header('auth-token', token).send({
+      successMsg: 'You signed in successfully.',
       data: { name: user.name, role: user.role },
     });
   } catch (error) {
@@ -199,7 +199,7 @@ const googleSignUp = async (req, res) => {
       where: { email, signedInWithGoogle: true },
     });
     if (isCreated) {
-      return res.status(400).send({ errorMsg: "User already exists." });
+      return res.status(400).send({ errorMsg: 'User already exists.' });
     }
     const isActive = true;
     const signedInWithGoogle = true;
@@ -216,14 +216,14 @@ const googleSignUp = async (req, res) => {
     });
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
     await User.update(
-      { tokens: sequelize.fn("array_append", sequelize.col("tokens"), token) },
+      { tokens: sequelize.fn('array_append', sequelize.col('tokens'), token) },
       { where: { id: user.id } }
     );
     res
-      .header("auth-token", token)
+      .header('auth-token', token)
       .status(201)
       .send({
-        successMsg: "User has been created.",
+        successMsg: 'User has been created.',
         data: { role: user.role, name: user.name },
       });
   } catch (error) {
@@ -240,7 +240,7 @@ const googleUpdateProfile = async (req, res) => {
       default_shipping_address,
       CountryId,
     });
-    res.status(200).send({ successMsg: "Google user updated successfully." });
+    res.status(200).send({ successMsg: 'Google user updated successfully.' });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
@@ -256,23 +256,29 @@ const signIn = async (req, res) => {
       },
     });
     if (!user) {
-      return res.status(404).send({ errorMsg: "Email or password is wrong." });
+      return res.status(404).send({ errorMsg: 'Email or password is wrong.' });
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send({ errorMsg: "Invalid password." });
+      return res.status(400).send({ errorMsg: 'Invalid password.' });
     }
     if (!user.isActive) {
-      return res.status(400).send({ errorMsg: "User is not active." });
+      return res.status(400).send({ errorMsg: 'User is not active.' });
     }
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
     await User.update(
-      { tokens: sequelize.fn("array_append", sequelize.col("tokens"), token) },
+      { tokens: sequelize.fn('array_append', sequelize.col('tokens'), token) },
       { where: { id: user.id } }
     );
-    res.header("auth-token", token).send({
-      successMsg: "You signed in successfully.",
-      data: { name: user.name, role: user.role },
+    res.header('auth-token', token).send({
+      successMsg: 'You signed in successfully.',
+      data: {
+        name: user.name,
+        role: user.role,
+        surname: user.surname,
+        billing_address: user.billing_address,
+        default_shipping_address: user.default_shipping_address,
+      },
     });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
@@ -296,7 +302,7 @@ const logOut = async (req, res) => {
         },
       }
     );
-    res.status(200).send({ successMsg: "User has been logged out" });
+    res.status(200).send({ successMsg: 'User has been logged out' });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
@@ -308,16 +314,16 @@ const passwordReset = async (req, res) => {
     let { password, passwordConfirm, actualPassword } = req.body;
     const user = await User.findByPk(id);
     if (!user) {
-      return res.status(404).send({ errorMsg: "User not found." });
+      return res.status(404).send({ errorMsg: 'User not found.' });
     }
     if (!actualPassword || !password || !passwordConfirm) {
-      return res.status(400).send({ errorMsg: "Missing data." });
+      return res.status(400).send({ errorMsg: 'Missing data.' });
     }
     const passwordMatch = await bcrypt.compare(actualPassword, user.password);
     if (!passwordMatch) {
       return res
         .status(400)
-        .send({ errorMsg: "Actual password is incorrect." });
+        .send({ errorMsg: 'Actual password is incorrect.' });
     }
     if (password !== passwordConfirm) {
       return res.status(400).send({ errorMsg: "Passwords don't match." });
@@ -325,13 +331,13 @@ const passwordReset = async (req, res) => {
     if (password === actualPassword) {
       return res
         .status(400)
-        .send({ errorMsg: "New password is equal than the last one." });
+        .send({ errorMsg: 'New password is equal than the last one.' });
     }
     password = await bcrypt.hash(password, 8);
     await user.update({
       password,
     });
-    res.status(200).send({ successMsg: "Password successfully changed." });
+    res.status(200).send({ successMsg: 'Password successfully changed.' });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
@@ -341,20 +347,20 @@ const sendPasswordResetMail = async (req, res) => {
   try {
     let { email } = req.body;
     if (!email) {
-      return res.status(400).send({ errorMsg: "Invalid email address." });
+      return res.status(400).send({ errorMsg: 'Invalid email address.' });
     }
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(404).send({ errorMsg: "User not found." });
+      return res.status(404).send({ errorMsg: 'User not found.' });
     }
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
     await user.update({ passwordResetToken: token, needsPasswordReset: true });
     await sendMailPassword(
       email,
-      "Required password reset",
+      'Required password reset',
       `<p>Click <a href='${URL_PWD}/sessions/recover/${token}>here</a> to reset your password</p>`
     );
-    res.status(200).send({ successMsg: "Password reset sent." });
+    res.status(200).send({ successMsg: 'Password reset sent.' });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
@@ -364,11 +370,11 @@ const sendForcedPasswordResetMail = async (req, res) => {
   try {
     let { email } = req.body;
     if (!email) {
-      return res.status(400).send({ errorMsg: "Invalid email address." });
+      return res.status(400).send({ errorMsg: 'Invalid email address.' });
     }
     const user = await User.findOne({ where: { email } });
     if (!user) {
-      return res.status(404).send({ errorMsg: "User not found." });
+      return res.status(404).send({ errorMsg: 'User not found.' });
     }
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
     await user.update({
@@ -378,10 +384,10 @@ const sendForcedPasswordResetMail = async (req, res) => {
     });
     await sendMailPassword(
       email,
-      "Required password reset",
+      'Required password reset',
       `<p>Click <a href="${URL_PWD}/sessions/recover/${token}">here</a> to reset your password</p>`
     );
-    res.status(200).send({ successMsg: "Password reset sent." });
+    res.status(200).send({ successMsg: 'Password reset sent.' });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
@@ -391,7 +397,7 @@ const forgotAndForcedResetPassword = async (req, res) => {
   try {
     let token = req.params.id;
     if (!token) {
-      return res.status(400).send({ errorMsg: "No token provided." });
+      return res.status(400).send({ errorMsg: 'No token provided.' });
     }
     let { password, passwordConfirm } = req.body;
     const payload = jwt.verify(token, process.env.SECRET_KEY);
@@ -400,10 +406,10 @@ const forgotAndForcedResetPassword = async (req, res) => {
       where: { id, passwordResetToken: token },
     });
     if (!user) {
-      return res.status(404).send({ errorMsg: "User not found." });
+      return res.status(404).send({ errorMsg: 'User not found.' });
     }
     if (!password || !passwordConfirm) {
-      return res.status(400).send({ errorMsg: "Missing data." });
+      return res.status(400).send({ errorMsg: 'Missing data.' });
     }
     if (password !== passwordConfirm) {
       return res.status(400).send({ errorMsg: "Passwords don't match." });
@@ -412,16 +418,16 @@ const forgotAndForcedResetPassword = async (req, res) => {
     if (isPasswordEqual) {
       return res
         .status(400)
-        .send({ errorMsg: "New password is equal than the last one." });
+        .send({ errorMsg: 'New password is equal than the last one.' });
     }
     password = await bcrypt.hash(password, 8);
     await user.update({
       password,
-      passwordResetToken: "",
+      passwordResetToken: '',
       needsPasswordReset: false,
       isActive: true,
     });
-    res.status(200).send({ successMsg: "Password successfully changed." });
+    res.status(200).send({ successMsg: 'Password successfully changed.' });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }

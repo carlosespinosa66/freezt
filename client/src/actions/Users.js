@@ -12,6 +12,9 @@ export function getUserInfo(email, password) {
           token: TOKEN,
           name: response.data.data.name,
           role: response.data.data.role,
+          surname: response.data.data.surname,
+          billing_address: response.data.data.billing_address,
+          default_shipping_address: response.data.data.default_shipping_address,
           google: false,
         },
       });
@@ -34,7 +37,7 @@ export const getAllUsers = (token) => {
       });
       return dispatch({
         type: 'ADMIN_GET_USERS',
-        payload: allUsers.data.users,
+        payload: allUsers.data.data,
       });
     };
   } catch (error) {
@@ -46,14 +49,14 @@ export const getAllUsers = (token) => {
 export const getUserEditInfo = (id,token) => {
   try {
     return async (dispatch) => {
-      const allUsers = await axios.get('/api/admin/users', {
+      const allUsers = await axios.get(`/api/admin/users/${id}`, {
         headers: {
           'auth-token': token,
         },
       });
       return dispatch({
         type: 'ADMIN_GET_USER_INFO',
-        payload: allUsers.data.users,
+        payload: allUsers.data.data,
       });
     };
   } catch (error) {

@@ -112,24 +112,20 @@ export default function Home() {
         <div class="container">
           <div class="row g-4">
             <div class="col-md">
-              <h2 class="text-center mb-4">Contact Info</h2>
+              <h2 class="text-center mb-4">Información de Contacto</h2>
               <ul class="list-group list-group-flush lead">
                 <li class="list-group-item">
-                  <span class="fw-bold">Main Location:</span> 50 Main st Boston MA
+                  <span class="fw-bold">Oficinas:</span> Cra 27 B Nro 27 D Sur 99. Envigado (Ant.)
                 </li>
                 <li class="list-group-item">
-                  <span class="fw-bold">Enrollment Phone:</span> (555) 555-5555
+                  <span class="fw-bold">Teléfomo de Contacto:</span> +57 311 334 2883
                 </li>
                 <li class="list-group-item">
-                  <span class="fw-bold">Student Phone:</span> (333) 333-3333
+                  <span class="fw-bold">Pedidos:</span> pedidos@freezt.co
                 </li>
                 <li class="list-group-item">
-                  <span class="fw-bold">Enrollment Email:</span> (555)
-                  enroll@frontendbc.test
-                </li>
-                <li class="list-group-item">
-                  <span class="fw-bold">Student Email:</span>
-                  student@frontendbc.test
+                  <span class="fw-bold">Servicio al Cliente:</span>
+                  servicioalcliente@freezt.co
                 </li>
               </ul>
             </div>

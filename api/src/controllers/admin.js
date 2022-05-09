@@ -35,7 +35,7 @@ const adminGetUsers = async (req, res) => {
           needsPasswordReset: user.needsPasswordReset,
         };
       });
-      res.status(200).send({ successMsg: "Here are your users.", users });
+      res.status(200).send({ successMsg: "Here are your users.", data: users });
     }
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
