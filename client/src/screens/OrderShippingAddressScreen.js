@@ -8,7 +8,7 @@ import { getError } from '../helpers/utils';
 import { saveShippingAddress } from '../actions/Orders';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 
-export default function ShippingAddress() {
+export default function OrderShippingAddress() {
 
     const allUserInfo = useSelector((state) => state.userInfo);
     const allShipping = useSelector((state) => state.cart.shippingAddress);

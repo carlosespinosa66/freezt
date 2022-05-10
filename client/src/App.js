@@ -1,14 +1,5 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import HomeScreen from './screens/HomeScreen';
-import ProductDetail from './screens/ProductDetailScreen';
-import MenClothes from './screens/ProductMenClothesScreen';
-import WomenClothes from './screens/ProductWomenClothesScreen';
-import WeAre from './screens/WeAreScreen';
-import Order from './screens/OrderScreen';
-import UsersSignup from './screens/UsersSignupScreen';
-import PaymentMethod from './screens/PaymentMethodScreen';
-import PlaceOrder from './screens/PlaceOrderScreen';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
@@ -16,20 +7,29 @@ import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 import { Button, Form } from 'react-bootstrap';
 
-import Cart from './screens/CartScreen';
-import UsersSignin from './screens/UsersSigninScreen';
+import HomeScreen from './screens/HomeScreen';
+import WeAre from './screens/WeAreScreen';
+import MenClothes from './screens/ProductMenClothesScreen';
+import WomenClothes from './screens/ProductWomenClothesScreen';
+import Order from './screens/OrderScreen';
 import OrderHistory from './screens/OrderHistoryScreen';
 import OrderDetail from './screens/OrderDetailScreen';
-import ShippingAddress from './screens/ShippingAddressScreen';
+import OrderPaymentMethod from './screens/OrderPaymentMethodScreen';
 import OrdersAdmin from './screens/OrdersAdminScreen';
 import OrdersAdminEdit from './screens/OrdersAdminEditScreen';
+import OrderShippingAddress from './screens/OrderShippingAddressScreen';
+import PlaceOrder from './screens/PlaceOrderScreen';
+import Cart from './screens/CartScreen';
 import ProductsAdmin from './screens/ProductsAdminScreen';
 import ProductAdd from './screens/ProductsAdminAddScreen';
 import ProductEdit from './screens/ProductsAdminEditScreen';
+import ProductDetail from './screens/ProductDetailScreen';
 import UsersProfile from './screens/UsersProfileScreen';
 import UsersAdmin from './screens/UsersAdminScreen';
-import UsersSignOut from './screens/UsersSignOutScreen';
 import UsersAdminEdit from './screens/UsersAdminEditScreen';
+import UsersSignin from './screens/UsersSigninScreen';
+import UsersSignOut from './screens/UsersSignOutScreen';
+import UsersSignup from './screens/UsersSignupScreen';
 import UsersAdd from './screens/UsersAdminAddScreen';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector } from 'react-redux';
@@ -153,8 +153,8 @@ function App() {
               <Route path='/cart' element={<Cart />} />
               <Route path='/signin' element={<UsersSignin />} />
               <Route path='/signup' element={<UsersSignup />} />
-              <Route path='/shipping' element={<ShippingAddress />} />
-              <Route path='/payment' element={<PaymentMethod />} />
+              <Route path='/shipping' element={<OrderShippingAddress />} />
+              <Route path='/payment' element={<OrderPaymentMethod />} />
               <Route path='/placeorder' element={<PlaceOrder />} />
               <Route path='/profile' element={<UsersProfile />} />
               <Route path='/order' element={<Order />} />

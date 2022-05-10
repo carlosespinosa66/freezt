@@ -2,13 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import CheckoutSteps from '../helpers/CheckoutSteps';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
 import { savePaymentMethod } from '../actions/Orders';
+import CheckoutSteps from '../helpers/CheckoutSteps';
 
-export default function PaymentMethod() {
+export default function OrderPaymentMethod() {
     const dispatch = useDispatch();
     const allShipping = useSelector((state) => state.cart.shippingAddress);
     const allPayment = useSelector((state) => state.cart.paymentMethod);

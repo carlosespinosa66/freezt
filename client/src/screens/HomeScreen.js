@@ -1,20 +1,95 @@
 import React from 'react';
-import { Card, Carousel, Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 export default function Home() {
+  const responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3,
+      slidesToSlide: 3, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+      slidesToSlide: 2, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+  };
+
+  const first_responsive = {
+    superLargeDesktop: {
+      // the naming can be any, depends on you.
+      breakpoint: { max: 4000, min: 3000 },
+      items: 5,
+    },
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2,
+      slidesToSlide: 2, // optional, default to 1.
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+      slidesToSlide: 1, // optional, default to 1.
+    },
+  };
+
   return (
     <div>
-      <Carousel variant='dark' interval={2000}>
-        <Carousel.Item>
-          <img className='d-block w-20' src='cs1.jpeg' alt='First slide' />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className='d-block w-20' src='cs2.jpeg' alt='Second slide' />
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className='d-block w-20' src='cs3.jpeg' alt='Third slide' />
-        </Carousel.Item>
-      </Carousel>
+      {/* Carrusel principal */}
+
+      <section>
+        <Carousel
+          responsive={first_responsive}
+          swipeable={false}
+          draggable={false}
+          showDots={true}
+          ssr={false} // means to render carousel on server-side.
+          infinite={true}
+          autoPlay={true}
+          autoPlaySpeed={2000}
+          keyBoardControl={true}
+          customTransition='all .5'
+          transitionDuration={1000}
+          containerClass='carousel-container'
+          dotListClass='custom-dot-list-style'
+          itemClass='carousel-item-padding-40-px'
+        >
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='cs1.jpeg' alt='First slide' />
+          </div>
+
+          <div className='item_c'>
+            <img
+              className='w-100 img-fluid'
+              src='cs2.jpeg'
+              alt='Second slide'
+            />
+          </div>
+
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='cs3.jpeg' alt='Third slide' />
+          </div>
+        </Carousel>
+      </section>
+
+      {/*  Trainning Running*/}
 
       <section id='section_tax' className='p-5'>
         <div className='container'>
@@ -61,6 +136,8 @@ export default function Home() {
         </div>
       </section>
 
+      {/*Tarjetas Categorías  */}
+
       <section className='p-4'>
         <div className='container'>
           <div className='row text-center g-6'>
@@ -68,10 +145,10 @@ export default function Home() {
               <Card className='position-relative card_item'>
                 <Card.Img variant='top' src='espalda.jpeg' />
                 <Card.Body className='position-absolute w-100 text-center summary_item'>
-                  <Card.Title>Pantalonetas</Card.Title>
-                  <Button variant='primary' className='btn_freezt'>
-                    Comprar
-                  </Button>
+                  <Card.Title>
+                    <h1>Pantalonetas</h1>
+                  </Card.Title>
+                  <Button className='btn_freezt'>Comprar</Button>
                 </Card.Body>
               </Card>
             </div>
@@ -79,10 +156,10 @@ export default function Home() {
               <Card className='position-relative card_item'>
                 <Card.Img variant='top' src='tennis.jpeg' />
                 <Card.Body className='position-absolute w-100 text-center summary_item'>
-                  <Card.Title>Camisetas</Card.Title>
-                  <Button variant='primary' className='btn_freezt'>
-                    Comprar
-                  </Button>
+                  <Card.Title>
+                    <h1>Camisetas</h1>
+                  </Card.Title>
+                  <Button className='btn_freezt'>Comprar</Button>
                 </Card.Body>
               </Card>
             </div>
@@ -90,10 +167,10 @@ export default function Home() {
               <Card className='position-relative card_item'>
                 <Card.Img variant='top' src='bascket.jpeg' />
                 <Card.Body className='position-absolute w-100 text-center summary_item'>
-                  <Card.Title>Conjuntos</Card.Title>
-                  <Button variant='primary' className='btn_freezt'>
-                    Comprar
-                  </Button>
+                  <Card.Title>
+                    <h1>Conjuntos</h1>
+                  </Card.Title>
+                  <Button className='btn_freezt'>Comprar</Button>
                 </Card.Body>
               </Card>
             </div>
@@ -101,41 +178,72 @@ export default function Home() {
         </div>
       </section>
 
-      {/*Carrusel final  */}
+      {/*Carrusel final tres imagenes */}
+      <section>
+        <Carousel
+          responsive={responsive}
+          swipeable={false}
+          draggable={false}
+          showDots={true}
+          ssr={false} // means to render carousel on server-side.
+          infinite={true}
+          autoPlay={true}
+          autoPlaySpeed={2000}
+          keyBoardControl={true}
+          customTransition='all .5'
+          transitionDuration={1000}
+          containerClass='carousel-container'
+          // removeArrowOnDeviceType={['tablet', 'mobile']}
+          dotListClass='custom-dot-list-style'
+          itemClass='carousel-item-padding-40-px'
+        >
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+          </div>
 
-      <div id='reviews_car' className='owl-carousel'>
-        <div className='item_c'>
-          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-        </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='c2.jpg' alt='First slide' />
+          </div>
 
-        <div className='item_c'>
-          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-        </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='c3.jpg' alt='First slide' />
+          </div>
 
-        <div className='item_c'>
-          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-        </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='c4.jpg' alt='First slide' />
+          </div>
 
-        <div className='item_c'>
-          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-        </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='c5.jpg' alt='First slide' />
+          </div>
 
-        <div className='item_c'>
-          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-        </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='c6.jpg' alt='First slide' />
+          </div>
 
-        <div className='item_c'>
-          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-        </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='c7.jpeg' alt='First slide' />
+          </div>
 
-        <div className='item_c'>
-          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-        </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='d4.jpg' alt='First slide' />
+          </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='p1.jpg' alt='First slide' />
+          </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='p2.jpg' alt='First slide' />
+          </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='p3.jpg' alt='First slide' />
+          </div>
+          <div className='item_c'>
+            <img className='w-100 img-fluid' src='p4.jpg' alt='First slide' />
+          </div>
+        </Carousel>
+      </section>
 
-        <div className='item_c'>
-          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-        </div>
-      </div>
+      {/* Información de Contacto */}
 
       <section class='p-5'>
         <div class='container'>
