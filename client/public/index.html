@@ -26,6 +26,14 @@
     -->
     <link
       rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/assets/owl.carousel.min.css"
+      integrity="sha512-tS3S5qG0BlhnQROyJXvNjeEM4UpMXHrQfTGmbQ1gKmelCxlSEBUaxhRBj/EFTzpbP4RVSrpEikbmdJobCvhE3g=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <link
+      rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css"
     />
 
@@ -42,6 +50,7 @@
 
     <link rel="stylesheet" href="style.css" />
 
+    
     <title>Freezt Sport Clothing</title>
   </head>
   <body>
@@ -63,6 +72,27 @@
       crossorigin="anonymous"
     ></script> -->
 
-    
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/OwlCarousel2/2.3.4/owl.carousel.min.js"
+      integrity="sha512-bPs7Ae6pVvhOSiIcyUClR7/q2OAsRiovw4vAkX+zJbw3ShAeeqezq50RIIcIURq7Oa20rW2n2q+fyXBNcU9lrw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script>
+      jQuery('#reviews_car').owlCarousel({
+        loop: true,
+        autoplay: true,
+        responsiveClass: true,
+        margin: 15,
+        nav: true,
+        responsive: {
+          0: { items: 2, nav: false },
+          600: { items: 3, nav: false },
+          980: { items: 5, nav: true },
+          1170: { items: 7, nav: true },
+        },
+      });
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   </body>
 </html>

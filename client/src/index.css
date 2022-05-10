@@ -87,8 +87,6 @@ main {
   border-radius: 40% 0% 40% 0%;
 }
 
-
-
 /*Página principal*/
 /* body::before {
   display: block;
@@ -96,3 +94,33 @@ main {
   height: 60px;
 } */
 
+
+.btn_freezt {
+  border-radius: 0px 40px;
+  background-color: #000;  
+  padding: 5px 25px;
+  color: #fff;
+}
+
+.div_running_freezt {
+  border-radius: 40% 0% 40% 0%;
+  height:100%;
+  overflow: hidden;
+  /* padding: 90px 80px 90px 80px; */
+  }
+
+  .div_running_freezt img {
+    border-bottom-right-radius: 40% ;
+
+    }
+    /* .card_item {
+      
+    } */
+
+    .summary_item {
+      display: flex;
+      align-items: center;
+      flex-direction: column;
+      justify-content: center;
+      height:100%
+    }

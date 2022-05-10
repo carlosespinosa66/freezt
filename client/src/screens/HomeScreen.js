@@ -1,104 +1,58 @@
 import React from 'react';
-import { Carousel } from 'react-bootstrap';
+import { Card, Carousel, Button } from 'react-bootstrap';
 
 export default function Home() {
   return (
     <div>
       <Carousel variant='dark' interval={2000}>
         <Carousel.Item>
-          <img className='d-block w-20' src='c1.jpg' alt='First slide' />
-          <Carousel.Caption>
-            <h3>First slide label</h3>
-            <p>Nulla vitae elit libero, a pharetra augue mollis interdum.</p>
-          </Carousel.Caption>
+          <img className='d-block w-20' src='cs1.jpeg' alt='First slide' />
         </Carousel.Item>
         <Carousel.Item>
-          <img className='d-block w-20' src='c2.jpg' alt='Second slide' />
-
-          <Carousel.Caption>
-            <h3>Second slide label</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-          </Carousel.Caption>
+          <img className='d-block w-20' src='cs2.jpeg' alt='Second slide' />
         </Carousel.Item>
         <Carousel.Item>
-          <img className='d-block w-20' src='c3.jpg' alt='Third slide' />
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className='d-block w-20' src='c4.jpg' alt='Third slide' />
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
-        </Carousel.Item>
-        <Carousel.Item>
-          <img className='d-block w-20' src='c5.jpg' alt='Third slide' />
-          <Carousel.Caption>
-            <h3>Third slide label</h3>
-            <p>
-              Praesent commodo cursus magna, vel scelerisque nisl consectetur.
-            </p>
-          </Carousel.Caption>
+          <img className='d-block w-20' src='cs3.jpeg' alt='Third slide' />
         </Carousel.Item>
       </Carousel>
 
-      <section class='p-5'>
-        <div class='container'>
-          <div class='row text-center g-4'>
-            <div class='col-md'>
-              <div class='card bg-dark text-light'>
-                <div class='card-body text-center'>
-                  <div class='h1 mb-3'>
-                    <i class='bi bi-laptop'></i>
-                  </div>
-                  <h3 class='card-title mb-3'>Virtual</h3>
-                  <p class='card-text'>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Iure, quas quidem possimus dolorum esse eligendi?
-                  </p>
-                  <a href='#' class='btn btn-primary'>
-                    Read More
+      <section id='section_tax' className='p-5'>
+        <div className='container'>
+          <div className='row text-center g-4'>
+            <div className='col-md-6'>
+              <div className='card bg-dark text-light div_running_freezt'>
+                <img
+                  src='running.jpeg'
+                  alt='Third slide'
+                  className='div-section-running'
+                />
+                <div className='card-body text-center '>
+                  <h3 className='card-title mb-3'>RUNNING</h3>
+                  <p className='card-text'>FOR THE FASTEST</p>
+                  <a href='#' className='btn_freezt'>
+                    HOMBRE
+                  </a>
+                  <a href='#' className='btn_freezt'>
+                    MUJER
                   </a>
                 </div>
               </div>
             </div>
-            <div class='col-md'>
-              <div class='card bg-secondary text-light'>
-                <div class='card-body text-center'>
-                  <div class='h1 mb-3'>
-                    <i class='bi bi-person-square'></i>
-                  </div>
-                  <h3 class='card-title mb-3'>Hybrid</h3>
-                  <p class='card-text'>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Iure, quas quidem possimus dolorum esse eligendi?
-                  </p>
-                  <a href='#' class='btn btn-dark'>
-                    Read More
+            <div className='col-md-6'>
+              <div className='card bg-secondary text-light div_running_freezt'>
+                <img
+                  src='trainning.jpeg'
+                  alt='Third slide'
+                  className='div-section-running'
+                />
+                <div className='card-body text-center'>
+                  <h3 className='card-title mb-3'>TRAINNING</h3>
+                  <p className='card-text'>FOR THE STRONGEST</p>
+                  <a href='#' className='btn_freezt'>
+                    HOMBRE
                   </a>
-                </div>
-              </div>
-            </div>
-            <div class='col-md'>
-              <div class='card bg-dark text-light'>
-                <div class='card-body text-center'>
-                  <div class='h1 mb-3'>
-                    <i class='bi bi-people'></i>
-                  </div>
-                  <h3 class='card-title mb-3'>In Person</h3>
-                  <p class='card-text'>
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit.
-                    Iure, quas quidem possimus dolorum esse eligendi?
-                  </p>
-                  <a href='#' class='btn btn-primary'>
-                    Read More
+                  <a href='#' className='btn_freezt'>
+                    MUJER
                   </a>
                 </div>
               </div>
@@ -106,6 +60,82 @@ export default function Home() {
           </div>
         </div>
       </section>
+
+      <section className='p-4'>
+        <div className='container'>
+          <div className='row text-center g-6'>
+            <div className='col-12 col-md-4'>
+              <Card className='position-relative card_item'>
+                <Card.Img variant='top' src='espalda.jpeg' />
+                <Card.Body className='position-absolute w-100 text-center summary_item'>
+                  <Card.Title>Pantalonetas</Card.Title>
+                  <Button variant='primary' className='btn_freezt'>
+                    Comprar
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
+            <div className='col-12 col-md-4'>
+              <Card className='position-relative card_item'>
+                <Card.Img variant='top' src='tennis.jpeg' />
+                <Card.Body className='position-absolute w-100 text-center summary_item'>
+                  <Card.Title>Camisetas</Card.Title>
+                  <Button variant='primary' className='btn_freezt'>
+                    Comprar
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
+            <div className='col-12 col-md-4'>
+              <Card className='position-relative card_item'>
+                <Card.Img variant='top' src='bascket.jpeg' />
+                <Card.Body className='position-absolute w-100 text-center summary_item'>
+                  <Card.Title>Conjuntos</Card.Title>
+                  <Button variant='primary' className='btn_freezt'>
+                    Comprar
+                  </Button>
+                </Card.Body>
+              </Card>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/*Carrusel final  */}
+
+      <div id='reviews_car' className='owl-carousel'>
+        <div className='item_c'>
+          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+        </div>
+
+        <div className='item_c'>
+          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+        </div>
+
+        <div className='item_c'>
+          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+        </div>
+
+        <div className='item_c'>
+          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+        </div>
+
+        <div className='item_c'>
+          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+        </div>
+
+        <div className='item_c'>
+          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+        </div>
+
+        <div className='item_c'>
+          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+        </div>
+
+        <div className='item_c'>
+          <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
+        </div>
+      </div>
 
       <section class='p-5'>
         <div class='container'>
@@ -125,7 +155,8 @@ export default function Home() {
                   <span class='fw-bold'>Pedidos:</span> pedidos@freezt.co
                 </li>
                 <li class='list-group-item'>
-                  <span class='fw-bold'>Servicio al Cliente:</span> servicioalcliente@freezt.co
+                  <span class='fw-bold'>Servicio al Cliente:</span>{' '}
+                  servicioalcliente@freezt.co
                 </li>
               </ul>
             </div>
