@@ -3,15 +3,15 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserInfo, getUserEditInfo } from '../actions/Users';
-import { Form, Row, Col, Card, Button, InputGroup } from 'react-bootstrap';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 
 export default function UsersAdminAdd() {
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const { id } = useParams();
-  const allUserInfo = useSelector((state) => state.userInfo);
-  const allUserDetail = useSelector((state) => state.userDetail);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo);
+  const allUserDetail = useSelector((state) => state.userInfo.userDetail);
 
   const [input, setInput] = useState({
     name: '',

@@ -125,6 +125,29 @@ export const getOrdersAdmin = (token) => {
   };
 };
 
+export function getFilterOrders(status,token) {
+  return async function(dispatch) {
+    dispatch({ type: 'ORDERS_FILTER_REQUEST' });
+    try {
+      const json = await axios.get('/api/products/state?status=' + status, {
+        headers: {
+          'auth-token': token,
+        },
+      });
+
+      dispatch({
+        type: 'ORDERS_FILTER_SUCCESS',
+        payload: json.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'ORDERS_FILTER_FAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+}
+
 export function regPaypalOrder(id, info, token) {
   return async function(dispatch) {
     try {
@@ -163,3 +186,9 @@ export function savePaymentMethod(paymentMethod) {
   };
 }
 
+export function putClearOrders() {
+  return {
+    type: 'CLEAR_ORDERS_STATE',
+    payload: '',
+  };
+}

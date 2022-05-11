@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct } from '../actions/Products';
-import { Form, Row, Col, Card, Button, InputGroup } from 'react-bootstrap';
+import { Form, Row, Col, Button } from 'react-bootstrap';
 
 export default function ProductAdd() {
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const allUserInfo = useSelector((state) => state.userInfo);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo);
   const [orden, setOrden] = useState('');
 
   const [input, setInput] = useState({

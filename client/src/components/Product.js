@@ -11,8 +11,8 @@ export default function Product(props) {
   const { product } = props;
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const allCart = useSelector((state) => state.cart);
-  const allProducts = useSelector((state) => state.products);
+  const allCart = useSelector((state) => state.cart.cart);
+  const allProducts = useSelector((state) => state.products.products);
   function addToCartHandler() {
     const itemToAdd = allCart.cartItems.find((x) => x.id === product.id);
     const quantity = itemToAdd ? itemToAdd.quantity + 1 : 1;

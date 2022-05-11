@@ -8,7 +8,31 @@ const {
   ORDER_STATUS_DELIVERED,
   ORDER_STATUS_DISPATCHED,
   ORDER_STATUS_FINISHED,
+  ORDER_STATUS_PROCESING,
+  ORDER_STATUS_CANCELED
+
 } = process.env;
+
+const getOrderStatus = (status) => {
+  switch (status) {
+    case ORDER_STATUS_PENDING:
+      return 'Pendiente';
+    case ORDER_STATUS_BILLED:
+      return 'Pagada';
+    case ORDER_STATUS_DELIVERED:
+      return 'Entregada';
+    case ORDER_STATUS_DISPATCHED:
+      return 'Despachada';
+    case ORDER_STATUS_FINISHED:
+      return 'Finalizada';
+      case ORDER_STATUS_PROCESING:
+        return 'Proceso';
+      case ORDER_STATUS_CANCELED:
+        return '';
+    default:
+      return state;
+  }
+};
 
 const getOrders = async (req, res) => {
   try {
@@ -38,15 +62,15 @@ const getOrders = async (req, res) => {
         id: Order.id,
         total_amount: Order.total_amount,
         email_address: Order.email_address,
-        status: Order.status,
+        status: getOrderStatus(Order.status),
         user: Order.User.name + ' ' + Order.User.surname,
         userID: Order.User.id,
         billing_address: Order.billing_address,
         shipping_address: Order.shipping_address,
-        shippingPrice:Order.shippingPrice,
-        taxPrice:Order.taxPrice,
+        shippingPrice: Order.shippingPrice,
+        taxPrice: Order.taxPrice,
         paidAt: Order.paidAt,
-        isPaid:Order.isPaid,
+        isPaid: Order.isPaid,
         details:
           Order.Order_details.length > 0
             ? Order.Order_details.map((detail) => {
@@ -93,9 +117,7 @@ const getUserOrdersServer = async (req, res) => {
         },
       ],
     });
-    // if (!Orders.length) {
-    //   return res.status(404).send({ errorMsg: "You don't have orders." });
-    // }
+
     Orders = Orders.map((Order) => {
       return {
         id: Order.id,
@@ -106,10 +128,10 @@ const getUserOrdersServer = async (req, res) => {
         userID: Order.User.id,
         billing_address: Order.billing_address,
         billing_address: Order.billing_address,
-        shippingPrice:Order.shippingPrice,
-        taxPrice:Order.taxPrice,
+        shippingPrice: Order.shippingPrice,
+        taxPrice: Order.taxPrice,
         paidAt: Order.paidAt,
-        isPaid:Order.isPaid,
+        isPaid: Order.isPaid,
         shipping_address: Order.shipping_address,
         details:
           Order.Order_details.length > 0
@@ -305,10 +327,10 @@ const getActiveOrder = async (req, res) => {
       billing_address: activeOrder.billing_address,
       shipping_address: activeOrder.shipping_address,
       billing_address: activeOrder.billing_address,
-      shippingPrice:activeOrder.shippingPrice,
-      taxPrice:activeOrder.taxPrice,
-      paidAt:activeOrder.paidAt,
-      isPaid:activeOrder.isPaid,
+      shippingPrice: activeOrder.shippingPrice,
+      taxPrice: activeOrder.taxPrice,
+      paidAt: activeOrder.paidAt,
+      isPaid: activeOrder.isPaid,
       details:
         activeOrder.Order_details.length > 0
           ? activeOrder.Order_details.map((detail) => {
@@ -336,7 +358,7 @@ const getActiveOrder = async (req, res) => {
 const getHistoryOrder = async (req, res) => {
   try {
     const userId = req.userID;
-    const id = req.params.id
+    const id = req.params.id;
 
     let historyOrder = await Order.findOne({
       where: {
@@ -368,13 +390,13 @@ const getHistoryOrder = async (req, res) => {
       billing_address: historyOrder.billing_address,
       shipping_address: historyOrder.shipping_address,
       billing_address: historyOrder.billing_address,
-      shippingPrice:historyOrder.shippingPrice,
+      shippingPrice: historyOrder.shippingPrice,
       paymentSource: historyOrder.paymentSource,
-      taxPrice:historyOrder.taxPrice,
-      paidAt:historyOrder.paidAt,
-      isPaid:historyOrder.isPaid,
+      taxPrice: historyOrder.taxPrice,
+      paidAt: historyOrder.paidAt,
+      isPaid: historyOrder.isPaid,
       details:
-      historyOrder.Order_details.length > 0
+        historyOrder.Order_details.length > 0
           ? historyOrder.Order_details.map((detail) => {
               return {
                 id: detail.id,
@@ -396,7 +418,6 @@ const getHistoryOrder = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
-
 
 // *******add and remove a product from the detail******
 
@@ -646,12 +667,12 @@ const getUserOrders = async (id) => {
           total_amount: Order.total_amount,
           email_address: Order.email_address,
           billing_address: Order.billing_address,
-          shippingPrice:Order.shippingPrice,
-          taxPrice:Order.taxPrice,
+          shippingPrice: Order.shippingPrice,
+          taxPrice: Order.taxPrice,
           UserID: Order.User.id,
           status: Order.status,
           paidAt: Order.paidAt,
-          isPaid:Order.isPaid,
+          isPaid: Order.isPaid,
           detail:
             Order.Order_details.length > 0
               ? Order.Order_details.map((detail) => {
@@ -675,6 +696,70 @@ const getUserOrders = async (id) => {
   }
 };
 
+const getFilterOrdersState = async () => {
+  const { status } = req.params;
+  try {
+    if (id) {
+      let dataOrders = await Order.findAll({
+        where: {
+          status,
+        },
+        include: [
+          {
+            model: User,
+            attributes: ['id', 'name', 'surname', 'email'],
+          },
+          {
+            model: Order_detail,
+            attributes: ['amount', 'quantity'],
+            include: [
+              {
+                model: Product,
+                attributes: ['name', 'id', 'image', 'price'],
+              },
+            ],
+          },
+        ],
+      });
+      if (dataOrders.length <= 0) {
+        return 'This user has no orders.';
+      }
+      dataOrders = dataOrders.map((Order) => {
+        return {
+          id: Order.id,
+          total_amount: Order.total_amount,
+          email_address: Order.email_address,
+          billing_address: Order.billing_address,
+          shippingPrice: Order.shippingPrice,
+          taxPrice: Order.taxPrice,
+          UserID: Order.User.id,
+          status: Order.status,
+          paidAt: Order.paidAt,
+          isPaid: Order.isPaid,
+          detail:
+            Order.Order_details.length > 0
+              ? Order.Order_details.map((detail) => {
+                  return {
+                    id: detail.id,
+                    amount: detail.amount,
+                    quantity: detail.quantity,
+                    productName: detail.Product.name,
+                    productId: detail.Product.id,
+                    image: detail.Product.image,
+                    price: detail.Product.price,
+                  };
+                })
+              : [],
+        };
+      });
+      return { dataOrders };
+    }
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
 const updatePaypalOrder = async (req, res) => {
   let id = req.params.id;
   let { paymentSource, shippingPrice, taxPrice, email_address } = req.body.info;
@@ -689,7 +774,7 @@ const updatePaypalOrder = async (req, res) => {
           include: [
             {
               model: Product,
-              attributes: ['id','name','image' , 'price','stock'],
+              attributes: ['id', 'name', 'image', 'price', 'stock'],
             },
           ],
         },
@@ -705,7 +790,7 @@ const updatePaypalOrder = async (req, res) => {
     } else {
       let updatedOrder = await orderPaypal.update({
         status: ORDER_STATUS_BILLED,
-        email_address:email_address,
+        email_address: email_address,
         isPaid: true,
         paidAt: Date.now(),
         paymentSource: paymentSource,
@@ -721,8 +806,10 @@ const updatePaypalOrder = async (req, res) => {
         `<p>Your purchase order number ${id} has been canceled with the Paypal order ${orderIdPayment}. </p>`
       );
 
-      let Order_details= orderPaypal.Order_details
-      res.status(201).send({ successMsg: 'Order Paid', data: updatedOrder, Order_details });
+      let Order_details = orderPaypal.Order_details;
+      res
+        .status(201)
+        .send({ successMsg: 'Order Paid', data: updatedOrder, Order_details });
     }
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
@@ -756,4 +843,5 @@ module.exports = {
   updatePaypalOrder,
   updateOrder,
   getHistoryOrder,
+  getFilterOrdersState
 };

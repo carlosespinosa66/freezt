@@ -14,8 +14,8 @@ export default function OrderHistoryScreen() {
   const navigateTo = useNavigate();
   const allLoading = useSelector((state) => state.loading);
   const allErrors = useSelector((state) => state.error);
-  const allUserInfo = useSelector((state) => state.userInfo.token);
-  const allUsers = useSelector((state) => state.users);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo.token);
+  const allUsers = useSelector((state) => state.userInfo.users);
 
   useEffect(() => {
     try {

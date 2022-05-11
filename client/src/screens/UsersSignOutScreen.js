@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { putUserSignOut } from '../actions/Users';
 import { useNavigate } from 'react-router-dom';
+import { putUserSignOut } from '../actions/Users';
+import {putClearOrders} from '../actions/Orders'
+import {removeAllCarItems} from '../actions/Cart'
+import {putClearProducts} from '../actions/Products'
+
 
 export default function SignOut() {
   const dispatch = useDispatch();
@@ -10,6 +14,10 @@ export default function SignOut() {
   useEffect(() => {
     try {
       dispatch(putUserSignOut());
+      dispatch(putClearOrders())
+      dispatch(removeAllCarItems())
+      dispatch(putClearProducts())
+
     } catch (err) {
       console.log(err);
     }

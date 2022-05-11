@@ -1,9 +1,11 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
 
 export default function Home() {
+  const navigateTo = useNavigate();
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -49,6 +51,19 @@ export default function Home() {
       slidesToSlide: 1, // optional, default to 1.
     },
   };
+
+  function handleTrainningMen() {
+    navigateTo('/MenClothes');
+  }
+  function handleTrainningWomen() {
+    navigateTo('/MenClothes');
+  }
+  function handleRunningMen() {
+    navigateTo('/WomenClothes');
+  }
+  function handleRunningWomen() {
+    navigateTo('/WomenClothes');
+  }
 
   return (
     <div>
@@ -104,10 +119,10 @@ export default function Home() {
                 <div className='card-body text-center '>
                   <h3 className='card-title mb-3'>RUNNING</h3>
                   <p className='card-text'>FOR THE FASTEST</p>
-                  <a href='#' className='btn_freezt'>
+                  <a href='/' className='btn_freezt' onClick={handleRunningMen}>
                     HOMBRE
                   </a>
-                  <a href='#' className='btn_freezt'>
+                  <a href='/' className='btn_freezt' onClick={handleRunningWomen}>
                     MUJER
                   </a>
                 </div>
@@ -123,10 +138,10 @@ export default function Home() {
                 <div className='card-body text-center'>
                   <h3 className='card-title mb-3'>TRAINNING</h3>
                   <p className='card-text'>FOR THE STRONGEST</p>
-                  <a href='#' className='btn_freezt'>
+                  <a href='/' className='btn_freezt' onClick={handleTrainningMen}>
                     HOMBRE
                   </a>
-                  <a href='#' className='btn_freezt'>
+                  <a href='/' className='btn_freezt' onClick={handleTrainningWomen}>
                     MUJER
                   </a>
                 </div>

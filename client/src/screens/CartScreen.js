@@ -8,8 +8,8 @@ import { addProductToCar, removeItemCar } from '../actions/Cart';
 
 export default function Cart() {
     const dispatch = useDispatch();
-    const allCartItems = useSelector((state) => state.cart.cartItems);
-    const allProducts = useSelector((state) => state.products);
+    const allCartItems = useSelector((state) => state.cart.cart.cartItems);
+    const allProducts = useSelector((state) => state.products.products);
     const navigateTo = useNavigate();
 
     function updateCartHandle(itemToAdd, quantity) {

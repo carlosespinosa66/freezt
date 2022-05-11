@@ -10,9 +10,9 @@ import MessageBox from '../helpers/MessageBox';
 
 export default function MenClothes() {
     const dispatch = useDispatch();
-    const allProducts = useSelector((state) => state.products);
-    const allLoading = useSelector((state) => state.loading);
-    const allErrors = useSelector((state) => state.error);
+    const allProducts = useSelector((state) => state.products.products);
+    const allLoading = useSelector((state) => state.products.loading);
+    const allErrors = useSelector((state) => state.products.error);
 
     useEffect(() => {
         dispatch(getFilterProductsType('Mujer'));

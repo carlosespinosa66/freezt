@@ -18,18 +18,18 @@ import { regPaypalOrder } from '../actions/Orders';
 export default function Order() {
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
-  const allLoading = useSelector((state) => state.loading);
-  const allLoadingPay = useSelector((state) => state.loadingPay);
-  const allErrors = useSelector((state) => state.error);
-  const allOrder = useSelector((state) => state.order.data);
-  const allItems = useSelector((state) => state.order.Order_details);
-  const allUserInfo = useSelector((state) => state.userInfo);
+  const allLoading = useSelector((state) => state.orders.loading);
+  const allLoadingPay = useSelector((state) => state.orders.loadingPay);
+  const allErrors = useSelector((state) => state.orders.error);
+  const allOrder = useSelector((state) => state.orders.order.data);
+  const allItems = useSelector((state) => state.orders.order.Order_details);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo);
   const [{ options, isPending }, paypalDispatch] = usePayPalScriptReducer();
 
   function handleFinished() {
     navigateTo('/MenClothes');
   }
-
+  
   function handleOrders() {
     navigateTo('/orderhistory');
   }

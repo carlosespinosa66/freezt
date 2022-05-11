@@ -3,12 +3,6 @@ import { Helmet } from 'react-helmet-async';
 import { useSelector } from 'react-redux';
 import { Form, Button, Row, Col } from 'react-bootstrap';
 
-
-
-import { toast } from 'react-toastify';
-
-
-
 // const reducer = (state, action) => {
 //   switch (action.type) {
 //     case 'UPDATE_REQUEST':
@@ -25,7 +19,7 @@ import { toast } from 'react-toastify';
 
 export default function UsersProfile() {
   // const { state, dispatch: ctxDispatch } = useContext(Store);
-  const allUserInfo = useSelector((state) => state.userInfo);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo);
   const [validated, setValidated] = useState(false);
 
   // const [name, setName] = useState(userInfo.name);
@@ -48,37 +42,7 @@ export default function UsersProfile() {
     }
     setValidated(true);
   };
-
-
-  const submitHandler = async (e) => {
-    e.preventDefault();
-    // try {
-    //   const { data } = await axios.put(
-    //     '/api/users/profile',
-    //     {
-    //       name,
-    //       email,
-    //       password,
-    //     },
-    //     {
-    //       headers: { Authorization: `Bearer ${userInfo.token}` },
-    //     }
-    //   );
-    //   dispatch({
-    //     type: 'UPDATE_SUCCESS',
-    //   });
-    //   ctxDispatch({ type: 'USER_SIGNIN', payload: data });
-    //   localStorage.setItem('userInfo', JSON.stringify(data));
-    //   toast.success('User updated successfully');
-    // } catch (err) {
-    //   dispatch({
-    //     type: 'FETCH_FAIL',
-    //   });
-    //   toast.error(getError(err));
-    // }
-  };
-
-
+ 
 
   return (
     <div className='container small-container'>

@@ -84,7 +84,7 @@ export function createProduct(product, token) {
       });
       dispatch({
         type: 'PRODUCTS_CREATE_SUCCESS',
-        payload: '',
+        payload: json.data.data,
       });
     } catch (error) {
       dispatch({
@@ -142,6 +142,13 @@ export function removeItemCar(item) {
 export function removeAllCarItems() {
   return {
     type: 'CART_CLEAR',
+    payload: '',
+  };
+}
+
+export function putClearProducts() {
+  return {
+    type: 'CLEAR_PRODUCTS_STATE',
     payload: '',
   };
 }

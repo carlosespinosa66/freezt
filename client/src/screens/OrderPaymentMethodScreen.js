@@ -10,8 +10,8 @@ import CheckoutSteps from '../helpers/CheckoutSteps';
 
 export default function OrderPaymentMethod() {
     const dispatch = useDispatch();
-    const allShipping = useSelector((state) => state.cart.shippingAddress);
-    const allPayment = useSelector((state) => state.cart.paymentMethod);
+    const allShipping = useSelector((state) => state.cart.cart.shippingAddress);
+    const allPayment = useSelector((state) => state.cart.cart.paymentMethod);
     const [paymentMethodName, setPaymentMethod] = useState(allPayment || 'PayPal');
     const navigateTo = useNavigate();
 
@@ -60,7 +60,7 @@ export default function OrderPaymentMethod() {
                         onChange={(e) => setPaymentMethod(e.target.value)} />
                 </div>
                 <Button type="submit" onClick={submitHandler} variant="primary">
-                    Continue
+                    Continuar
                 </Button>
             </Form>
             </div>

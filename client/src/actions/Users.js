@@ -19,7 +19,7 @@ export function getUserInfo(email, password) {
         },
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       dispatch({
         type: 'USER_SIGNIN_FAIL',
         payload: '', //{ status: error.response.status },
@@ -29,8 +29,8 @@ export function getUserInfo(email, password) {
 }
 
 export const getAllUsers = (token) => {
-  try {
-    return async (dispatch) => {
+  return async (dispatch) => {
+    try {
       const allUsers = await axios.get('/api/admin/users', {
         headers: {
           'auth-token': token,
@@ -40,16 +40,18 @@ export const getAllUsers = (token) => {
         type: 'ADMIN_GET_USERS',
         payload: allUsers.data.data,
       });
-    };
-  } catch (error) {
-    alert(error);
-  }
+    } catch (error) {
+      dispatch({
+        type: 'ADMIN_GET_USERS_FAIL',
+        payload: { status: error.response.status },
+      });
+    }
+  };
 };
 
-
-export const getUserEditInfo = (id,token) => {
-  try {
-    return async (dispatch) => {
+export const getUserEditInfo = (id, token) => {
+  return async (dispatch) => {
+    try {
       const allUsers = await axios.get(`/api/admin/users/${id}`, {
         headers: {
           'auth-token': token,
@@ -59,12 +61,14 @@ export const getUserEditInfo = (id,token) => {
         type: 'ADMIN_GET_USER_INFO',
         payload: allUsers.data.data,
       });
-    };
-  } catch (error) {
-    alert(error);
-  }
+    } catch (error) {
+      dispatch({
+        type: 'ADMIN_GET_USER_FAIL',
+        payload: { status: error.response.status },
+      });
+    }
+  };
 };
-
 
 export function regUserInfo(name, email, password) {
   return async function(dispatch) {

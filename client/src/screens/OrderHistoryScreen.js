@@ -15,8 +15,8 @@ export default function OrderHistory() {
   const navigateTo = useNavigate();
   const allLoading = useSelector((state) => state.loading);
   const allErrors = useSelector((state) => state.error);
-  const allUserInfo = useSelector((state) => state.userInfo.token);
-  const allOrders = useSelector((state) => state.orders);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo.token);
+  const allOrders = useSelector((state) => state.orders.orders);
 
   useEffect(() => {
     try {

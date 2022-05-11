@@ -13,12 +13,12 @@ import LoadingBox from '../helpers/LoadingBox';
 export default function PlaceOrder() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const allCart = useSelector((state) => state.cart);
-  const allShipping = useSelector((state) => state.cart.shippingAddress);
-  const allPayment = useSelector((state) => state.cart.paymentMethod);
-  const allCartItems = useSelector((state) => state.cart.cartItems);
+  const allCart = useSelector((state) => state.cart.cart);
+  const allShipping = useSelector((state) => state.cart.cart.shippingAddress);
+  const allPayment = useSelector((state) => state.cart.cart.paymentMethod);
+  const allCartItems = useSelector((state) => state.cart.cart.cartItems);
   const allLoading = useSelector((state) => state.loading);
-  const allUserInfo = useSelector((state) => state.userInfo);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo);
 
   const round2 = (num) => Math.round(num * 100 + Number.EPSILON) / 100;
   allCart.itemsPrice = round2(allCartItems.reduce((a, c) => Number(a) + Number(c.quantity) * Number(c.price), 0));

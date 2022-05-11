@@ -16,11 +16,10 @@ export default function OrderDetail() {
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
   const allLoading = useSelector((state) => state.loading);
-  const allLoadingPay = useSelector((state) => state.loadingPay);
   const allErrors = useSelector((state) => state.error);
-  const allOrder = useSelector((state) => state.orderHistory);
-  const allItems = useSelector((state) => state.orderHistory.details);
-  const allUserInfo = useSelector((state) => state.userInfo);
+  const allOrder = useSelector((state) => state.orders.orderHistory);
+  const allItems = useSelector((state) => state.orders.orderHistory.details);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo);
   const { id } = useParams();
 
   function handleOrders() {

@@ -10,8 +10,8 @@ import CheckoutSteps from '../helpers/CheckoutSteps';
 
 export default function OrderShippingAddress() {
 
-    const allUserInfo = useSelector((state) => state.userInfo);
-    const allShipping = useSelector((state) => state.cart.shippingAddress);
+    const allUserInfo = useSelector((state) => state.userInfo.userInfo);
+    const allShipping = useSelector((state) => state.cart.cart.shippingAddress);
     const navigateTo = useNavigate();
     const dispatch = useDispatch();
     const [fullName, setFullName] = useState(allShipping.fullName || '');

@@ -14,9 +14,7 @@ import {
   Form,
   Row,
   Col,
-  Card,
   Button,
-  InputGroup,
   FloatingLabel,
 } from 'react-bootstrap';
 
@@ -25,7 +23,7 @@ export default function ProductsAdmin() {
   const navigateTo = useNavigate();
   const allLoading = useSelector((state) => state.loading);
   const allErrors = useSelector((state) => state.error);
-  const allProducts = useSelector((state) => state.products);
+  const allProducts = useSelector((state) => state.products.products);
   const [orden, setOrden] = useState('');
 
   function handleFilterProducts(e) {
@@ -63,6 +61,9 @@ export default function ProductsAdmin() {
         <table className='table'>
           <thead>
             <Row className='mb-3'>
+              <Col>
+              <h3>Productos</h3>
+              </Col>
               <Col>
                 <FloatingLabel controlId='floatingSelectGrid' label='Filtrar'>
                   <Form.Select onChange={(e) => handleFilterProducts(e)}>

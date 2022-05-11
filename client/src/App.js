@@ -1,11 +1,13 @@
 import React from 'react';
+import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
-import { Button, Form } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
+import ReactSearchBox from 'react-search-box';
 
 import HomeScreen from './screens/HomeScreen';
 import WeAre from './screens/WeAreScreen';
@@ -28,7 +30,6 @@ import UsersProfile from './screens/UsersProfileScreen';
 import UsersAdmin from './screens/UsersAdminScreen';
 import UsersAdminEdit from './screens/UsersAdminEditScreen';
 import UsersSignin from './screens/UsersSigninScreen';
-import UsersSignOut from './screens/UsersSignOutScreen';
 import UsersSignup from './screens/UsersSignupScreen';
 import UsersAdd from './screens/UsersAdminAddScreen';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -36,9 +37,22 @@ import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import { putUserSignOut } from './actions/Users';
+import {putClearOrders} from './actions/Orders'
+import {removeAllCarItems} from './actions/Cart'
+import {putClearProducts} from './actions/Products'
+
 function App() {
-  const allCart = useSelector((state) => state.cart);
-  const allUserInfo = useSelector((state) => state.userInfo);
+  const dispatch = useDispatch();
+  const allCart = useSelector((state) => state.cart.cart);
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo);
+
+  const HandleSignOut = () =>{
+    dispatch(putUserSignOut());
+    dispatch(putClearOrders())
+    dispatch(removeAllCarItems())
+    dispatch(putClearProducts())
+  }
 
   return (
     <Router>
@@ -105,9 +119,11 @@ function App() {
                         </LinkContainer>
                       )}
                       <NavDropdown.Divider />
-                      <LinkContainer to='/signout'>
-                        <NavDropdown.Item>Salir</NavDropdown.Item>
-                      </LinkContainer>
+                      {/* <LinkContainer to='/signout'> */}
+                        <NavDropdown.Item 
+                        onClick ={HandleSignOut}
+                        >Salir</NavDropdown.Item>
+                      {/* </LinkContainer> */}
                     </NavDropdown>
                   ) : (
                     <Link className='nav-link' to='/signin'>
@@ -116,16 +132,23 @@ function App() {
                   )}
                 </Nav>
                 <Nav>
-                  <Form className='d-flex'>
-                    <Form.Control
+                  <ReactSearchBox
+                    placeholder='Productos'
+                    value='Doe'
+                    // data={this.data}
+                    callback={(record) => console.log(record)}
+                    
+                  />
+                  {/* <Form className='d-flex'> */}
+                    {/* <Form.Control
                       type='search'
                       placeholder='Buscar'
                       className='me-1'
                       name='search'
                       aria-label='Search'
-                    />
+                    /> */}
                     <Button variant='outline-info'>Buscar</Button>
-                  </Form>
+                  {/* </Form> */}
                   <Link to='/cart' className='nav-link'>
                     <i className='bi bi-cart3'></i>
                     {allCart.cartItems.length > 0 && (
@@ -169,7 +192,6 @@ function App() {
               <Route path='/useradminedit/:id' element={<UsersAdminEdit />} />
               <Route path='/usersadmin' element={<UsersAdmin />} />
               <Route path='/usersadd' element={<UsersAdd />} />
-              <Route path='/signout' element={<UsersSignOut />} />
             </Routes>
           </Container>
         </main>
@@ -183,7 +205,7 @@ function App() {
             <a href='https://www.facebook.com/freeztwear'>
               <i className='bi bi-facebook text-white mx-2'></i>
             </a>
-            <a href='#'>
+            <a href='/'>
               <i className='bi bi-linkedin text-white mx-2'></i>
             </a>
             <a href='https://www.instagram.com/freezt.co'>
@@ -201,30 +223,3 @@ function App() {
 
 export default App;
 
-{
-  /* <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
-<Container>
-<Navbar.Brand href="#home">React-Bootstrap</Navbar.Brand>
-<Navbar.Toggle aria-controls="responsive-navbar-nav" />
-<Navbar.Collapse id="responsive-navbar-nav">
-  <Nav className="me-auto">
-    <Nav.Link href="#features">Features</Nav.Link>
-    <Nav.Link href="#pricing">Pricing</Nav.Link>
-    <NavDropdown title="Dropdown" id="collasible-nav-dropdown">
-      <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.2">Another action</NavDropdown.Item>
-      <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-      <NavDropdown.Divider />
-      <NavDropdown.Item href="#action/3.4">Separated link</NavDropdown.Item>
-    </NavDropdown>
-  </Nav>
-  <Nav>
-    <Nav.Link href="#deets">More deets</Nav.Link>
-    <Nav.Link eventKey={2} href="#memes">
-      Dank memes
-    </Nav.Link>
-  </Nav>
-</Navbar.Collapse>
-</Container>
-</Navbar> */
-}
