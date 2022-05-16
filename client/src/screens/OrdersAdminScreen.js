@@ -9,7 +9,14 @@ import {
   getFilterOrders,
   putClearOrders,
 } from '../redux/actions/Orders';
-import { Button, Form, FloatingLabel } from 'react-bootstrap';
+import {
+  Button,
+  Form,
+  FloatingLabel,
+  Container,
+  Col,
+  Row,
+} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
 import moment from 'moment';
@@ -51,41 +58,36 @@ export default function OrdersAdmin() {
   }, [getOrdersAdmin]);
 
   return (
-    <div>
+    <Container>
       <Helmet>
         <title>Administrar Ordenes</title>
       </Helmet>
-      <table>
-        <thead>
-          <tr>
-            <th>
-              <h3>Ordenes</h3>
-            </th>
-            <th>
-              <FloatingLabel controlId='floatingSelectGrid' label='Filtrar'>
-                <Form.Select onChange={(e) => handleFilterOrders(e)}>
-                  <option></option>
-                  <option value='ALL'>Todas</option>
-                  <option value='PENDING'>Pendiente</option>
-                  <option value='BILLED'>Pagada</option>
-                  <option value='PROCESING'>Proceso</option>
-                  <option value='CANCELED'>Cancelada</option>
-                  <option value='DISPATCHED'>Despachada</option>
-                  <option value='DELIVERED'>Entregada</option>
-                  <option value='FINISHED'>Finalizada</option>
-                </Form.Select>
-              </FloatingLabel>
-            </th>
-          </tr>
-        </thead>
-      </table>
-
+      <Row>
+        <Col className='col-12 col-lg-10'>
+          <h3>Ordenes</h3>
+        </Col>
+        <Col className='col-4 col-lg-2'>
+          <FloatingLabel controlId='floatingSelectGrid' label='Filtrar'>
+            <Form.Select onChange={(e) => handleFilterOrders(e)}>
+              <option></option>
+              <option value='ALL'>Todas</option>
+              <option value='PENDING'>Pendiente</option>
+              <option value='BILLED'>Pagada</option>
+              <option value='PROCESING'>Proceso</option>
+              <option value='CANCELED'>Cancelada</option>
+              <option value='DISPATCHED'>Despachada</option>
+              <option value='DELIVERED'>Entregada</option>
+              <option value='FINISHED'>Finalizada</option>
+            </Form.Select>
+          </FloatingLabel>
+        </Col>
+      </Row>
       {allLoading ? (
         <LoadingBox></LoadingBox>
       ) : allErrors ? (
         <MessageBox variant='danger'>{allErrors}</MessageBox>
       ) : (
-        <table className='table'>
+        <table className='table '>
           <thead> </thead>
           <thead>
             <tr>
@@ -138,6 +140,6 @@ export default function OrdersAdmin() {
           </tbody>
         </table>
       )}
-    </div>
+    </Container>
   );
 }

@@ -122,7 +122,6 @@ export default function Home() {
                 <img
                   src='running.jpeg'
                   alt='Third slide'
-                  className='div-section-running'
                 />
                 <div className='card-body text-center '>
                   <h3 className='card-title mb-3'>RUNNING</h3>
@@ -145,7 +144,6 @@ export default function Home() {
                 <img
                   src='trainning.jpeg'
                   alt='Third slide'
-                  className='div-section-running'
                 />
                 <div className='card-body text-center'>
                   <h3 className='card-title mb-3'>TRAINNING</h3>

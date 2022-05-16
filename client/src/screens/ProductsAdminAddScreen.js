@@ -60,7 +60,7 @@ export default function ProductAdd() {
 
 
   return (
-    <Container d-flex align-items-center justify-content-center>
+    <Container>
       <Helmet>
         <title>Crear Producto</title>
       </Helmet>

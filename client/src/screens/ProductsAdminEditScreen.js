@@ -3,8 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductDetail, updateProduct } from '../redux/actions/Products';
-import { Form, Row, Col, Button } from 'react-bootstrap';
-import Container from 'react-bootstrap/Container';
+import { Form, Row, Col, Button,Container } from 'react-bootstrap';
 
 export default function ProductEdit() {
   const [validated, setValidated] = useState(false);
@@ -86,7 +85,7 @@ export default function ProductEdit() {
   }, [allDetail, getProductDetail, id]);
 
   return (
-    <Container d-flex align-items-center justify-content-center>
+    <Container>
       <Helmet>
         <title>Modificar Producto</title>
       </Helmet>
