@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import { addProductToCar } from '../actions/Products';
+import { addProductToCar } from '../redux/actions/Products';
 import Rating from '../helpers/Rating';
 import { toast } from 'react-toastify';
 
@@ -51,13 +51,6 @@ export default function Product(props) {
           ) : (
             <Button onClick={() => addToCartHandler(product)}>Comprar</Button>
           )}
-          <Button 
-            onClick={() => {
-              navigateTo(`/productedit/${product.id}`);
-            }}
-          >
-            Editar
-          </Button>
         </Card.Body>
       </div>
     </Card>

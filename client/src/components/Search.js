@@ -1,23 +1,18 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import searchIcon from "../../icons/search-symbol.png";
-// import { filterByBrand } from "../../redux/actions/filterByCategory";
-// import { productNotFound, resetPoducts, selectProducts } from "../../redux/actions/products";
-// import { setPage } from "../../redux/actions/setPage";
-// import { Product } from "../../redux/interface";
-import { State } from "../../redux/reducers";
-import { SearchForm } from "./SBar";
+import searchIcon from "../assets/icons/search-symbol.png";
+import { Form,Button } from 'react-bootstrap';
+import {getSearchProducts} from '../redux/actions/Products'
 
-const Search = () => {
+export default function SearchBar(){
+  
   const dispatch = useDispatch();
   const table = useSelector((state) => state.products.productSearch);
-  // const table = useSelector((state: State) => state.products.productSearch); asi funciona bien 
-
   const artefacts = useSelector((state) => state.products.copyProducts);
 
   const [products, setProducts] = useState([]);
-  const [value, setValue] = useState<string>("");
-  const [realValue, setRealValue] = useState<string>("");
+  const [value, setValue] = useState("");
+  const [realValue, setRealValue] = useState("");
 
   const SearchRequest = (event) => {
     event.preventDefault();
@@ -28,15 +23,9 @@ const Search = () => {
       }
     });
     if (selectArtefacts.length > 0) {
-      dispatch(selectProducts(selectArtefacts));
-      dispatch(setPage(1));
-      // dispatch(resetPoducts())
+      dispatch(getSearchProducts(selectArtefacts));
     } else {
-      dispatch(filterByBrand("nada"))
-      // dispatch(productNotFound(true));
-      // setTimeout(function () {
-      //   dispatch(productNotFound(false));
-      // }, 3000);
+      // dispatch(filterByBrand("nada"))
     }
     setValue("");
   };
@@ -53,7 +42,7 @@ const Search = () => {
   };
 
   return (
-    <SearchForm
+    <Form
       className="d-flex me-lg-4"
       autoComplete="off"
       onSubmit={SearchRequest}
@@ -69,16 +58,14 @@ const Search = () => {
           list="products"
         />
       </div>
-      <button className="btn btn-secondary my-2" type="submit">
-        <img src={searchIcon} />
-      </button>
+      <Button variant='outline-info' type="submit">Buscar</Button>
       <datalist id="products">
         {products.map((product, i) => {
           return <option key={i} id={product} value={product} />;
         })}
       </datalist>
-    </SearchForm>
+    </Form>
   );
 };
 
-export default Search;
+

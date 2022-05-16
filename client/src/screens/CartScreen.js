@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import {Row, Col, Card, Button,ListGroup} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import MessageBox from '../helpers/MessageBox';
-import { addProductToCar, removeItemCar } from '../actions/Cart';
+import { addProductToCar, removeItemCar } from '../redux/actions/Cart';
 
 export default function Cart() {
     const dispatch = useDispatch();
@@ -99,7 +99,7 @@ export default function Cart() {
                                         <Button type='button' variant='primary'
                                             onClick={checkOutHandle}
                                             disabled={allCartItems.length === 0}>
-                                            Proceed to CheckOut
+                                            Proceder a la Compra
                                         </Button>
                                     </div>
                                 </ListGroup.Item>

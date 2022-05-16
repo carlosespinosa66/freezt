@@ -7,7 +7,7 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { getHistoryOrderUser } from '../actions/Orders';
+import { getOrderHistoryDetail } from '../redux/actions/Orders';
 import moment from 'moment';
 
 import { useDispatch } from 'react-redux';
@@ -37,12 +37,12 @@ export default function OrderDetail() {
   useEffect(() => {
     try {
       if (id) {
-        dispatch(getHistoryOrderUser(allUserInfo.token, id));
+        dispatch(getOrderHistoryDetail(allUserInfo.token, id));
       }
     } catch (err) {
       toast.error(getError(err));
     }
-  }, [getHistoryOrderUser, toast]);
+  }, [getOrderHistoryDetail,allUserInfo, toast]);
 
   return allLoading ? (
     <LoadingBox></LoadingBox>

@@ -13,7 +13,7 @@ export function newOrderCreate(
   return async function(dispatch) {
     dispatch({ type: 'ORDER_CREATE_REQUEST' });
     try {
-      const data = await axios.post(
+      const newOrder = await axios.post(
         '/api/auth/orders',
         {
           orderItems: cartItems,
@@ -30,7 +30,7 @@ export function newOrderCreate(
       );
       dispatch({
         type: 'ORDER_CREATE_SUCCESS',
-        payload: data.data,
+        payload: newOrder.data,
       });
     } catch (error) {
       dispatch({
@@ -63,7 +63,8 @@ export const updateOrderStatus = (id, status, token) => {
   };
 };
 
-export function getOrdersUser(token) {
+//Normal User History Order
+export function getOrdersHistoryUser(token) {
   return async function(dispatch) {
     dispatch({ type: 'USER_ORDERS_REQUEST' });
     try {
@@ -82,7 +83,8 @@ export function getOrdersUser(token) {
   };
 }
 
-export function getHistoryOrderUser(token, id) {
+//Detalle de la orden desde el historial
+export function getOrderHistoryDetail(token, id) {
   return async function(dispatch) {
     try {
       const historyOrder = await axios.get(`/api/auth/orders/hist/${id}`, {
@@ -125,24 +127,23 @@ export const getOrdersAdmin = (token) => {
   };
 };
 
-export function getFilterOrders(status,token) {
+export function getFilterOrders(status, token) {
   return async function(dispatch) {
     dispatch({ type: 'ORDERS_FILTER_REQUEST' });
     try {
-      const json = await axios.get('/api/products/state?status=' + status, {
+      const filterOrder = await axios.get('/api/orders/state?status=' + status, {
         headers: {
           'auth-token': token,
         },
       });
-
       dispatch({
         type: 'ORDERS_FILTER_SUCCESS',
-        payload: json.data.data,
+        payload: filterOrder.data.data,
       });
     } catch (error) {
       dispatch({
         type: 'ORDERS_FILTER_FAIL',
-        payload: { message: error.message },
+        payload: error.response.data.errorMsg,
       });
     }
   };
@@ -151,7 +152,7 @@ export function getFilterOrders(status,token) {
 export function regPaypalOrder(id, info, token) {
   return async function(dispatch) {
     try {
-      const data = await axios.put(
+      const payOrder = await axios.put(
         `api/auth/orders/pay/${id}`,
         { info },
         {
@@ -161,7 +162,7 @@ export function regPaypalOrder(id, info, token) {
 
       dispatch({
         type: 'PAY_ORDER_SUCCESS',
-        payload: data.data,
+        payload: payOrder.data,
       });
     } catch (error) {
       dispatch({
@@ -169,20 +170,6 @@ export function regPaypalOrder(id, info, token) {
         payload: { status: error.response.status },
       });
     }
-  };
-}
-
-export function saveShippingAddress(fullName, address, city, country) {
-  return {
-    type: 'SAVE_SHIPPING_ADDRESS',
-    payload: { fullName, address, city, country },
-  };
-}
-
-export function savePaymentMethod(paymentMethod) {
-  return {
-    type: 'SAVE_PAYMENT_METHOD',
-    payload: paymentMethod,
   };
 }
 

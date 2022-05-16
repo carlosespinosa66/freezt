@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
-import { getProductDetail, addProductToCar } from '../actions/Products';
+import { getProductDetail, addProductToCar } from '../redux/actions/Products';
 import {Row, Col, Card, Button,ListGroup,Badge} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../helpers/LoadingBox';
@@ -11,9 +11,9 @@ import Rating from '../helpers/Rating';
 export default function ProductDetail() {
   
   const dispatch = useDispatch();
-  const allDetail = useSelector((state) => state.detail);
-  const allLoading = useSelector((state) => state.loading);
-  const allErrors = useSelector((state) => state.error);
+  const allDetail = useSelector((state) => state.products.detail);
+  const allLoading = useSelector((state) => state.products.loading);
+  const allErrors = useSelector((state) => state.products.error);
   const allCart = useSelector((state) => state.cart.cart);
   const allProducts = useSelector((state) => state.products.products);
   const navigateTo = useNavigate()

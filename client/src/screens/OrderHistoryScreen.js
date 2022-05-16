@@ -4,7 +4,7 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { getOrdersUser } from '../actions/Orders';
+import { getOrdersHistoryUser } from '../redux/actions/Orders';
 import { Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
@@ -20,11 +20,11 @@ export default function OrderHistory() {
 
   useEffect(() => {
     try {
-      dispatch(getOrdersUser(allUserInfo));
+      dispatch(getOrdersHistoryUser(allUserInfo));
     } catch (err) {
       toast.error(getError(err));
     }
-  }, [getOrdersUser]);
+  }, [getOrdersHistoryUser]);
 
   return (
     <div>
@@ -32,7 +32,8 @@ export default function OrderHistory() {
         <title>Historial de Ordenes</title>
       </Helmet>
       <h2>Historial de Ordenes</h2>
-      {allLoading ? (
+     
+   {allLoading ? (
         <LoadingBox></LoadingBox>
       ) : allErrors ? (
         <MessageBox variant='danger'>{allErrors}</MessageBox>

@@ -7,6 +7,7 @@ const {
   getFilterProductsState,
   getSingleProduct,
   deleteProduct,
+  getFilterProductsSearch
 } = require("../controllers/product.js");
 
 //Creating routes and adding the controllers.
@@ -18,6 +19,8 @@ const { isLoggedIn, isAdmin } = require("../middleware/auth");
 productRouter.get("/products", getProducts);
 productRouter.get("/products/genres", getFilterProductsType);
 productRouter.get("/products/state", getFilterProductsState);
+productRouter.get("/products/search", getFilterProductsSearch);
+
 
 productRouter.get("/products/:id", getSingleProduct);
 

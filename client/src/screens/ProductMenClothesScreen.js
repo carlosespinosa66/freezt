@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { getFilterProductsType } from '../actions/Products';
+import { getFilterProductsType } from '../redux/actions/Products';
 import {Row, Col} from 'react-bootstrap';
 
 import Product from '../components/Product';

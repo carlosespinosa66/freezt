@@ -18,6 +18,25 @@ export function getProducts() {
   };
 }
 
+export const getSearchProducts = (filter) => {
+  return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_SEARCH_REQUEST' });
+    try {
+      const productSearch = await axios.get('/api/products/search?name=' + filter);
+
+      return {
+        type: 'PRODUCTS_SEARCH_SUCCESS',
+        payload: productSearch.data.data,
+      };
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_SEARCH_FAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+};
+
 export function getFilterProductsType(filter) {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_FILTER_REQUEST' });

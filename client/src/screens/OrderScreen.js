@@ -13,7 +13,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 
-import { regPaypalOrder } from '../actions/Orders';
+import { regPaypalOrder } from '../redux/actions/Orders';
 
 export default function Order() {
   const navigateTo = useNavigate();
@@ -114,9 +114,6 @@ export default function Order() {
         <title>Order</title>
       </Helmet>
       <h1 className='my-3'>Order {allOrder.id}</h1> 
-      {/* {!allOrder ? (
-        <LoadingBox></LoadingBox>
-      ) : ( */}
         <Row>
           <Col md={8}>
             <Card className='mb-3'>
@@ -239,10 +236,10 @@ export default function Order() {
                   {allOrder.isPaid && (
                     <div className='d-grid'>
                       <Button type='button' onClick={handleOrders}>
-                        Order History
+                        Historial de Ordenes
                       </Button>
                       <Button type='button' onClick={handleFinished}>
-                        More Products
+                        Productos
                       </Button>
                     </div>
                   )}
@@ -251,7 +248,6 @@ export default function Order() {
             </Card>
           </Col>
         </Row>
-      {/* )} */}
     </div>
   );
 }

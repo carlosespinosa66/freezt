@@ -1,5 +1,8 @@
+import HashTable from "../../helpers/hashTable";
 const initialState = {
   products: [],
+  productSearch:[],
+  copyProducts:[],
   productedit: [],
   detail: [],
   error: '',
@@ -9,12 +12,21 @@ const initialState = {
 export const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'PRODUCTS_ALL_REQUEST':
-      return { ...state, loading: true, error: '' };
+
+    return { ...state, loading: true, error: '' };
 
     case 'PRODUCTS_ALL_SUCCESS':
+      const newAllTable = new HashTable();
+
+      action.payload.forEach((product) => {
+        newAllTable.addItem(product.name);
+      });  
+            
       return {
         ...state,
         products: action.payload,
+        copyProducts: action.payload,
+        productSearch:newAllTable,
         orders: [],
         orderHistory: [],
         order: [],
@@ -34,12 +46,20 @@ export const productsReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: '' };
 
     case 'PRODUCTS_CREATE_FAIL':
-      return { ...state, loading: false, error: '' };
+      return { ...state, loading: false, error: action.payload  };
 
     case 'PRODUCTS_FILTER_SUCCESS':
+      const newTable = new HashTable();
+
+      action.payload.forEach((product) => {
+        newTable.addItem(product.name);
+      });  
+
       return {
         ...state,
         products: action.payload,
+        copyProducts: action.payload,
+        productSearch:newTable,
         orders: [],
         orderHistory: [],
         totalorders: [],

@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import { toast } from 'react-toastify';
 import {Form, Button} from 'react-bootstrap';
 import { getError } from '../helpers/utils';
-import { saveShippingAddress } from '../actions/Orders';
+import { saveShippingAddress } from '../redux/actions/Cart';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 
 export default function OrderShippingAddress() {
@@ -67,7 +67,7 @@ export default function OrderShippingAddress() {
                 </Form.Group>
                 <div className="mb-3">
                     <Button type="submit" onClick={submitHandler} variant="primary">
-                        Continue
+                        Continuar
                     </Button>
                 </div>
             </div>

@@ -211,6 +211,49 @@ const getFilterProductsType = async (req, res) => {
   }
 };
 
+
+const getFilterProductsSearch = async (req, res) => {
+  const { name } = req.query;
+  try {
+    if (!genres) {
+      res.status(400).send({ errorMsg: 'Missing data.' });
+    } else {
+      let filterProduct = await Product.findAll({
+        where: {
+          genres,
+        },
+      });
+      if (!filterProduct) {
+        res.status(404).send({ errorMsg: 'Product not found.' });
+      } else {
+        filterProduct = filterProduct.map((product) => {
+          return {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            price: product.price,
+            description: product.description,
+            rating: product.rating,
+            weight: product.weight,
+            stock: product.stock,
+            isInDiscount: product.isInDiscount,
+            discountPercent: product.discountPercent,
+            isActive: product.isActive,
+            genres: product.genres,
+          };
+        });
+        res
+          .status(200)
+          .send({ successMsg: 'Here is your product.', data: filterProduct });
+      }
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
+
+
 const getFilterProductsState = async (req, res) => {
   const { state } = req.query;
   if (state==="active"){
@@ -346,5 +389,6 @@ module.exports = {
   getSingleProduct,
   getFilterProductsType,
   getFilterProductsState,
+  getFilterProductsSearch,
   deleteProduct,
 };

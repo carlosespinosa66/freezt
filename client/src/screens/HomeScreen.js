@@ -87,7 +87,11 @@ export default function Home() {
           itemClass='carousel-item-padding-40-px'
         >
           <div className='item_c'>
-            <img className='w-100 img-fluid' src='cs1.jpeg' alt='First slide' />
+            <img
+              className='w-100 img-fluid'
+              src='cs1.jpeg'
+              alt='First slide'
+            />
           </div>
 
           <div className='item_c'>
@@ -99,7 +103,11 @@ export default function Home() {
           </div>
 
           <div className='item_c'>
-            <img className='w-100 img-fluid' src='cs3.jpeg' alt='Third slide' />
+            <img
+              className='w-100 img-fluid'
+              src='cs3.jpeg'
+              alt='Third slide'
+            />
           </div>
         </Carousel>
       </section>
@@ -122,7 +130,11 @@ export default function Home() {
                   <a href='/' className='btn_freezt' onClick={handleRunningMen}>
                     HOMBRE
                   </a>
-                  <a href='/' className='btn_freezt' onClick={handleRunningWomen}>
+                  <a
+                    href='/'
+                    className='btn_freezt'
+                    onClick={handleRunningWomen}
+                  >
                     MUJER
                   </a>
                 </div>
@@ -138,10 +150,18 @@ export default function Home() {
                 <div className='card-body text-center'>
                   <h3 className='card-title mb-3'>TRAINNING</h3>
                   <p className='card-text'>FOR THE STRONGEST</p>
-                  <a href='/' className='btn_freezt' onClick={handleTrainningMen}>
+                  <a
+                    href='/'
+                    className='btn_freezt'
+                    onClick={handleTrainningMen}
+                  >
                     HOMBRE
                   </a>
-                  <a href='/' className='btn_freezt' onClick={handleTrainningWomen}>
+                  <a
+                    href='/'
+                    className='btn_freezt'
+                    onClick={handleTrainningWomen}
+                  >
                     MUJER
                   </a>
                 </div>

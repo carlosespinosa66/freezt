@@ -1,13 +1,10 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navbar from 'react-bootstrap/Navbar';
 import Badge from 'react-bootstrap/Badge';
 import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
-import { Button } from 'react-bootstrap';
-import ReactSearchBox from 'react-search-box';
 
 import HomeScreen from './screens/HomeScreen';
 import WeAre from './screens/WeAreScreen';
@@ -32,27 +29,17 @@ import UsersAdminEdit from './screens/UsersAdminEditScreen';
 import UsersSignin from './screens/UsersSigninScreen';
 import UsersSignup from './screens/UsersSignupScreen';
 import UsersAdd from './screens/UsersAdminAddScreen';
+import UsersSignOut from './screens/UsersSignOutScreen';
+import SearchBar from './components/Search'
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-import { putUserSignOut } from './actions/Users';
-import {putClearOrders} from './actions/Orders'
-import {removeAllCarItems} from './actions/Cart'
-import {putClearProducts} from './actions/Products'
-
 function App() {
-  const dispatch = useDispatch();
   const allCart = useSelector((state) => state.cart.cart);
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
-
-  const HandleSignOut = () =>{
-    dispatch(putUserSignOut());
-    dispatch(putClearOrders())
-    dispatch(removeAllCarItems())
-    dispatch(putClearProducts())
-  }
+  const allProducts = useSelector((state) => state.products.products);
 
   return (
     <Router>
@@ -119,11 +106,9 @@ function App() {
                         </LinkContainer>
                       )}
                       <NavDropdown.Divider />
-                      {/* <LinkContainer to='/signout'> */}
-                        <NavDropdown.Item 
-                        onClick ={HandleSignOut}
-                        >Salir</NavDropdown.Item>
-                      {/* </LinkContainer> */}
+                      <LinkContainer to='/signout'>
+                        <NavDropdown.Item>Salir</NavDropdown.Item>
+                      </LinkContainer>
                     </NavDropdown>
                   ) : (
                     <Link className='nav-link' to='/signin'>
@@ -132,23 +117,17 @@ function App() {
                   )}
                 </Nav>
                 <Nav>
-                  <ReactSearchBox
-                    placeholder='Productos'
-                    value='Doe'
-                    // data={this.data}
-                    callback={(record) => console.log(record)}
-                    
-                  />
-                  {/* <Form className='d-flex'> */}
-                    {/* <Form.Control
+                <SearchBar />
+                  {/* <Form className='d-flex'>
+                    <Form.Control
                       type='search'
                       placeholder='Buscar'
                       className='me-1'
                       name='search'
                       aria-label='Search'
-                    /> */}
+                    />
                     <Button variant='outline-info'>Buscar</Button>
-                  {/* </Form> */}
+                  </Form> */}
                   <Link to='/cart' className='nav-link'>
                     <i className='bi bi-cart3'></i>
                     {allCart.cartItems.length > 0 && (
@@ -168,6 +147,7 @@ function App() {
         <main>
           <Container>
             <Routes>
+              
               <Route path='/' element={<HomeScreen />} />
               <Route path='/products/:id' element={<ProductDetail />} />
               <Route path='/MenClothes' element={<MenClothes />} />
@@ -192,6 +172,8 @@ function App() {
               <Route path='/useradminedit/:id' element={<UsersAdminEdit />} />
               <Route path='/usersadmin' element={<UsersAdmin />} />
               <Route path='/usersadd' element={<UsersAdd />} />
+              <Route path='/signout' element={<UsersSignOut />} />
+              <Route path='*' element={<HomeScreen />} />
             </Routes>
           </Container>
         </main>
@@ -222,4 +204,3 @@ function App() {
 }
 
 export default App;
-

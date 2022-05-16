@@ -52,7 +52,20 @@ export const cartReducer = (state = initialState, action) => {
       localStorage.removeItem('cartItems');
       return { ...state, cart: { ...state.cart, cartItems: [] } };
 
-      
+    case 'SAVE_SHIPPING_ADDRESS':
+      localStorage.setItem('shippingAddress', JSON.stringify(action.payload));
+      return {
+        ...state,
+        cart: { ...state.cart, shippingAddress: action.payload },
+      };
+
+    case 'SAVE_PAYMENT_METHOD':
+      localStorage.setItem('paymentMethod', JSON.stringify(action.payload));
+      return {
+        ...state,
+        cart: { ...state.cart, paymentMethod: action.payload },
+      };
+
     default:
       return state;
   }

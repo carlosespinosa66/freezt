@@ -9,11 +9,9 @@ import {
   OrderByAnyItem,
   getFilterProductsType,
   getFilterProductsState,
-} from '../actions/Products';
+} from '../redux/actions/Products';
 import {
   Form,
-  Row,
-  Col,
   Button,
   FloatingLabel,
 } from 'react-bootstrap';
@@ -60,11 +58,16 @@ export default function ProductsAdmin() {
       ) : (
         <table className='table'>
           <thead>
-            <Row className='mb-3'>
-              <Col>
-              <h3>Productos</h3>
-              </Col>
-              <Col>
+          <tr>
+              <th>
+                <h3>Productos</h3>
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>
                 <FloatingLabel controlId='floatingSelectGrid' label='Filtrar'>
                   <Form.Select onChange={(e) => handleFilterProducts(e)}>
                     <optgroup label='Tipo'>
@@ -78,8 +81,9 @@ export default function ProductsAdmin() {
                     </optgroup>
                   </Form.Select>
                 </FloatingLabel>
-              </Col>
-              <Col>
+              </th>
+              <th>
+
                 <FloatingLabel controlId='floatingSelectGrid' label='Ordenar'>
                   <Form.Select onChange={(e) => handleSort(e)}>
                     <optgroup label='Inventario'>
@@ -96,8 +100,9 @@ export default function ProductsAdmin() {
                     </optgroup>
                   </Form.Select>
                 </FloatingLabel>
-              </Col>
-            </Row>
+              </th>
+            </tr>
+
           </thead>
           <thead>
             <tr>

@@ -1,28 +1,26 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { putUserSignOut } from '../actions/Users';
-import {putClearOrders} from '../actions/Orders'
-import {removeAllCarItems} from '../actions/Cart'
-import {putClearProducts} from '../actions/Products'
+import { putUserSignOut } from '../redux/actions/Users';
+import { putClearOrders } from '../redux/actions/Orders';
+import { removeAllCarItems } from '../redux/actions/Cart';
+import { putClearProducts } from '../redux/actions/Products';
 
-
-export default function SignOut() {
+export default function UsersSignOut() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
 
   useEffect(() => {
     try {
       dispatch(putUserSignOut());
-      dispatch(putClearOrders())
-      dispatch(removeAllCarItems())
-      dispatch(putClearProducts())
-
+      dispatch(putClearOrders());
+      dispatch(removeAllCarItems());
+      dispatch(putClearProducts());
     } catch (err) {
       console.log(err);
     }
     navigateTo('/');
-  }, [putUserSignOut]);
-  
+  }, [putUserSignOut, putClearOrders, removeAllCarItems, putClearProducts]);
+
   return <div>SignOutScreen</div>;
 }

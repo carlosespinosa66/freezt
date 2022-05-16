@@ -5,8 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Row, Col, Card, Button, ListGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import {  removeAllCarItems } from '../actions/Cart';
-import { newOrderCreate } from '../actions/Orders';
+import {  removeAllCarItems } from '../redux/actions/Cart';
+import { newOrderCreate } from '../redux/actions/Orders';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 import LoadingBox from '../helpers/LoadingBox';
 
@@ -154,7 +154,7 @@ export default function PlaceOrder() {
                       onClick={placeOrderHandler}
                       disabled={allCart.cartItems.length === 0}
                     >
-                      Place Order
+                      Generar Orden
                     </Button>
                   </div>
                   {allLoading && <LoadingBox></LoadingBox>}

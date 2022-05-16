@@ -5,7 +5,7 @@ import { Helmet } from 'react-helmet-async';
 import {Form, Button} from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { savePaymentMethod } from '../actions/Orders';
+import { savePaymentMethod } from '../redux/actions/Cart';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 
 export default function OrderPaymentMethod() {

@@ -69,7 +69,7 @@ class HashTable {
       let corte = 0;
       for (let i = 0; i < names.length; i++) {
         if (corte > 1000) break;
-        if (tenNames.length > 5) break;
+        if (tenNames.length > 4) break;
         if (names[i].toLowerCase().startsWith(letter.toLowerCase())) {
           tenNames.push(names[i]);
         }

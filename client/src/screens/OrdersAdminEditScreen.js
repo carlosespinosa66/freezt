@@ -1,5 +1,5 @@
-import React, { useEffect,useState } from 'react';
-import { useSelector,useDispatch } from 'react-redux';
+import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { Form, Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
@@ -7,9 +7,11 @@ import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
-import { getHistoryOrderUser,updateOrderStatus } from '../actions/Orders';
+import {
+  getOrderHistoryDetail,
+  updateOrderStatus,
+} from '../redux/actions/Orders';
 import moment from 'moment';
-
 
 export default function OrdersAdminEdit() {
   const navigateTo = useNavigate();
@@ -24,7 +26,7 @@ export default function OrdersAdminEdit() {
   const [input, setInput] = useState({
     id: id,
     status: allOrder.status,
-    email_address:allUserInfo.email
+    email_address: allUserInfo.email,
   });
 
   function handleOrders() {
@@ -32,7 +34,7 @@ export default function OrdersAdminEdit() {
   }
 
   function handleFinished() {
-    dispatch(updateOrderStatus(id, input, allUserInfo.token))
+    dispatch(updateOrderStatus(id, input, allUserInfo.token));
     navigateTo('/orderadmin');
   }
 
@@ -46,12 +48,12 @@ export default function OrdersAdminEdit() {
   useEffect(() => {
     try {
       if (id) {
-        dispatch(getHistoryOrderUser(allUserInfo.token, id));
+        dispatch(getOrderHistoryDetail(allUserInfo.token, id));
       }
     } catch (err) {
       toast.error(getError(err));
     }
-  }, [getHistoryOrderUser, toast]);
+  }, [getOrderHistoryDetail, toast]);
 
   return allLoading ? (
     <LoadingBox></LoadingBox>
@@ -166,7 +168,9 @@ export default function OrdersAdminEdit() {
                             onChange={(e) => handleInputChange(e)}
                           >
                             <option></option>
-                            <option value='DISPATCHED'>Enviada</option>
+                            <option value='PROCESING'>Proceso</option>
+                            <option value='CANCELED'>Cancelada</option>
+                            <option value='DISPATCHED'>Despachada</option>
                             <option value='DELIVERED'>Entregada</option>
                             <option value='FINISHED'>Finalizada</option>
                           </Form.Select>

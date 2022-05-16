@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
-import { getUserInfo } from '../actions/Users';
+import { getUserInfo } from '../redux/actions/Users';
 import { getError } from '../helpers/utils';
 
 export default function SigninScreen() {

@@ -1,5 +1,6 @@
 
 import axios from 'axios';
+
 export function getProducts() {
     return async function(dispatch) {
       dispatch({ type: 'PRODUCTS_REQUEST' });
@@ -73,5 +74,19 @@ export function getProducts() {
     return {
       type: 'CART_CLEAR',
       payload: '',
+    };
+  }
+
+  export function saveShippingAddress(fullName, address, city, country) {
+    return {
+      type: 'SAVE_SHIPPING_ADDRESS',
+      payload: { fullName, address, city, country },
+    };
+  }
+  
+  export function savePaymentMethod(paymentMethod) {
+    return {
+      type: 'SAVE_PAYMENT_METHOD',
+      payload: paymentMethod,
     };
   }

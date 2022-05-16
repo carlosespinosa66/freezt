@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUserInfo,getUserEditInfo } from '../actions/Users';
+import { updateUserInfo,getUserEditInfo } from '../redux/actions/Users';
 import { Form, Row, Col, Button } from 'react-bootstrap';
 
 export default function UsersAdminEdit() {
