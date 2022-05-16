@@ -30,7 +30,7 @@ import UsersSignin from './screens/UsersSigninScreen';
 import UsersSignup from './screens/UsersSignupScreen';
 import UsersAdd from './screens/UsersAdminAddScreen';
 import UsersSignOut from './screens/UsersSignOutScreen';
-import SearchBar from './components/Search'
+import SearchBar from './components/Search';
 import { LinkContainer } from 'react-router-bootstrap';
 import { useSelector } from 'react-redux';
 import { ToastContainer } from 'react-toastify';
@@ -46,7 +46,8 @@ function App() {
       <div className='d-flex flex-column site-container'>
         <ToastContainer position='bottom-center' limit={1} />
         <header>
-          <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'>
+          {/* <Navbar collapseOnSelect expand='lg' bg='dark' variant='dark'> */}
+          <Navbar collapseOnSelect expand='lg' className='bg-light text-black'>
             <Container className='mt-1'>
               <LinkContainer to='/'>
                 <Navbar.Brand>
@@ -117,17 +118,7 @@ function App() {
                   )}
                 </Nav>
                 <Nav>
-                <SearchBar />
-                  {/* <Form className='d-flex'>
-                    <Form.Control
-                      type='search'
-                      placeholder='Buscar'
-                      className='me-1'
-                      name='search'
-                      aria-label='Search'
-                    />
-                    <Button variant='outline-info'>Buscar</Button>
-                  </Form> */}
+                  <SearchBar />
                   <Link to='/cart' className='nav-link'>
                     <i className='bi bi-cart3'></i>
                     {allCart.cartItems.length > 0 && (
@@ -147,7 +138,6 @@ function App() {
         <main>
           <Container>
             <Routes>
-              
               <Route path='/' element={<HomeScreen />} />
               <Route path='/products/:id' element={<ProductDetail />} />
               <Route path='/MenClothes' element={<MenClothes />} />

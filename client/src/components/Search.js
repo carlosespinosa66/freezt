@@ -58,7 +58,7 @@ export default function SearchBar(){
           list="products"
         />
       </div>
-      <Button variant='outline-info' type="submit">Buscar</Button>
+      <Button variant='outline-info' className="text-black" type="submit">Buscar</Button>
       <datalist id="products">
         {products.map((product, i) => {
           return <option key={i} id={product} value={product} />;
