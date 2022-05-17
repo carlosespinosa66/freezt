@@ -128,14 +128,14 @@ export default function Home() {
                       </p>
                       <a
                         href='/'
-                        className='btn_freezt'
+                        className='col-12 btn_freezt'
                         onClick={handleRunningMen}
                       >
                         HOMBRE
                       </a>
                       <a
                         href='/'
-                        className='btn_freezt'
+                        className='col-12 btn_freezt'
                         onClick={handleRunningWomen}
                       >
                         MUJER
@@ -157,14 +157,14 @@ export default function Home() {
 
                       <a
                         href='/'
-                        className='btn_freezt'
+                        className='col-12 btn_freezt'
                         onClick={handleRunningMen}
                       >
                         HOMBRE
                       </a>
                       <a
                         href='/'
-                        className='btn_freezt'
+                        className='col-12 btn_freezt'
                         onClick={handleRunningWomen}
                       >
                         MUJER
