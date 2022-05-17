@@ -1,10 +1,18 @@
-import React from 'react';
-import { Card, Button, Container } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import {Card, Button } from 'react-bootstrap';
+import { useNavigate, Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
+import MessageBox from '../helpers/MessageBox';
+import LoadingBox from '../helpers/LoadingBox';
+import { getProducts } from '../redux/actions/Products';
 import 'react-multi-carousel/lib/styles.css';
 
 export default function Home() {
+  const dispatch = useDispatch();
+  const allProducts = useSelector((state) => state.products.products);
+  const allLoading = useSelector((state) => state.products.loading);
+  const allErrors = useSelector((state) => state.products.error);
   const navigateTo = useNavigate();
   const responsive = {
     superLargeDesktop: {
@@ -65,6 +73,10 @@ export default function Home() {
     navigateTo('/WomenClothes');
   }
 
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
+
   return (
     <div>
       {/* Carrusel principal */}
@@ -108,8 +120,8 @@ export default function Home() {
 
       <section id='section_tax' className='p-5'>
         <div className='row text-center trainning_title'>
-          <h4>THIS MAKES ME FEEL</h4>
-          <h1 className='display-3 p-4'>THE FREEZT</h1>
+          <h3 className='h3_first'>THIS MAKES ME FEEL</h3>
+          <h3 className='h3_second display-4 p-4'>THE FREEZT</h3>
         </div>
         <div className='container'>
           <div className='row text-center g-4'>
@@ -183,7 +195,7 @@ export default function Home() {
       <section className='p-4'>
         <div className='container'>
           <div className='row text-center trainning_title'>
-            <h1 className='display-4'>FEEL THE FREEDOM</h1>
+            <h3 className='h3_second display-4'>FEEL THE FREEDOM</h3>
           </div>
           <div className='row text-center g-6'>
             <div className='col-12 col-md-4'>
@@ -224,12 +236,12 @@ export default function Home() {
       </section>
 
       {/*Carrusel final tres imagenes */}
-      <section  className='container'>
+      <section className='container'>
         <div className='row text-center trainning_title'>
-          <h1 className='display-2'>ANTOJATE</h1>
+          <h3 className='h3_third'>ANTOJATE</h3>
         </div>
         <div className='row text-center trainning_title'>
-          <h1>INVIERTELE A TU PASION</h1>
+          <h3 h3_first>INVIERTELE A TU PASION</h3>
         </div>
         <Carousel
           responsive={responsive}
@@ -248,49 +260,17 @@ export default function Home() {
           dotListClass='custom-dot-list-style'
           itemClass='carousel-item-padding-40-px'
         >
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='c1.jpg' alt='First slide' />
-          </div>
-
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='c2.jpg' alt='First slide' />
-          </div>
-
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='c3.jpg' alt='First slide' />
-          </div>
-
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='c4.jpg' alt='First slide' />
-          </div>
-
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='c5.jpg' alt='First slide' />
-          </div>
-
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='c6.jpg' alt='First slide' />
-          </div>
-
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='c7.jpeg' alt='First slide' />
-          </div>
-
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='d4.jpg' alt='First slide' />
-          </div>
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='p1.jpg' alt='First slide' />
-          </div>
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='p2.jpg' alt='First slide' />
-          </div>
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='p3.jpg' alt='First slide' />
-          </div>
-          <div className='item_c'>
-            <img className='w-100 img-fluid' src='p4.jpg' alt='First slide' />
-          </div>
+          {allProducts.map((product) => (
+            <div className='item_c col-12' key={product.id}>
+              <Link to={`/products/${product.id}`}>
+                <img
+                  src={product.image}
+                  className='w-100 img-fluid'
+                  alt={product.name}
+                />
+              </Link>
+            </div>
+          ))}
         </Carousel>
       </section>
 

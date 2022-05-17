@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { getProductDetail, addProductToCar } from '../redux/actions/Products';
-import {Row, Col, Card, Button,ListGroup,Badge} from 'react-bootstrap';
+import {Row, Col, Card, Button,ListGroup,Badge, Container} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
@@ -43,7 +43,7 @@ export default function ProductDetail() {
     allLoading ? (<LoadingBox />
     ) : allErrors ? (<MessageBox variant="danger">{allErrors}</MessageBox>
     ) : (
-      <div>
+      <Container>
         <h3>{allDetail.name}</h3>
         <Row>
           <Col md={3}>
@@ -101,7 +101,7 @@ export default function ProductDetail() {
             </Card>
           </Col>
         </Row>
-      </div>
+      </Container>
 
     )
   );

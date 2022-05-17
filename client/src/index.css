@@ -124,3 +124,26 @@ main {
 }
 
 
+.h3_first {
+  font-size: 30px;;
+}
+
+.h3_second {
+  font-size: 80px;;
+}
+
+.h3_third {
+  font-size: 80px;;
+}
+
+.item_c {
+  box-shadow: 5px 5px 5px;
+  /* display: flex;
+  flex-wrap: wrap; */
+  transition: all 400ms ease-out;
+}
+
+.item_c:hover {
+  transform: scale(1.08);
+  transition: all 400ms ease-out;
+}
