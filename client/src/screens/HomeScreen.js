@@ -66,7 +66,7 @@ export default function Home() {
   }
 
   return (
-    <Container>
+    <div>
       {/* Carrusel principal */}
 
       <section>
@@ -164,7 +164,7 @@ export default function Home() {
                       </a>
                       <a
                         href='/'
-                        className='col-12 btn_freezt'
+                        className='btn_freezt'
                         onClick={handleRunningWomen}
                       >
                         MUJER
@@ -224,7 +224,7 @@ export default function Home() {
       </section>
 
       {/*Carrusel final tres imagenes */}
-      <section>
+      <section  className='container'>
         <div className='row text-center trainning_title'>
           <h1 className='display-2'>ANTOJATE</h1>
         </div>
@@ -325,7 +325,7 @@ export default function Home() {
           </div>
         </div>
       </section>
-    </Container>
+    </div>
   );
 }
 

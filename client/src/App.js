@@ -136,7 +136,7 @@ function App() {
           </Navbar>
         </header>
         <main>
-          <Container>
+          {/* <Container> */}
             <Routes>
               <Route path='/' element={<HomeScreen />} />
               <Route path='/products/:id' element={<ProductDetail />} />
@@ -165,12 +165,12 @@ function App() {
               <Route path='/signout' element={<UsersSignOut />} />
               <Route path='*' element={<HomeScreen />} />
             </Routes>
-          </Container>
+          {/* </Container> */}
         </main>
 
-        <footer class='p-1 bg-dark text-white text-center position-relative'>
-          <div class='container'>
-            <p class='lead'>Todos los Derechos Reservados</p>
+        <footer className='p-1 bg-dark text-white text-center position-relative'>
+          <div className='container'>
+            <p className='lead'>Todos los Derechos Reservados</p>
             <a href='/'>
               <i className='bi bi-twitter text-white mx-2'></i>
             </a>
