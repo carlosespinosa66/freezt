@@ -29,7 +29,7 @@ export default function Order() {
   function handleFinished() {
     navigateTo('/MenClothes');
   }
-  
+
   function handleOrders() {
     navigateTo('/orderhistory');
   }
@@ -81,13 +81,15 @@ export default function Order() {
       if (!allUserInfo) {
         navigateTo('/login');
       }
-        loadPayPalScript(process.env.REACT_APP_PAYPAL_CLIENT_ID);
+      loadPayPalScript(process.env.REACT_APP_PAYPAL_CLIENT_ID);
     } catch (err) {
       toast.error(getError(err));
     }
   }, [allUserInfo, navigateTo, loadPayPalScript, toast]);
 
-  const loadPayPalScript = async (clientId) => {
+  const loadPayPalScript = async (clientIdNew) => {
+    let clientId =
+      'AXZqDsuO89YYQ2p3NYf3lHQqmXQiOWSZNegW8N-X71x9tRlUZJUvIRGdaerB7XjJPK20nHRHCNrySJv5';
     try {
       paypalDispatch({
         type: 'resetOptions',
@@ -113,141 +115,141 @@ export default function Order() {
       <Helmet>
         <title>Order</title>
       </Helmet>
-      <h1 className='my-3'>Order {allOrder.id}</h1> 
-        <Row>
-          <Col md={8}>
-            <Card className='mb-3'>
-              <Card.Body>
-                <Card.Title>Shipping</Card.Title>
-                <Card.Text>
-                  <strong>Name:</strong> {allUserInfo.name} <br />
-                  <strong>Address: </strong> {allOrder.shipping_address}
-                </Card.Text>
-                {allOrder.isDelivered ? (
-                  <MessageBox variant='success'>
-                    Delivered at {allOrder.deliveredAt}
-                  </MessageBox>
-                ) : (
-                  <MessageBox variant='danger'>Not Delivered</MessageBox>
-                )}
-              </Card.Body>
-            </Card>
-            <Card className='mb-3'>
-              <Card.Body>
-                <Card.Title>Payment</Card.Title>
-                <Card.Text>
-                  <strong>Method:</strong> {allOrder.paymentSource}
-                </Card.Text>
-                {allOrder.isPaid ? (
-                  <MessageBox variant='success'>
-                    Paid at: {moment(allOrder.paidAt).format('LLLL')}
-                  </MessageBox>
-                ) : (
-                  <MessageBox variant='danger'>Not Paid</MessageBox>
-                )}
-              </Card.Body>
-            </Card>
+      <h1 className='my-3'>Order {allOrder.id}</h1>
+      <Row>
+        <Col md={8}>
+          <Card className='mb-3'>
+            <Card.Body>
+              <Card.Title>Shipping</Card.Title>
+              <Card.Text>
+                <strong>Name:</strong> {allUserInfo.name} <br />
+                <strong>Address: </strong> {allOrder.shipping_address}
+              </Card.Text>
+              {allOrder.isDelivered ? (
+                <MessageBox variant='success'>
+                  Delivered at {allOrder.deliveredAt}
+                </MessageBox>
+              ) : (
+                <MessageBox variant='danger'>Not Delivered</MessageBox>
+              )}
+            </Card.Body>
+          </Card>
+          <Card className='mb-3'>
+            <Card.Body>
+              <Card.Title>Payment</Card.Title>
+              <Card.Text>
+                <strong>Method:</strong> {allOrder.paymentSource}
+              </Card.Text>
+              {allOrder.isPaid ? (
+                <MessageBox variant='success'>
+                  Paid at: {moment(allOrder.paidAt).format('LLLL')}
+                </MessageBox>
+              ) : (
+                <MessageBox variant='danger'>Not Paid</MessageBox>
+              )}
+            </Card.Body>
+          </Card>
 
-            <Card className='mb-3'>
-              <Card.Body>
-                <Card.Title>Items</Card.Title>
-                <ListGroup variant='flush'>
-                  {allItems.map((item) => (
-                    <ListGroup.Item key={item.Product.id}>
-                      <Row className='align-items-center'>
-                        <Col md={6}>
-                          <img
-                            src={item.Product.image}
-                            alt={item.Product.name}
-                            className='img-fluid rounded img-thumbnail'
-                          ></img>{' '}
-                          {item.Product.name}
-                        </Col>
-                        <Col md={3}>
-                          <span>{item.quantity}</span>
-                        </Col>
-                        <Col md={3}>${item.Product.price * item.quantity}</Col>
-                      </Row>
-                    </ListGroup.Item>
-                  ))}
-                </ListGroup>
-              </Card.Body>
-            </Card>
-          </Col>
-          <Col ms={4}>
-            <Card className='mb-3'>
-              <Card.Body>
-                <Card.Title>Order Summary</Card.Title>
-                <ListGroup variant='flush'>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Items</Col>
-                      <Col>${allOrder.total_amount.toFixed(2)}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Shipping</Col>
-                      <Col>${allOrder.shippingPrice.toFixed(2)}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>Tax</Col>
-                      <Col>${allOrder.taxPrice.toFixed(2)}</Col>
-                    </Row>
-                  </ListGroup.Item>
-                  <ListGroup.Item>
-                    <Row>
-                      <Col>
-                        <strong> Order Total</strong>
+          <Card className='mb-3'>
+            <Card.Body>
+              <Card.Title>Items</Card.Title>
+              <ListGroup variant='flush'>
+                {allItems.map((item) => (
+                  <ListGroup.Item key={item.Product.id}>
+                    <Row className='align-items-center'>
+                      <Col md={6}>
+                        <img
+                          src={item.Product.image}
+                          alt={item.Product.name}
+                          className='img-fluid rounded img-thumbnail'
+                        ></img>{' '}
+                        {item.Product.name}
                       </Col>
-                      <Col>
-                        <strong>${allOrder.total_amount.toFixed(2)}</strong>
+                      <Col md={3}>
+                        <span>{item.quantity}</span>
                       </Col>
+                      <Col md={3}>${item.Product.price * item.quantity}</Col>
                     </Row>
                   </ListGroup.Item>
-                  {!allOrder.isPaid && (
-                    <ListGroup.Item>
-                      {' '}
-                      {isPending ? (
-                        <LoadingBox />
-                      ) : (
-                        <div>
-                          <PayPalButtons
-                            style={{
-                              color: 'blue',
-                              layout: 'vertical',
-                              height: 40,
-                              tagline: false,
-                              shape: 'pill',
-                              label: 'pay',
-                            }}
-                            createOrder={createOrder}
-                            onApprove={onApprove}
-                            onCancel={onCancel}
-                            onError={onError}
-                          />
-                        </div>
-                      )}
-                      {allLoadingPay && <LoadingBox></LoadingBox>}
-                    </ListGroup.Item>
-                  )}
-                  {allOrder.isPaid && (
-                    <div className='d-grid'>
-                      <Button type='button' onClick={handleOrders}>
-                        Historial de Ordenes
-                      </Button>
-                      <Button type='button' onClick={handleFinished}>
-                        Productos
-                      </Button>
-                    </div>
-                  )}
-                </ListGroup>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
+                ))}
+              </ListGroup>
+            </Card.Body>
+          </Card>
+        </Col>
+        <Col ms={4}>
+          <Card className='mb-3'>
+            <Card.Body>
+              <Card.Title>Order Summary</Card.Title>
+              <ListGroup variant='flush'>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Items</Col>
+                    <Col>${allOrder.total_amount.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Shipping</Col>
+                    <Col>${allOrder.shippingPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>Tax</Col>
+                    <Col>${allOrder.taxPrice.toFixed(2)}</Col>
+                  </Row>
+                </ListGroup.Item>
+                <ListGroup.Item>
+                  <Row>
+                    <Col>
+                      <strong> Order Total</strong>
+                    </Col>
+                    <Col>
+                      <strong>${allOrder.total_amount.toFixed(2)}</strong>
+                    </Col>
+                  </Row>
+                </ListGroup.Item>
+                {!allOrder.isPaid && (
+                  <ListGroup.Item>
+                    {' '}
+                    {isPending ? (
+                      <LoadingBox />
+                    ) : (
+                      <div>
+                        <PayPalButtons
+                          style={{
+                            color: 'blue',
+                            layout: 'vertical',
+                            height: 40,
+                            tagline: false,
+                            shape: 'pill',
+                            label: 'pay',
+                          }}
+                          createOrder={createOrder}
+                          onApprove={onApprove}
+                          onCancel={onCancel}
+                          onError={onError}
+                        />
+                      </div>
+                    )}
+                    {allLoadingPay && <LoadingBox></LoadingBox>}
+                  </ListGroup.Item>
+                )}
+                {allOrder.isPaid && (
+                  <div className='d-grid'>
+                    <Button type='button' onClick={handleOrders}>
+                      Historial de Ordenes
+                    </Button>
+                    <Button type='button' onClick={handleFinished}>
+                      Productos
+                    </Button>
+                  </div>
+                )}
+              </ListGroup>
+            </Card.Body>
+          </Card>
+        </Col>
+      </Row>
     </div>
   );
 }
