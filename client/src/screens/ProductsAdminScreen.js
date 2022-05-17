@@ -14,6 +14,7 @@ import {
   Form,
   Button,
   FloatingLabel,
+  Container,
 } from 'react-bootstrap';
 
 export default function ProductsAdmin() {
@@ -47,7 +48,7 @@ export default function ProductsAdmin() {
   }, [dispatch, getProducts]);
 
   return (
-    <div>
+    <Container>
       <Helmet>
         <title>Administrar Productos</title>
       </Helmet>
@@ -163,6 +164,6 @@ export default function ProductsAdmin() {
           </tbody>
         </table>
       )}
-    </div>
+    </Container>
   );
 }

@@ -1,8 +1,9 @@
 import React from 'react'
+import {Container} from 'react-bootstrap'
 
 export default function WeAre() {
   return (
-    <div >We Are Juan Pablo Espinosa and Daniel Betancur</div>
+    <Container >We Are Juan Pablo Espinosa and Daniel Betancur</Container>
   )
 }
 

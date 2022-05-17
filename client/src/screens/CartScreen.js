@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import {Row, Col, Card, Button,ListGroup} from 'react-bootstrap';
+import {Row, Col, Card, Button,ListGroup,Container} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import MessageBox from '../helpers/MessageBox';
 import { addProductToCar, removeItemCar } from '../redux/actions/Cart';
@@ -28,7 +28,7 @@ export default function Cart() {
     }
 
     return (
-        <div>
+        <Container>
             <Helmet>
                 <title>Shopping Cart</title>
             </Helmet>
@@ -108,6 +108,6 @@ export default function Cart() {
                     </Card>
                 </Col>
             </Row>
-        </div>
+        </Container>
     );
 }

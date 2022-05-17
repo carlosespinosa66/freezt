@@ -120,7 +120,7 @@ function App() {
                 <Nav>
                   <SearchBar />
                   <Link to='/cart' className='nav-link'>
-                    <i className='bi bi-cart3'></i>
+                    <i className='bi bi-cart-plus-fill'></i>
                     {allCart.cartItems.length > 0 && (
                       <Badge pill bg='danger'>
                         {allCart.cartItems.reduce(

@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { updateUserInfo, getUserEditInfo } from '../redux/actions/Users';
-import { Form, Row, Col, Button } from 'react-bootstrap';
+import { Form, Row, Col, Button, Container } from 'react-bootstrap';
 
 export default function UsersAdminAdd() {
   const [validated, setValidated] = useState(false);
@@ -75,7 +75,7 @@ export default function UsersAdminAdd() {
   }, [getUserEditInfo, allUserInfo, allUserDetail]);
 
   return (
-    <div>
+    <Container>
       <Helmet>
         <title>Crear Usuarios</title>
       </Helmet>
@@ -226,6 +226,6 @@ export default function UsersAdminAdd() {
           Cancelar
         </Button>
       </Form>
-    </div>
+    </Container>
   );
 }

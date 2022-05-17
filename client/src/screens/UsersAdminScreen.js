@@ -5,7 +5,7 @@ import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllUsers } from '../redux/actions/Users';
-import { Button } from 'react-bootstrap';
+import { Container,Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
 
@@ -26,7 +26,7 @@ export default function OrderHistoryScreen() {
   }, [getAllUsers, allUserInfo]);
 
   return (
-    <div>
+    <Container>
       <Helmet>
         <title>Administrar Usuarios</title>
       </Helmet>
@@ -86,6 +86,6 @@ export default function OrderHistoryScreen() {
           </tbody>
         </table>
       )}
-    </div>
+    </Container>
   );
 }

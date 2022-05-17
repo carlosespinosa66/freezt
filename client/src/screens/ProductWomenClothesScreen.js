@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { getFilterProductsType } from '../redux/actions/Products';
-import {Row, Col} from 'react-bootstrap';
+import {Row, Col,Container} from 'react-bootstrap';
 
 import Product from '../components/Product';
 import { Helmet } from 'react-helmet-async';
@@ -19,7 +19,7 @@ export default function MenClothes() {
     }, [dispatch]);
 
     return (
-        <div>
+        <Container>
             <Helmet>
                 <title>Productos Femeninos</title>
             </Helmet>
@@ -39,6 +39,6 @@ export default function MenClothes() {
                     </Row>
                 )}
             </div>
-        </div>
+        </Container>
     );
 }

@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Row, Col, Card, ListGroup, Button } from 'react-bootstrap';
+import { Row, Col, Card, ListGroup, Button , Container } from 'react-bootstrap';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { toast } from 'react-toastify';
@@ -49,7 +49,7 @@ export default function OrderDetail() {
   ) : allErrors ? (
     <MessageBox variant='danger'>{allErrors}</MessageBox>
   ) : (
-    <div>
+    <Container>
       <Helmet>
         <title>Order History Detail</title>
       </Helmet>
@@ -185,6 +185,6 @@ export default function OrderDetail() {
           </Col>
         </Row>
       )}
-    </div>
+    </Container>
   );
 }
