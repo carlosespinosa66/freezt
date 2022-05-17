@@ -97,18 +97,18 @@ main {
 
 .div_running_freezt {
   border-radius: 40% 0% 40% 0%;
-  border: #000;
-  border-color: white;
-  height: 100%;
+  /* border:2px; */
+  /* border-color:#000; */
+  /* height: 100%; */
   /* overflow: hidden; */
 }
 
 .div_running_freezt img {
   border-bottom-right-radius: 40%;
   border-top-left-radius: 40%;
-  border-style: solid;
-  border-width: 8px;
-  border-color: white;
+  /* border-style: solid; */
+  /* border-width: 8px; */
+  /* border-color: white; */
 }
 .summary_item {
   display: flex;

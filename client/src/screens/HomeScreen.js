@@ -109,52 +109,69 @@ export default function Home() {
       <section id='section_tax' className='p-5'>
         <div className='row text-center trainning_title'>
           <h4>THIS MAKES ME FEEL</h4>
-        </div>
-        <div className='row text-center trainning_title'>
-          <h1 className='display-3'>THE FREEZT</h1>
+          <h1 className='display-3 p-4'>THE FREEZT</h1>
         </div>
         <div className='container'>
           <div className='row text-center g-4'>
-            <div className='col-md-6'>
-              <div className='card bg-dark text-light div_running_freezt'>
-                <img src='running.jpeg' alt='Third slide' />
-                <div className='card-body text-center '>
-                  <h3 className='card-title mb-3'>RUNNING</h3>
-                  <p className='card-text'>FOR THE FASTEST</p>
-                  <a href='/' className='btn_freezt' onClick={handleRunningMen}>
-                    HOMBRE
-                  </a>
-                  <a
-                    href='/'
-                    className='btn_freezt'
-                    onClick={handleRunningWomen}
-                  >
-                    MUJER
-                  </a>
-                </div>
+            {/* Tarjeta nueva */}
+
+            <div className='row text-center g-6'>
+              <div className='col-12 col-md-6'>
+                <Card className='position-relative div_running_freezt'>
+                  <Card.Img variant='top' src='running.jpeg' />
+                  <Card.Body className='position-absolute w-100 text-center summary_item'>
+                    <Card.Title>
+                      <h3>RUNNING</h3>
+
+                      <p className='card-title card-text mb-3 '>
+                        FOR THE FASTEST
+                      </p>
+                      <a
+                        href='/'
+                        className='btn_freezt'
+                        onClick={handleRunningMen}
+                      >
+                        HOMBRE
+                      </a>
+                      <a
+                        href='/'
+                        className='btn_freezt'
+                        onClick={handleRunningWomen}
+                      >
+                        MUJER
+                      </a>
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
               </div>
-            </div>
-            <div className='col-md-6'>
-              <div className='card bg-secondary text-light div_running_freezt'>
-                <img src='trainning.jpeg' alt='Third slide' />
-                <div className='card-body text-center'>
-                  <h3 className='card-title mb-3'>TRAINNING</h3>
-                  <p className='card-text'>FOR THE STRONGEST</p>
-                  <a
-                    href='/'
-                    className='btn_freezt'
-                    onClick={handleTrainningMen}
-                  >
-                    HOMBRE
-                  </a>
-                  <a
-                    href='/'
-                    className='btn_freezt'
-                    onClick={handleTrainningWomen}
-                  >
-                    MUJER
-                  </a>
-                </div>
+
+              <div className='col-12 col-md-6'>
+                <Card className='position-relative  div_running_freezt'>
+                  <Card.Img variant='top' src='trainning.jpeg' />
+                  <Card.Body className='position-absolute w-100 text-center summary_item'>
+                    <Card.Title>
+                      <h3>TRAINNING</h3>
+                      <p className='card-title card-text mb-3 '>
+                        FOR THE STRONGEST
+                      </p>
+
+                      <a
+                        href='/'
+                        className='btn_freezt'
+                        onClick={handleRunningMen}
+                      >
+                        HOMBRE
+                      </a>
+                      <a
+                        href='/'
+                        className='btn_freezt'
+                        onClick={handleRunningWomen}
+                      >
+                        MUJER
+                      </a>
+                    </Card.Title>
+                  </Card.Body>
+                </Card>
               </div>
             </div>
           </div>
@@ -164,14 +181,13 @@ export default function Home() {
       {/*Tarjetas Categorías  */}
 
       <section className='p-4'>
-
         <div className='container'>
-        <div className='row text-center trainning_title'>
-          <h1 className='display-4'>FEEL THE FREEDOM</h1>
-        </div>
+          <div className='row text-center trainning_title'>
+            <h1 className='display-4'>FEEL THE FREEDOM</h1>
+          </div>
           <div className='row text-center g-6'>
             <div className='col-12 col-md-4'>
-              <Card className='position-relative card_item'>
+              <Card className='position-relative '>
                 <Card.Img variant='top' src='espalda.jpeg' />
                 <Card.Body className='position-absolute w-100 text-center summary_item'>
                   <Card.Title>
@@ -182,7 +198,7 @@ export default function Home() {
               </Card>
             </div>
             <div className='col-12 col-md-4'>
-              <Card className='position-relative card_item'>
+              <Card className='position-relative'>
                 <Card.Img variant='top' src='tennis.jpeg' />
                 <Card.Body className='position-absolute w-100 text-center summary_item'>
                   <Card.Title>
@@ -193,7 +209,7 @@ export default function Home() {
               </Card>
             </div>
             <div className='col-12 col-md-4'>
-              <Card className='position-relative card_item'>
+              <Card className='position-relative'>
                 <Card.Img variant='top' src='bascket.jpeg' />
                 <Card.Body className='position-absolute w-100 text-center summary_item'>
                   <Card.Title>
@@ -209,12 +225,12 @@ export default function Home() {
 
       {/*Carrusel final tres imagenes */}
       <section>
-      <div className='row text-center trainning_title'>
+        <div className='row text-center trainning_title'>
           <h1 className='display-2'>ANTOJATE</h1>
         </div>
         <div className='row text-center trainning_title'>
           <h1>INVIERTELE A TU PASION</h1>
-        </div>        
+        </div>
         <Carousel
           responsive={responsive}
           swipeable={false}
