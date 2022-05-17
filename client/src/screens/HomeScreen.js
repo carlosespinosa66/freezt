@@ -167,7 +167,7 @@ export default function Home() {
 
         <div className='container'>
         <div className='row text-center trainning_title'>
-          <h4>FEEL THE FREEDOM</h4>
+          <h1 className='display-4'>FEEL THE FREEDOM</h1>
         </div>
           <div className='row text-center g-6'>
             <div className='col-12 col-md-4'>
