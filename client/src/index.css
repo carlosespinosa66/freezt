@@ -5,7 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #ede3e3;
+  /* background-color: #ede3e3; */
 }
 header {
   /* background-color: #404040; */
@@ -101,18 +101,14 @@ main {
   border-color: white;
   height: 100%;
   /* overflow: hidden; */
-
-  
 }
 
 .div_running_freezt img {
   border-bottom-right-radius: 40%;
   border-top-left-radius: 40%;
   border-style: solid;
-  border-width: 8px;  
+  border-width: 8px;
   border-color: white;
-  
-  
 }
 .summary_item {
   display: flex;
@@ -122,3 +118,13 @@ main {
   color: #fff;
   height: 100%;
 }
+
+.trainning_title {
+  display:flex;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  color: gray
+ 
+}
+
+
