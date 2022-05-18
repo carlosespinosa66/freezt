@@ -98,19 +98,13 @@ export default function Home() {
           dotListClass='custom-dot-list-style'
           itemClass='carousel-item-padding-40-px'
         >
-          <div className='item_c'>
+          <div>
             <img className='w-100 img-fluid' src='cs1.jpeg' alt='First slide' />
           </div>
-
-          <div className='item_c'>
-            <img
-              className='w-100 img-fluid'
-              src='cs2.jpeg'
-              alt='Second slide'
-            />
+          <div>
+            <img className='w-100 img-fluid' src='cs2.jpeg'alt='Second slide'/>
           </div>
-
-          <div className='item_c'>
+          <div>
             <img className='w-100 img-fluid' src='cs3.jpeg' alt='Third slide' />
           </div>
         </Carousel>
@@ -139,16 +133,16 @@ export default function Home() {
                         FOR THE FASTEST
                       </p>
                       <a
-                        href='/'
+                        href='/MenClothes'
                         className='col-12 btn_freezt'
-                        onClick={handleRunningMen}
+                        // onClick={handleRunningMen}
                       >
                         HOMBRE
                       </a>
                       <a
-                        href='/'
+                        href='/WomenClothes'
                         className='col-12 btn_freezt'
-                        onClick={handleRunningWomen}
+                        // onClick={handleRunningWomen}
                       >
                         MUJER
                       </a>
@@ -159,7 +153,7 @@ export default function Home() {
 
               <div className='col-12 col-md-6'>
                 <Card className='position-relative  div_running_freezt'>
-                  <Card.Img variant='top' src='trainning.jpeg' />
+                  <Card.Img variant='top' src='trainning.jpeg'/>
                   <Card.Body className='position-absolute w-100 text-center summary_item'>
                     <Card.Title>
                       <h3>TRAINNING</h3>
@@ -168,16 +162,16 @@ export default function Home() {
                       </p>
 
                       <a
-                        href='/'
+                        href='/MenClothes'
                         className='col-12 btn_freezt'
-                        onClick={handleRunningMen}
+                        // onClick={handleRunningMen}
                       >
                         HOMBRE
                       </a>
                       <a
-                        href='/'
+                        href='/WomenClothes'
                         className='btn_freezt'
-                        onClick={handleRunningWomen}
+                        // onClick={handleRunningWomen}
                       >
                         MUJER
                       </a>

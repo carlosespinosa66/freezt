@@ -18,6 +18,7 @@ export default function ProductEdit() {
     id: '',
     name: '',
     image: '',
+    imagesec: '',
     price: '',
     description: '',
     weight: '',
@@ -28,6 +29,7 @@ export default function ProductEdit() {
     genres: '',
     isActive: '',
     imageFile: '',
+    imageFileSec:''
   });
 
   const handleSubmit = (event) => {
@@ -49,7 +51,11 @@ export default function ProductEdit() {
         [e.target.name]: e.target.checked,
       });
     } else if (e.target.type === 'file') {
-      input.image = '/images/' + e.target.files[0].name;
+      if (e.target.name ==='imageFile'){
+        input.image = '/images/' + e.target.files[0].name;
+      }else if (e.target.name ==='imageFileSec'){
+        input.imagesec = '/images/' + e.target.files[0].name;
+      }
       setOrden(`Ordered ${e.target.value}`);
     } else {
       setInput({
@@ -65,6 +71,7 @@ export default function ProductEdit() {
         id: allDetail.id,
         name: allDetail.name,
         image: allDetail.image,
+        imagesec: allDetail.imagesec,
         price: allDetail.price,
         description: allDetail.description,
         weight: allDetail.weight,
@@ -96,7 +103,7 @@ export default function ProductEdit() {
         onSubmit={handleSubmit}
       >
         <Row className='bg-secondary bg-opacity-10'>
-          <Col className='col-12 col-lg-9'>
+          <Col className='col-12 col-lg-8'>
             <Row className='p-2'>
               <Form.Group as={Col} md='8' controlId='name'>
                 <Form.Label>Nombre</Form.Label>
@@ -223,7 +230,7 @@ export default function ProductEdit() {
             </Row>
           </Col>
 
-          <Col className='col-12 col-lg-3 bg-secondary bg-opacity-10'>
+          <Col className='col-12 col-lg-2 bg-secondary bg-opacity-10'>
             <Row className='p-2 '>
               <Form.Group controlId='formFile'>
                 <Form.Label>Imagen</Form.Label>
@@ -237,10 +244,38 @@ export default function ProductEdit() {
                   Ingrese la Imagen.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md='2' controlId='genres'>
+              <Form.Group as={Col} md='2' controlId='image'>
                 <div className='p-2'>
                   <img
                     src={input.image}
+                    height='150'
+                    width='180'
+                    className='align-top border border-secondary '
+                    alt='Foto Producto'
+                  />
+                </div>
+              </Form.Group>
+            </Row>
+          </Col>
+
+          <Col className='col-12 col-lg-2 bg-secondary bg-opacity-10'>
+            <Row className='p-2 '>
+              <Form.Group controlId='formFile'>
+                <Form.Label>Imagen Secundaria</Form.Label>
+                <Form.Control
+                  type='file'
+                  name='imageFileSec'
+                  className='p-2'
+                  onChange={(e) => handleInputChange(e)}
+                />
+                <Form.Control.Feedback type='invalid'>
+                  Ingrese la Imagen.
+                </Form.Control.Feedback>
+              </Form.Group>
+              <Form.Group as={Col} md='2' controlId='imagesec'>
+                <div className='p-2'>
+                  <img
+                    src={input.imagesec}
                     height='150'
                     width='180'
                     className='d-inline-block align-top border border-secondary '
@@ -249,9 +284,7 @@ export default function ProductEdit() {
                 </div>
               </Form.Group>
             </Row>
-
             <Row className='p-2'>
-              <Col>
                 <Button type='submit'>Grabar</Button>
                 <Button
                   onClick={() => {
@@ -260,7 +293,6 @@ export default function ProductEdit() {
                 >
                   Cancelar
                 </Button>
-              </Col>
             </Row>
           </Col>
         </Row>
