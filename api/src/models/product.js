@@ -17,6 +17,10 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    imagesec: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
     price: {
       type: DataTypes.FLOAT,
       allowNull: false,
@@ -47,10 +51,10 @@ module.exports = (sequelize) => {
       type: DataTypes.INTEGER,
       allowNull: true,
     },
-    genres:{
+    genres: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "Hombre",
+      defaultValue: 'Hombre',
     },
     isActive: {
       type: DataTypes.BOOLEAN,

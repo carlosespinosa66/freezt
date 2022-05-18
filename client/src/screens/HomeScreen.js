@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {Card, Button } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import MessageBox from '../helpers/MessageBox';
@@ -261,14 +261,27 @@ export default function Home() {
           itemClass='carousel-item-padding-40-px'
         >
           {allProducts.map((product) => (
-            <div className='item_c col-12' key={product.id}>
-              <Link to={`/products/${product.id}`}>
-                <img
-                  src={product.image}
-                  className='w-100 img-fluid'
-                  alt={product.name}
-                />
-              </Link>
+            <div className='item_c col-12 thumbnail' key={product.id}>
+              <div>
+                <Link to={`/products/${product.id}`}>
+                  <img
+                    src={product.image}
+                    className='w-100 img-fluid picture1'
+                    alt={product.name}
+                  />
+                </Link>
+              </div>
+              <div>
+                <div>
+                  <Link to={`/products/${product.id}`}>
+                    <img
+                      src={product.imagesec}
+                      className='w-100 img-fluid picture2'
+                      alt={product.name}
+                    />
+                  </Link>
+                </div>
+              </div>
             </div>
           ))}
         </Carousel>

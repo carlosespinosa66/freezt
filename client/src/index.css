@@ -147,3 +147,13 @@ main {
   transform: scale(1.08);
   transition: all 400ms ease-out;
 }
+
+.picture2 {
+  display: none;
+}
+.thumbnail:hover .picture1 {
+  display: none;
+}
+.thumbnail:hover .picture2 {
+  display: block;
+}

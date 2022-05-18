@@ -5,15 +5,15 @@ const {
   Product,
   Country,
   User,
-} = require("../db");
-const fs = require("fs");
-const axios = require("axios");
-const bcrypt = require("bcrypt");
+} = require('../db');
+const fs = require('fs');
+const axios = require('axios');
+const bcrypt = require('bcrypt');
 
 //Just to fill the db.
 const bulkCreateCategories = async () => {
   try {
-    let data = fs.readFileSync(__dirname + "/../json/categories.json", "utf8");
+    let data = fs.readFileSync(__dirname + '/../json/categories.json', 'utf8');
     data = JSON.parse(data);
     for (let i = 0; i < data.length; i++) {
       await Category.findOrCreate({
@@ -29,7 +29,7 @@ const bulkCreateCategories = async () => {
 
 const bulkCreateBrands = async () => {
   try {
-    let data = fs.readFileSync(__dirname + "/../json/brands.json", "utf8");
+    let data = fs.readFileSync(__dirname + '/../json/brands.json', 'utf8');
     data = JSON.parse(data);
     for (let i = 0; i < data.length; i++) {
       await Brand.findOrCreate({
@@ -46,8 +46,8 @@ const bulkCreateBrands = async () => {
 const bulkCreateSubcategories = async () => {
   try {
     let data = fs.readFileSync(
-      __dirname + "/../json/subcategories.json",
-      "utf8"
+      __dirname + '/../json/subcategories.json',
+      'utf8'
     );
     data = JSON.parse(data);
     for (let i = 0; i < data.length; i++) {
@@ -65,19 +65,27 @@ const bulkCreateSubcategories = async () => {
 
 const bulkCreateProducts = async () => {
   try {
-    let data = fs.readFileSync(__dirname + "/../json/products.json", "utf8");
+    let data = fs.readFileSync(__dirname + '/../json/products.json', 'utf8');
     data = JSON.parse(data);
     for (let i = 0; i < data.length; i++) {
-      await Product.findOrCreate({
-        where: {
-          name: data[i].name,
-          image: data[i].image,
-          price: data[i].price,
-          description: data[i].description,
-          weight: data[i].weight,
-          stock: data[i].stock,
-          genres: data[i].genres,
-        },
+      let name = data[i].name;
+      let image = data[i].image;
+      let imagesec = data[i].imagesec;
+      let price = data[i].price;
+      let description = data[i].description;
+      let weight = data[i].weight;
+      let stock = data[i].stock;
+      let genres = data[i].genres;
+
+      await Product.create({
+        name,
+        image,
+        imagesec,
+        price,
+        description,
+        weight,
+        stock,
+        genres,
       });
     }
   } catch (error) {
@@ -87,7 +95,7 @@ const bulkCreateProducts = async () => {
 
 const bulkCreateCountries = async () => {
   try {
-    let data = fs.readFileSync(__dirname + "/../json/countries.json", "utf8");
+    let data = fs.readFileSync(__dirname + '/../json/countries.json', 'utf8');
     data = JSON.parse(data);
     const countries = data.map((country) => {
       return { name: country.name.common, code: country.cca3 };
@@ -107,7 +115,7 @@ const bulkCreateCountries = async () => {
 
 const bulkCreateUsers = async () => {
   try {
-    let data = fs.readFileSync(__dirname + "/../json/users.json", "utf8");
+    let data = fs.readFileSync(__dirname + '/../json/users.json', 'utf8');
     data = JSON.parse(data);
     for (let i = 0; i < data.length; i++) {
       data[i].password = await bcrypt.hash(data[i].password, 8);
@@ -139,3 +147,14 @@ module.exports = {
   bulkCreateCountries,
   bulkCreateUsers,
 };
+
+// where: {
+//   name: data[i].name,
+//   image: data[i].image,
+//   imagesec: data[i].imagesec,
+//   price: data[i].price,
+//   description: data[i].description,
+//   weight: data[i].weight,
+//   stock: data[i].stock,
+//   genres: data[i].genres,
+// },

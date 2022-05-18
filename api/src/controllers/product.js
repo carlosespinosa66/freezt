@@ -139,6 +139,7 @@ const getSingleProduct = async (req, res) => {
           id: singleProduct.id,
           name: singleProduct.name,
           image: singleProduct.image,
+          imagesec: singleProduct.imagesec,
           price: singleProduct.price,
           description: singleProduct.description,
           rating: singleProduct.rating,
@@ -190,6 +191,7 @@ const getFilterProductsType = async (req, res) => {
             id: product.id,
             name: product.name,
             image: product.image,
+            imagesec: product.imagesec,
             price: product.price,
             description: product.description,
             rating: product.rating,
@@ -231,6 +233,7 @@ const getFilterProductsSearch = async (req, res) => {
             id: product.id,
             name: product.name,
             image: product.image,
+            imagesec: product.imagesec,
             price: product.price,
             description: product.description,
             rating: product.rating,
@@ -278,6 +281,7 @@ const getFilterProductsState = async (req, res) => {
             id: product.id,
             name: product.name,
             image: product.image,
+            imagesec: product.imagesec,
             price: product.price,
             description: product.description,
             rating: product.rating,
@@ -329,6 +333,7 @@ const getProducts = async (req, res) => {
           id: product.id,
           name: product.name,
           image: product.image,
+          imagesec: product.imagesec,
           price: product.price,
           description: product.description,
           rating: product.rating,
@@ -381,6 +386,8 @@ const deleteProduct = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
+
+
 
 module.exports = {
   createProduct,
