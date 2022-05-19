@@ -189,7 +189,7 @@ export default function Home() {
       <section className='p-4'>
         <div className='container'>
           <div className='row text-center trainning_title'>
-            <h3 className='h3_second display-4'>FEEL THE FREEDOM</h3>
+            <h3 className='col-12 h3_second display-4'>FEEL THE FREEDOM</h3>
           </div>
           <div className='row text-center g-6'>
             <div className='col-12 col-md-4'>
