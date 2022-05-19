@@ -57,7 +57,8 @@ export const updateOrderStatus = (id, status, token) => {
     } catch (error) {
       dispatch({
         type: 'UPDATE_ORDER_STATUS__FAIL',
-        payload: { status: error },
+        payload: error.message,
+        // payload: { status: error },
       });
     }
   };
@@ -172,6 +173,34 @@ export function regPaypalOrder(id, info, token) {
     }
   };
 }
+
+export function regNormalOrder(id, info, token) {
+  return async function(dispatch) {
+    try {
+      const payOrder = await axios.put(
+        `api/auth/orders/normal/${id}`,
+        { info },
+        {
+          headers: { 'auth-token': token },
+        }
+      );
+
+      dispatch({
+        type: 'PAY_ORDER_SUCCESS',
+        payload: payOrder.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PAY_ORDER_FAIL',
+        payload: error,
+        // payload: { status: error.response.status },
+      });
+    }
+  };
+}
+
+
+
 
 export function putClearOrders() {
   return {

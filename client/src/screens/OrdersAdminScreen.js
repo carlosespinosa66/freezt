@@ -72,6 +72,7 @@ export default function OrdersAdmin() {
               <option></option>
               <option value='ALL'>Todas</option>
               <option value='PENDING'>Pendiente</option>
+              <option value='TOCONFIRM'>Por Confirmar</option>
               <option value='BILLED'>Pagada</option>
               <option value='PROCESING'>Proceso</option>
               <option value='CANCELED'>Cancelada</option>
@@ -106,7 +107,12 @@ export default function OrdersAdmin() {
               allOrders.map((order) => (
                 <tr key={order.id}>
                   <td>{order.id}</td>
-                  <td>{moment(order.paidAt).format('LLL')}</td>
+                  {order.isPaid ? (
+                    <td>{moment(order.paidAt).format('LLL')}</td>
+                  ) : (
+                    <td>{moment(order.createdAt).format('LLL')}</td>
+                  )}
+
                   <td>{order.status}</td>
                   <td>{order.total_amount.toFixed(2)}</td>
                   <td>{order.isPaid ? 'Yes' : 'No'}</td>
@@ -120,15 +126,20 @@ export default function OrdersAdmin() {
                     >
                       Detalles
                     </Button>
-                    <Button
-                      type='button'
-                      variant='secondary'
-                      onClick={() => {
-                        navigateTo(`/orderadminedit/${order.id}`);
-                      }}
-                    >
-                      Modificar
-                    </Button>
+
+                    {order.status !== 'Finalizada' ? (
+                      <Button
+                        type='button'
+                        variant='secondary'
+                        onClick={() => {
+                          navigateTo(`/orderadminedit/${order.id}`);
+                        }}
+                      >
+                        Modificar
+                      </Button>
+                    ) : (
+                      ''
+                    )}
                   </td>
                 </tr>
               ))

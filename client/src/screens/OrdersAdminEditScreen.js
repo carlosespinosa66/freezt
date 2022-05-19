@@ -2,7 +2,15 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
-import { Form, Row, Col, Card, ListGroup, Button,Container } from 'react-bootstrap';
+import {
+  Form,
+  Row,
+  Col,
+  Card,
+  ListGroup,
+  Button,
+  Container,
+} from 'react-bootstrap';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { toast } from 'react-toastify';
@@ -169,6 +177,11 @@ export default function OrdersAdminEdit() {
                           >
                             <option></option>
                             <option value='PROCESING'>Proceso</option>
+                            {allOrder.status === 'Por Confirmar' ? (
+                              <option value='BILLED'>Pagada</option>
+                            ) : (
+                              ''
+                            )}
                             <option value='CANCELED'>Cancelada</option>
                             <option value='DISPATCHED'>Despachada</option>
                             <option value='DELIVERED'>Entregada</option>

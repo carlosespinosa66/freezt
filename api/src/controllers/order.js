@@ -10,6 +10,7 @@ const {
   ORDER_STATUS_FINISHED,
   ORDER_STATUS_PROCESING,
   ORDER_STATUS_CANCELED,
+  ORDER_STATUS_TOCONFIRM,
 } = process.env;
 
 const getOrderStatus = (status) => {
@@ -26,8 +27,10 @@ const getOrderStatus = (status) => {
       return 'Finalizada';
     case ORDER_STATUS_PROCESING:
       return 'Proceso';
+    case ORDER_STATUS_TOCONFIRM:
+      return 'Por Confirmar';
     case ORDER_STATUS_CANCELED:
-      return '';
+      return 'Cancelada';
     default:
       return state;
   }
@@ -70,6 +73,7 @@ const getOrders = async (req, res) => {
         taxPrice: Order.taxPrice,
         paidAt: Order.paidAt,
         isPaid: Order.isPaid,
+        createdAt:Order.createdAt,
         details:
           Order.Order_details.length > 0
             ? Order.Order_details.map((detail) => {
@@ -131,6 +135,7 @@ const getUserOrdersServer = async (req, res) => {
         taxPrice: Order.taxPrice,
         paidAt: Order.paidAt,
         isPaid: Order.isPaid,
+        createdAt:Order.createdAt,
         shipping_address: Order.shipping_address,
         details:
           Order.Order_details.length > 0
@@ -237,10 +242,18 @@ const updateOrderState = async (req, res) => {
     if (!id) {
       res.status(404).send({ errorMsg: 'Missing id.' });
     } else {
-      let orderState = await Order.update(
-        { status: status },
-        { where: { id } }
-      );
+      let orderState
+      if (status === ORDER_STATUS_BILLED) {
+        orderState = await Order.update(
+          { status: status, paidAt: Date.now() },
+          { where: { id } })
+      } else {
+        orderState = await Order.update(
+          { status: status },
+          { where: { id } }
+        )
+      }
+
       if (!orderState) {
         res.status(404).send({ errorMsg: 'order not found' });
       } else {
@@ -260,8 +273,6 @@ const updateOrderState = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
-
-
 
 //send actual order (cart) with it's order-details included.
 const getActiveOrder = async (req, res) => {
@@ -308,6 +319,7 @@ const getActiveOrder = async (req, res) => {
       taxPrice: activeOrder.taxPrice,
       paidAt: activeOrder.paidAt,
       isPaid: activeOrder.isPaid,
+      createdAt:activeOrder.createdAt,
       details:
         activeOrder.Order_details.length > 0
           ? activeOrder.Order_details.map((detail) => {
@@ -372,6 +384,7 @@ const getHistoryOrder = async (req, res) => {
       taxPrice: historyOrder.taxPrice,
       paidAt: historyOrder.paidAt,
       isPaid: historyOrder.isPaid,
+      createdAt:historyOrder.createdAt,
       details:
         historyOrder.Order_details.length > 0
           ? historyOrder.Order_details.map((detail) => {
@@ -395,7 +408,6 @@ const getHistoryOrder = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
-
 
 //Fine
 const createOrderDetail = async (OrderId, ProductId, quantity, amount) => {
@@ -490,6 +502,7 @@ const getUserOrders = async (id) => {
           status: getOrderStatus(Order.status),
           paidAt: Order.paidAt,
           isPaid: Order.isPaid,
+          createdAt:Order.createdAt,
           detail:
             Order.Order_details.length > 0
               ? Order.Order_details.map((detail) => {
@@ -553,6 +566,7 @@ const getFilterOrdersState = async (req, res) => {
         status: getOrderStatus(Order.status),
         paidAt: Order.paidAt,
         isPaid: Order.isPaid,
+        createdAt:Order.createdAt,
       };
     });
     res
@@ -619,6 +633,60 @@ const updatePaypalOrder = async (req, res) => {
   }
 };
 
+const updateNormalOrder = async (req, res) => {
+  let id = req.params.id;
+  let { paymentSource, shippingPrice, taxPrice, email_address } = req.body.info;
+  // let orderIdPayment = req.body.info.orderIdPayment.id;
+  try {
+    let orderPaypal = await Order.findOne({
+      where: { id },
+      include: [
+        {
+          model: Order_detail,
+          attributes: ['amount', 'quantity'],
+          include: [
+            {
+              model: Product,
+              attributes: ['id', 'name', 'image', 'price', 'stock'],
+            },
+          ],
+        },
+      ],
+    });
+
+    orderPaypal.Order_details.forEach(async (detail) => {
+      await updateStockproducts(detail.Product.id, detail.quantity);
+    });
+
+    if (!orderPaypal) {
+      res.status(401).send({ message: 'Order Not Found' });
+    } else {
+      let updatedOrder = await orderPaypal.update({
+        status: ORDER_STATUS_TOCONFIRM,
+        email_address: email_address,
+        isPaid: false,
+        paymentSource: paymentSource,
+        shippingPrice: shippingPrice,
+        taxPrice: taxPrice,
+        isDelivered: false,
+      });
+
+      await sendMailOrder(
+        email_address,
+        'Confirmación Orden de Compra',
+        `<p>Su orden de Compra número ${id} ha sido generada. Recuerde enviarnos su comprobane de transferencia</p>`
+      );
+
+      let Order_details = orderPaypal.Order_details;
+      res
+        .status(201)
+        .send({ successMsg: 'Order Paid', data: updatedOrder, Order_details });
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
 const updateStockproducts = async (productId, quantity) => {
   const productupdate = await Product.findOne({
     where: {
@@ -632,8 +700,6 @@ const updateStockproducts = async (productId, quantity) => {
     await productupdate.update({ stock: productupdate.stock - quantity });
   }
 };
-
-
 
 // const updateOrder = async (req, res) => {
 //   const id = req.params.id;
@@ -658,7 +724,6 @@ const updateStockproducts = async (productId, quantity) => {
 //     res.status(500).send({ errorMsg: error.message });
 //   }
 // };
-
 
 // *******add and remove a product from the detail******
 
@@ -829,10 +894,11 @@ module.exports = {
   getActiveOrder,
   updateOrderState,
   updatePaypalOrder,
+  updateNormalOrder,
   getHistoryOrder,
   getFilterOrdersState,
   // addProductsOrder,
   // removeProductsOrder,
   // deleteProductsOrder,
-//  updateOrder,
+  //  updateOrder,
 };

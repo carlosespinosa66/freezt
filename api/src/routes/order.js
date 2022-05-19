@@ -9,6 +9,7 @@ const {
   removeProductsOrder,
   deleteProductsOrder,
   updatePaypalOrder,
+  updateNormalOrder,
   updateOrder,
   getHistoryOrder,
   getFilterOrdersState,
@@ -27,6 +28,8 @@ orderRouter.get('/auth/orders/user', isLoggedIn, getUserOrdersServer);
 
 orderRouter.get('/orders/state', isLoggedIn, isAdmin, getFilterOrdersState);
 orderRouter.put('/auth/orders/pay/:id', isLoggedIn, updatePaypalOrder);
+orderRouter.put('/auth/orders/normal/:id', isLoggedIn, updateNormalOrder);
+
 
 //admin
 orderRouter.put(  '/admin/orders/state/:id',  isLoggedIn,  isAdmin,  updateOrderState);
