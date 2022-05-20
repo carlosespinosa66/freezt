@@ -260,10 +260,10 @@ const signIn = async (req, res) => {
     }
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(400).send({ errorMsg: 'Invalid password.' });
+      return res.status(401).send({ errorMsg: 'Invalid password.' });
     }
     if (!user.isActive) {
-      return res.status(400).send({ errorMsg: 'User is not active.' });
+      return res.status(402).send({ errorMsg: 'User is not active.' });
     }
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
     await User.update(

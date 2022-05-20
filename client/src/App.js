@@ -144,8 +144,6 @@ function App() {
               <Route path='/WomenClothes' element={<WomenClothes />} />
               <Route path='/WeAre' element={<WeAre />} />
               <Route path='/cart' element={<Cart />} />
-              <Route path='/signin' element={<UsersSignin />} />
-              <Route path='/signup' element={<UsersSignup />} />
               <Route path='/shipping' element={<OrderShippingAddress />} />
               <Route path='/payment' element={<OrderPaymentMethod />} />
               <Route path='/placeorder' element={<PlaceOrder />} />
@@ -162,6 +160,8 @@ function App() {
               <Route path='/useradminedit/:id' element={<UsersAdminEdit />} />
               <Route path='/usersadmin' element={<UsersAdmin />} />
               <Route path='/usersadd' element={<UsersAdd />} />
+              <Route path='/signin' element={<UsersSignin />} />
+              <Route path='/signup' element={<UsersSignup />} />
               <Route path='/signout' element={<UsersSignOut />} />
               <Route path='*' element={<HomeScreen />} />
             </Routes>

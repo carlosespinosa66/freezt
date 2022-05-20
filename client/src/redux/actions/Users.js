@@ -1,29 +1,32 @@
 import axios from 'axios';
+import swal from 'sweetalert';
 
-export function getUserInfo(email, password) {
+export function getUserInfo(email, password, cb) {
   return async function(dispatch) {
     try {
       const response = await axios.post('/api/signIn', { email, password });
       const TOKEN = response.headers['auth-token'];
-      dispatch({
-        type: 'USER_SIGNIN',
-        payload: {
-          email,
-          token: TOKEN,
-          name: response.data.data.name,
-          role: response.data.data.role,
-          surname: response.data.data.surname,
-          billing_address: response.data.data.billing_address,
-          default_shipping_address: response.data.data.default_shipping_address,
-          google: false,
-        },
-      });
+      if (response.status == 200) {
+        dispatch({
+          type: 'USER_SIGNIN',
+          payload: {
+            email,
+            token: TOKEN,
+            name: response.data.data.name,
+            role: response.data.data.role,
+            surname: response.data.data.surname,
+            billing_address: response.data.data.billing_address,
+            default_shipping_address:
+              response.data.data.default_shipping_address,
+            google: false,
+          },
+        });
+        cb(null);
+      } else {
+        cb(response.data.errorMsg);
+      }
     } catch (error) {
-      console.log(error);
-      dispatch({
-        type: 'USER_SIGNIN_FAIL',
-        payload: '', //{ status: error.response.status },
-      });
+      cb(error.response.status.toString());
     }
   };
 }

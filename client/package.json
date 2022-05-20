@@ -28,6 +28,7 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-thunk": "^2.4.1",
     "slick-carousel": "^1.8.1",
+    "sweetalert": "^2.1.2",
     "use-reducer-logger": "^1.0.2",
     "web-vitals": "^2.1.4"
   },

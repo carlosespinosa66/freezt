@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toast } from 'react-toastify';
 import { getUserInfo } from '../redux/actions/Users';
-import { getError } from '../helpers/utils';
+import swal from 'sweetalert';
 
 export default function SigninScreen() {
   const dispatch = useDispatch();
@@ -15,19 +15,48 @@ export default function SigninScreen() {
   const redirectInUrl = new URLSearchParams(search).get('redirect');
   const redirect = redirectInUrl ? redirectInUrl : '/';
   const [email, setEmail] = useState('');
+  const [error, setError] = useState('');
   const [password, setPassword] = useState('');
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
-  // const allErrors = useSelector((state) => state.error);
 
   function submitHandler(e) {
     e.preventDefault();
-    // dispatch(putUserReset())
+
     try {
-      dispatch(getUserInfo(email, password));
-      navigateTo(redirect || '/');
-      // allErrors.status ? toast.error("Wrong Pawword or Email") : navigateTo(redirect || '/');
+      dispatch(
+        getUserInfo(email, password, (error) => {
+          if (!error) {
+            swal({
+              title: 'Autenticado de manera satisfactoria',
+              icon: 'success',
+            });
+            navigateTo(redirect || '/');
+          } else if (error === '404') {
+            swal({
+              title: 'Registro',
+              text: 'Usuario no encontrado.  Por favor registrese.',
+              icon: 'warning',
+              dangerMode: true,
+              buttons: {
+                confirm: true,
+              },
+            });
+            navigateTo('/signup');
+          } else if (error === '401') {
+            swal({
+              title: 'Datos incorrectos',
+              text: 'Correo o clave incorrectos.  Trate de nuevo',
+              icon: 'warning',
+              dangerMode: true,
+              buttons: {
+                confirm: true,
+              },
+            });
+          }
+        })
+      );
     } catch (err) {
-      toast.error(getError(err));
+      console.log(err);
     }
   }
 
