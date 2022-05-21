@@ -1,7 +1,15 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { Row, Col, Card, Button, ListGroup, Container } from 'react-bootstrap';
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  ListGroup,
+  Container,
+  Alert,
+} from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
 import MessageBox from '../helpers/MessageBox';
 import { addProductToCar, removeItemCar } from '../redux/actions/Cart';
@@ -30,17 +38,26 @@ export default function Cart() {
   return (
     <Container>
       <Helmet>
-        <title>Shopping Cart</title>
+        <title>Carrito de Compras</title>
       </Helmet>
-      <h1>Shopping Cart</h1>
+      <h1>Carrito de Compras</h1>
 
       <Row>
         <Col md={8}>
           {allCartItems.length === 0 ? (
             <MessageBox>
-              El carrito está vacio. <br />
-              <Link to='/MenClothes'>Productos de Hombre</Link> <br />
-              <Link to='/WoMenClothes'>Productos de Mujer</Link>
+              <Alert key='secondary' variant='secondary'>
+                <Alert.Heading>
+                  El carrito está vacío. Puede elegir{' '}
+                </Alert.Heading>
+                <Alert.Link href='/MenClothes'>Productos de hombre</Alert.Link>.
+              </Alert>
+              <Alert key='secondary' variant='secondary'>
+                <Alert.Heading>
+                  El carrito está vacío. Puede elegir{' '}
+                </Alert.Heading>
+                <Alert.Link href='/WoMenClothes'>Productos de mujer</Alert.Link>.
+              </Alert>
             </MessageBox>
           ) : (
             <ListGroup>
