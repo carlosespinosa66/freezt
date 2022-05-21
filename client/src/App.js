@@ -17,7 +17,7 @@ import OrderPaymentMethod from './screens/OrderPaymentMethodScreen';
 import OrdersAdmin from './screens/OrdersAdminScreen';
 import OrdersAdminEdit from './screens/OrdersAdminEditScreen';
 import OrderShippingAddress from './screens/OrderShippingAddressScreen';
-import PlaceOrder from './screens/PlaceOrderScreen';
+import OrderPlace from './screens/OrderPlaceScreen';
 import Cart from './screens/CartScreen';
 import ProductsAdmin from './screens/ProductsAdminScreen';
 import ProductAdd from './screens/ProductsAdminAddScreen';
@@ -146,7 +146,7 @@ function App() {
               <Route path='/cart' element={<Cart />} />
               <Route path='/shipping' element={<OrderShippingAddress />} />
               <Route path='/payment' element={<OrderPaymentMethod />} />
-              <Route path='/placeorder' element={<PlaceOrder />} />
+              <Route path='/placeorder' element={<OrderPlace />} />
               <Route path='/profile' element={<UsersProfile />} />
               <Route path='/order' element={<Order />} />
               <Route path='/order/:id' element={<Order />} />

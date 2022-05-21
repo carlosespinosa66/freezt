@@ -41,7 +41,6 @@ export default function Cart() {
         <title>Carrito de Compras</title>
       </Helmet>
       <h1>Carrito de Compras</h1>
-
       <Row>
         <Col md={8}>
           {allCartItems.length === 0 ? (
@@ -50,13 +49,8 @@ export default function Cart() {
                 <Alert.Heading>
                   El carrito está vacío. Puede elegir{' '}
                 </Alert.Heading>
-                <Alert.Link href='/MenClothes'>Productos de hombre</Alert.Link>.
-              </Alert>
-              <Alert key='secondary' variant='secondary'>
-                <Alert.Heading>
-                  El carrito está vacío. Puede elegir{' '}
-                </Alert.Heading>
-                <Alert.Link href='/WoMenClothes'>Productos de mujer</Alert.Link>.
+                <Alert.Link href='/MenClothes'>Productos de hombre.   </Alert.Link>
+                <Alert.Link href='/WoMenClothes'>Productos de mujer</Alert.Link>
               </Alert>
             </MessageBox>
           ) : (

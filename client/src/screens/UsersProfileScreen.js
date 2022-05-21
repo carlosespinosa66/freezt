@@ -1,24 +1,11 @@
 import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
-import { Form, Button, Row, Col } from 'react-bootstrap';
-
-// const reducer = (state, action) => {
-//   switch (action.type) {
-//     case 'UPDATE_REQUEST':
-//       return { ...state, loadingUpdate: true };
-//     case 'UPDATE_SUCCESS':
-//       return { ...state, loadingUpdate: false };
-//     case 'UPDATE_FAIL':
-//       return { ...state, loadingUpdate: false };
-
-//     default:
-//       return state;
-//   }
-// };
+import { Form, Button, Row, Col, ButtonGroup } from 'react-bootstrap';
 
 export default function UsersProfile() {
-  // const { state, dispatch: ctxDispatch } = useContext(Store);
+  const navigateTo = useNavigate();
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
   const [validated, setValidated] = useState(false);
 
@@ -42,7 +29,6 @@ export default function UsersProfile() {
     }
     setValidated(true);
   };
- 
 
   return (
     <div className='container small-container'>
@@ -51,7 +37,7 @@ export default function UsersProfile() {
       </Helmet>
       <h1 className='my-3'>Perfil del Usuario</h1>
       <Form onSubmit={handleSubmit}>
-        <Row className='mb-3'>
+        <Row className='col-12 mb-3'>
           <Form.Group as={Col} mb='5' controlId='name'>
             <Form.Label>Nombre</Form.Label>
             <Form.Control
@@ -60,7 +46,6 @@ export default function UsersProfile() {
               required
             />
           </Form.Group>
-        
           <Form.Group as={Col} mb='5' controlId='surname'>
             <Form.Label>Apellido</Form.Label>
             <Form.Control
@@ -70,31 +55,31 @@ export default function UsersProfile() {
             />
           </Form.Group>
         </Row>
-        <Row className='mb-3'>
-        <Form.Group as={Col}  controlId='name'>
-          <Form.Label>Correo</Form.Label>
-          <Form.Control
-            type='email'
-            value={allUserInfo.email}
-            // onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </Form.Group>
+        <Row className='col-12 mb-3'>
+          <Form.Group as={Col} controlId='name'>
+            <Form.Label>Correo</Form.Label>
+            <Form.Control
+              type='email'
+              value={allUserInfo.email}
+              // onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </Form.Group>
         </Row>
-        <Row className='mb-3'>
-        <Form.Group as={Col}  controlId='shipping'>
-          <Form.Label>Dirección de envío</Form.Label>
-          <Form.Control
-            type='text'
-            value={allUserInfo.shipping_address}
-            // onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-        </Form.Group>
+        <Row className='col-12 mb-3'>
+          <Form.Group as={Col} controlId='shipping'>
+            <Form.Label>Dirección de envío</Form.Label>
+            <Form.Control
+              type='text'
+              value={allUserInfo.shipping_address}
+              // onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </Form.Group>
         </Row>
 
-        <Row>
-          <Form.Group as={Col} mb='5'  controlId='password'>
+        <Row className='col-12 mb-3'>
+          <Form.Group as={Col} mb='5' controlId='password'>
             <Form.Label>Password</Form.Label>
             <Form.Control
               type='password'
@@ -109,10 +94,21 @@ export default function UsersProfile() {
             />
           </Form.Group>
         </Row>
-        
-        <div className='mb-3'>
-          <Button type='submit'>Actualizar</Button>
-        </div>
+        <Row className='col-12 mb-3'>
+          <Col></Col>
+          <Col>
+            <ButtonGroup>
+              <Button type='submit'>Actualizar</Button>
+              <Button
+                onClick={() => {
+                  navigateTo('/');
+                }}
+              >
+                Cancelar
+              </Button>
+            </ButtonGroup>
+          </Col>
+        </Row>
       </Form>
     </div>
   );

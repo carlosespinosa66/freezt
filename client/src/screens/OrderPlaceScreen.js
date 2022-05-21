@@ -10,7 +10,7 @@ import { newOrderCreate } from '../redux/actions/Orders';
 import CheckoutSteps from '../helpers/CheckoutSteps';
 import LoadingBox from '../helpers/LoadingBox';
 
-export default function PlaceOrder() {
+export default function OrderPlace() {
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const allCart = useSelector((state) => state.cart.cart);

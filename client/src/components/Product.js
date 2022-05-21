@@ -1,8 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
+import { Card, Button, Figure } from 'react-bootstrap';
+
 import { addProductToCar } from '../redux/actions/Products';
 import Rating from '../helpers/Rating';
 import { toast } from 'react-toastify';
@@ -26,19 +26,31 @@ export default function Product(props) {
   }
 
   return (
-    <Card >
+    <Card>
       <div className='product' key={product.id}>
-        <Link to={`/products/${product.id}`}>
-          <img
-            src={product.image}
-            className='card-img-top'
-            alt={product.name}
-          />
-        </Link>
-        <Card.Body>
+        <div className='col-12 thumbnail' key={product.id}>
           <Link to={`/products/${product.id}`}>
-            <Card.Title>{product.name}</Card.Title>
+            <div>
+              <img
+                src={product.image}
+                className='w-100 img-fluid picture1'
+                alt={product.name}
+              />
+            </div>
+            <div>
+              <img
+                src={product.imagesec}
+                className='w-100 img-fluid picture2'
+                alt={product.name}
+              />
+            </div>
           </Link>
+        </div>
+
+        <Card.Body>
+          {/* <Link to={`/products/${product.id}`}> */}
+            <Card.Title>{product.name}</Card.Title>
+          {/* </Link> */}
           <Rating
             rating={product.rating}
             numReviews={product.numReviews}
@@ -55,4 +67,39 @@ export default function Product(props) {
       </div>
     </Card>
   );
+}
+
+{
+  /* <Link to={`/products/${product.id}`}>
+<img
+  src={product.image}
+  className='card-img-top'
+  alt={product.name}
+/>
+</Link> */
+}
+
+{
+  /* <div className='item_c col-12 thumbnail' key={product.id}>
+<div>
+  <Link to={`/products/${product.id}`}>
+    <img
+      src={product.image}
+      className='w-100 img-fluid picture1'
+      alt={product.name}
+    />
+  </Link>
+</div>
+<div>
+  <div>
+    <Link to={`/products/${product.id}`}>
+      <img
+        src={product.imagesec}
+        className='w-100 img-fluid picture2'
+        alt={product.name}
+      />
+    </Link>
+  </div>
+</div>
+</div>  */
 }
