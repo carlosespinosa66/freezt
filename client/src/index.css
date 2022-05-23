@@ -123,17 +123,6 @@ main {
  
 }
 
-
-
-/* .h3_second {
-  font-size: 70px;
-  text-align: center;
-} */
-
-.h3_third {
-  font-size: 70px;
-}
-
 .item_c {
   box-shadow: 5px 5px 5px;
   /* display: flex;
@@ -160,9 +149,14 @@ main {
 
 .h3_second {font-size:5rem;} 
 
+.h3_third {
+  font-size: 5rem;
+}
+
 @media (max-width: 767px) {  
-  .h3_second {font-size:2rem;} 
   .h3_first {font-size:1.5rem;} 
+  .h3_second {font-size:2rem;} 
+  .h3_third {font-size:2rem;} 
 }
  
 /* @media (max-width: 992px) { 
