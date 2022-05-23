@@ -3,16 +3,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Card, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
-import MessageBox from '../helpers/MessageBox';
-import LoadingBox from '../helpers/LoadingBox';
 import { getProducts } from '../redux/actions/Products';
 import 'react-multi-carousel/lib/styles.css';
 
 export default function Home() {
   const dispatch = useDispatch();
   const allProducts = useSelector((state) => state.products.products);
-  const allLoading = useSelector((state) => state.products.loading);
-  const allErrors = useSelector((state) => state.products.error);
   const navigateTo = useNavigate();
   const responsive = {
     superLargeDesktop: {

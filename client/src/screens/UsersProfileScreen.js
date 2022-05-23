@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
@@ -7,7 +7,7 @@ import { Form, Button, Row, Col, ButtonGroup } from 'react-bootstrap';
 export default function UsersProfile() {
   const navigateTo = useNavigate();
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
-  const [validated, setValidated] = useState(false);
+  // const [validated, setValidated] = useState(false);
 
   // const [name, setName] = useState(userInfo.name);
   // const [email, setEmail] = useState(userInfo.email);
@@ -27,7 +27,7 @@ export default function UsersProfile() {
       // dispatch(updateProduct(input, allUserInfo.token));
       // navigateTo('/productsadmin');
     }
-    setValidated(true);
+    // setValidated(true);
   };
 
   return (

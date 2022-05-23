@@ -1,7 +1,7 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
-import { Card, Button, Figure } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import { Card, Button, Image } from 'react-bootstrap';
 
 import { addProductToCar } from '../redux/actions/Products';
 import Rating from '../helpers/Rating';
@@ -10,7 +10,6 @@ import { toast } from 'react-toastify';
 export default function Product(props) {
   const { product } = props;
   const dispatch = useDispatch();
-  const navigateTo = useNavigate();
   const allCart = useSelector((state) => state.cart.cart);
   const allProducts = useSelector((state) => state.products.products);
   function addToCartHandler() {
@@ -20,8 +19,7 @@ export default function Product(props) {
     if (Number(quantity) <= Number(itemToVerifyQty.stock)) {
       dispatch(addProductToCar({ ...product, quantity }));
     } else {
-      toast.info("There isn't stock available", { position: 'top-center' });
-      // window.alert("No hay inventario del producto");
+      toast.info("No hay inventario disponible.", { position: 'top-center' });
     }
   }
 
@@ -31,16 +29,16 @@ export default function Product(props) {
         <div className='col-12 thumbnail' key={product.id}>
           <Link to={`/products/${product.id}`}>
             <div>
-              <img
+              <Image
                 src={product.image}
-                className='w-100 img-fluid picture1'
+                className='w-100 fluid picture1'
                 alt={product.name}
               />
             </div>
             <div>
-              <img
+              <Image
                 src={product.imagesec}
-                className='w-100 img-fluid picture2'
+                className='w-100 fluid picture2'
                 alt={product.name}
               />
             </div>
@@ -48,9 +46,7 @@ export default function Product(props) {
         </div>
 
         <Card.Body>
-          {/* <Link to={`/products/${product.id}`}> */}
-            <Card.Title>{product.name}</Card.Title>
-          {/* </Link> */}
+          <Card.Title>{product.name}</Card.Title>
           <Rating
             rating={product.rating}
             numReviews={product.numReviews}
@@ -67,39 +63,4 @@ export default function Product(props) {
       </div>
     </Card>
   );
-}
-
-{
-  /* <Link to={`/products/${product.id}`}>
-<img
-  src={product.image}
-  className='card-img-top'
-  alt={product.name}
-/>
-</Link> */
-}
-
-{
-  /* <div className='item_c col-12 thumbnail' key={product.id}>
-<div>
-  <Link to={`/products/${product.id}`}>
-    <img
-      src={product.image}
-      className='w-100 img-fluid picture1'
-      alt={product.name}
-    />
-  </Link>
-</div>
-<div>
-  <div>
-    <Link to={`/products/${product.id}`}>
-      <img
-        src={product.imagesec}
-        className='w-100 img-fluid picture2'
-        alt={product.name}
-      />
-    </Link>
-  </div>
-</div>
-</div>  */
 }

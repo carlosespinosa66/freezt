@@ -1,7 +1,6 @@
 import React from 'react';
-import { Container,Button } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 import Alert from 'react-bootstrap/Alert';
-import { useState } from 'react';
 
 export default function WeAre() {
 
@@ -29,22 +28,3 @@ export default function WeAre() {
   );
 }
 
-// import React from 'react';
-// // import 'bootstrap/dist/css/bootstrap.css';
-// import Container from 'react-bootstrap/Container';
-
-// export default function App() {
-//   return (
-//     <div style={{ display: 'block',
-//                   width: 700, padding: 30 }}>
-//       <h4>React-Bootstrap Container Component</h4>
-//       <Container
-//         style={{
-//           backgroundColor: 'green'
-//         }}
-//       >
-//         <h3>Sample Text, Greetings from GeeksforGeeks</h3>
-//       </Container>
-//     </div>
-//   );
-// }

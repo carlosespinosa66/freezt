@@ -1,12 +1,11 @@
 import axios from 'axios';
-import swal from 'sweetalert';
 
 export function getUserInfo(email, password, cb) {
   return async function(dispatch) {
     try {
       const response = await axios.post('/api/signIn', { email, password });
       const TOKEN = response.headers['auth-token'];
-      if (response.status == 200) {
+      if (response.status === 200) {
         dispatch({
           type: 'USER_SIGNIN',
           payload: {

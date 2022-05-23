@@ -4,7 +4,6 @@ import { Form, Button, Container } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { toast } from 'react-toastify';
 import { getUserInfo } from '../redux/actions/Users';
 import swal from 'sweetalert';
 
