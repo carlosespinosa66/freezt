@@ -12,6 +12,7 @@
     "weight": 5,
     "stock": 5,
     "soldCount": 10,
+    "type":"Camiseta",
     "genres": "Hombre"
   },
   {
@@ -27,6 +28,7 @@
     "description": "high quality shirt",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres": "Hombre"
   },
   {
@@ -42,6 +44,7 @@
     "description": "high quality Pant",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres": "Hombre"
   },
   {
@@ -57,6 +60,7 @@
     "description": "high quality Pant",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres": "Hombre"
   },
   {
@@ -72,6 +76,7 @@
     "description": "high quality Pant",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres": "Hombre"
   },
   {
@@ -87,6 +92,7 @@
     "description": "high quality Pant",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Hombre"
   },
   {
@@ -102,6 +108,7 @@
     "description": "high quality shirt",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Hombre"
   },
   {
@@ -117,6 +124,7 @@
     "description": "high quality shirt",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Hombre"
   },
   {
@@ -132,6 +140,7 @@
     "description": "high quality Pant",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Hombre"
   },
   {
@@ -147,6 +156,7 @@
     "description": "high quality Pant",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Hombre"
   },
   {
@@ -162,6 +172,7 @@
     "description": "high quality shirt",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Mujer"
   },
   {
@@ -177,6 +188,7 @@
     "description": "high quality shirt",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Mujer"
   },
   {
@@ -192,6 +204,7 @@
     "description": "high quality Pant",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Mujer"
   },
   {
@@ -207,6 +220,7 @@
     "description": "high quality Pant",
     "weight": 5,
     "stock": 5,
+    "type":"Camiseta",
     "genres":"Mujer"
   }
 ]

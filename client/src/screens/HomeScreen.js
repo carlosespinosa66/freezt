@@ -127,6 +127,7 @@ export default function Home() {
                   <Card.Img variant='top' src='running.jpeg' />
                   <Card.Body className='position-absolute w-100 text-center summary_item'>
                     <Card.Title>
+
                       <h3>RUNNING</h3>
                       <p className='card-title card-text mb-3 '>
                         FOR THE FASTEST
@@ -135,8 +136,8 @@ export default function Home() {
                         {/* onClick={handleRunningMen} */}
                       <a href='/WomenClothes' class="card-link col-6 btn_freezt">MUJER</a>
                         {/* onClick={handleRunningWomen} */}
-
                     </Card.Title>
+
                   </Card.Body>
                 </Card>
               </div>

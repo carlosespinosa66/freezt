@@ -75,6 +75,7 @@ const bulkCreateProducts = async () => {
       let description = data[i].description;
       let weight = data[i].weight;
       let stock = data[i].stock;
+      let type = data[i].type;
       let genres = data[i].genres;
 
       await Product.create({
@@ -85,6 +86,7 @@ const bulkCreateProducts = async () => {
         description,
         weight,
         stock,
+        type,
         genres,
       });
     }

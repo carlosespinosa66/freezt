@@ -75,7 +75,7 @@ export const getUserEditInfo = (id, token) => {
 export function regUserInfo(name, email, password) {
   return async function(dispatch) {
     try {
-      const { data } = await axios.post('/users/signup', {
+      const { data } = await axios.post('api/auth/users/signup', {
         name,
         email,
         password,
@@ -96,18 +96,18 @@ export function regUserInfo(name, email, password) {
 export function updateUserInfo(user, token) {
   return async function(dispatch) {
     try {
-      const { data } = await axios.post('/users/signup', user, {
+      const { data } = await axios.put('api/auth/users', user, {
         headers: {
           'auth-token': token,
         },
       });
       dispatch({
-        type: 'USER_SIGNUP',
+        type: 'USER_UPDATE_SUCCESS',
         payload: data,
       });
     } catch (error) {
       dispatch({
-        type: 'USER_SIGNUP_FAIL',
+        type: 'USER_UPDATE_FAIL',
         payload: { status: error.response.status },
       });
     }

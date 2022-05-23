@@ -92,7 +92,7 @@ const updateUser = async (req, res) => {
     email,
     billing_address,
     default_shipping_address,
-    CountryId,
+    // CountryId,
   } = req.body;
   try {
     if (
@@ -100,8 +100,8 @@ const updateUser = async (req, res) => {
       !surname ||
       !email ||
       !billing_address ||
-      !default_shipping_address ||
-      !CountryId
+      !default_shipping_address 
+      // !CountryId
     ) {
       return res.status(400).send({ errorMsg: 'Missing data.' });
     }
@@ -122,7 +122,7 @@ const updateUser = async (req, res) => {
       email,
       billing_address,
       default_shipping_address,
-      CountryId,
+      // CountryId,
     });
     res.status(200).send({
       successMsg: 'User successfully updated.',

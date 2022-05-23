@@ -40,8 +40,8 @@ export default function OrderHistoryScreen() {
           <thead> </thead>
           <thead>
             <tr>
-              <th>Correo</th>
               <th>Nombre</th>
+              <th>Correo</th>
               <th>Rol</th>
               <th>Estado</th>
               <th>
@@ -63,10 +63,10 @@ export default function OrderHistoryScreen() {
             ) : (
               allUsers.map((user) => (
                 <tr key={user.id}>
-                  <td>{user.email}</td>
                   <td>
                     {user.name} {user.surname}
                   </td>
+                  <td>{user.email}</td>
                   <td>{user.role}</td>
                   <td>{user.isActive ? 'Activo' : 'Desactivado'}</td>
                   <td>

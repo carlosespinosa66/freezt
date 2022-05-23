@@ -1,6 +1,6 @@
 const initialState = {
   loading: false,
-  error:'',
+  error: '',
   users: [],
   userDetail: [],
   userInfo: localStorage.getItem('userInfo')
@@ -29,8 +29,17 @@ export const usersReducer = (state = initialState, action) => {
         error: '',
       };
 
-    case 'USER_SIGN_OUT': 
-    localStorage.removeItem('userInfo');
+    case 'USER_UPDATE_SUCCESS':
+      localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      return {
+        ...state,
+        userInfo: action.payload,
+        loading: false,
+        error: '',
+      };
+      
+    case 'USER_SIGN_OUT':
+      localStorage.removeItem('userInfo');
       return {
         ...state,
         loading: false,
@@ -38,7 +47,6 @@ export const usersReducer = (state = initialState, action) => {
         userInfo: null,
         users: [],
         userDetail: [],
-
       };
 
     case 'USER_RESET_STATE':

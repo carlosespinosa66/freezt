@@ -7,15 +7,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import {
   getProducts,
   OrderByAnyItem,
+  getFilterProductsGenres,
   getFilterProductsType,
   getFilterProductsState,
 } from '../redux/actions/Products';
-import {
-  Form,
-  Button,
-  FloatingLabel,
-  Container,
-} from 'react-bootstrap';
+import { Form, Button, FloatingLabel, Container } from 'react-bootstrap';
 
 export default function ProductsAdmin() {
   const dispatch = useDispatch();
@@ -30,10 +26,12 @@ export default function ProductsAdmin() {
     if (e.target.value === 'Todos') {
       dispatch(getProducts());
     } else if (e.target.value === 'Hombre' || e.target.value === 'Mujer') {
-      dispatch(getFilterProductsType(e.target.value));
-    } else {
+      dispatch(getFilterProductsGenres(e.target.value));
+    } else if (e.target.value === 'active' || e.target.value === 'inactive') {
       dispatch(getFilterProductsState(e.target.value));
-    }
+    } else {
+      dispatch(getFilterProductsType(e.target.value));
+    }    
     setOrden(`Ordered ${e.target.value}`);
   }
 
@@ -59,7 +57,7 @@ export default function ProductsAdmin() {
       ) : (
         <table className='table'>
           <thead>
-          <tr>
+            <tr>
               <th>
                 <h3>Productos</h3>
               </th>
@@ -68,11 +66,18 @@ export default function ProductsAdmin() {
               <th></th>
               <th></th>
               <th></th>
+              <th></th>
               <th>
                 <FloatingLabel controlId='floatingSelectGrid' label='Filtrar'>
                   <Form.Select onChange={(e) => handleFilterProducts(e)}>
+                    <option value='Todos'>Todos</option>
                     <optgroup label='Tipo'>
-                      <option value='Todos'>Todos</option>
+                      <option value='Camiseta'>Camisetas</option>
+                      <option value='Pantaloneta'>Pantalonetas</option>
+                      <option value='Conjunto'>Conjuntos</option>
+                    </optgroup>
+
+                    <optgroup label='Género'>
                       <option value='Hombre'>Hombre</option>
                       <option value='Mujer'>Mujer</option>
                     </optgroup>
@@ -84,7 +89,6 @@ export default function ProductsAdmin() {
                 </FloatingLabel>
               </th>
               <th>
-
                 <FloatingLabel controlId='floatingSelectGrid' label='Ordenar'>
                   <Form.Select onChange={(e) => handleSort(e)}>
                     <optgroup label='Inventario'>
@@ -103,7 +107,6 @@ export default function ProductsAdmin() {
                 </FloatingLabel>
               </th>
             </tr>
-
           </thead>
           <thead>
             <tr>
@@ -111,11 +114,12 @@ export default function ProductsAdmin() {
               <th>Nombre</th>
               <th>Precio</th>
               <th>Inventario</th>
+              <th>Género</th>
               <th>Tipo</th>
               <th>Promoción</th>
               <th>Estado</th>
               <th>
-              <Button
+                <Button
                   type='button'
                   variant='secondary'
                   onClick={() => {
@@ -125,7 +129,6 @@ export default function ProductsAdmin() {
                   Adicionar
                 </Button>
               </th>
-
             </tr>
           </thead>
           <tbody>
@@ -145,6 +148,7 @@ export default function ProductsAdmin() {
                   <td>{product.price}</td>
                   <td>{product.stock}</td>
                   <td>{product.genres}</td>
+                  <td>{product.type}</td>
                   <td>{product.isInDiscount ? 'Si' : 'No'}</td>
                   <td>{product.isActive ? 'Activo' : 'Inactivo'}</td>
                   <td>

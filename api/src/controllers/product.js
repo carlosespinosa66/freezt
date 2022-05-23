@@ -17,6 +17,7 @@ const createProduct = async (req, res) => {
       stock,
       isInDiscount,
       discountPercent,
+      type,
       genres,
       isActive,
     } = req.body;
@@ -27,6 +28,7 @@ const createProduct = async (req, res) => {
       !description ||
       !weight ||
       !stock ||
+      !type ||
       !discountPercent
     ) {
       res.status(402).send({ errorMsg: 'Missing data.' });
@@ -43,6 +45,7 @@ const createProduct = async (req, res) => {
           isInDiscount,
           discountPercent,
           genres,
+          type,
           isActive,
         },
       });
@@ -71,6 +74,7 @@ const updateProduct = async (req, res) => {
       stock,
       isInDiscount,
       discountPercent,
+      type,
       genres,
       isActive,
     } = req.body;
@@ -95,6 +99,7 @@ const updateProduct = async (req, res) => {
           stock,
           isInDiscount,
           discountPercent,
+          type,
           genres,
           isActive,
         });
@@ -153,6 +158,7 @@ const getSingleProduct = async (req, res) => {
           discountPercent: singleProduct.discountPercent,
           isActive: singleProduct.isActive,
           genres: singleProduct.genres,
+          type: singleProduct.type,
           questions:
             singleProduct.Questions.length > 0
               ? singleProduct.Questions.map((question) => {
@@ -176,7 +182,7 @@ const getSingleProduct = async (req, res) => {
   }
 };
 
-const getFilterProductsType = async (req, res) => {
+const getFilterProductsGenres = async (req, res) => {
   const { genres } = req.query;
   try {
     if (!genres) {
@@ -205,6 +211,7 @@ const getFilterProductsType = async (req, res) => {
             discountPercent: product.discountPercent,
             isActive: product.isActive,
             genres: product.genres,
+            type: product.type,
           };
         });
         res
@@ -216,6 +223,51 @@ const getFilterProductsType = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
+
+
+
+const getFilterProductsType = async (req, res) => {
+  const { type } = req.query;
+  try {
+    if (!type) {
+      res.status(400).send({ errorMsg: 'Missing data.' });
+    } else {
+      let filterProduct = await Product.findAll({
+        where: {
+          type,
+        },
+      });
+      if (!filterProduct) {
+        res.status(404).send({ errorMsg: 'Product not found.' });
+      } else {
+        filterProduct = filterProduct.map((product) => {
+          return {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            imagesec: product.imagesec,
+            price: product.price,
+            description: product.description,
+            rating: product.rating,
+            weight: product.weight,
+            stock: product.stock,
+            isInDiscount: product.isInDiscount,
+            discountPercent: product.discountPercent,
+            isActive: product.isActive,
+            genres: product.genres,
+            type: product.type,
+          };
+        });
+        res
+          .status(200)
+          .send({ successMsg: 'Here is your product.', data: filterProduct });
+      }
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
 
 
 const getFilterProductsSearch = async (req, res) => {
@@ -247,6 +299,7 @@ const getFilterProductsSearch = async (req, res) => {
             discountPercent: product.discountPercent,
             isActive: product.isActive,
             genres: product.genres,
+            type: product.type,
           };
         });
         res
@@ -295,6 +348,7 @@ const getFilterProductsState = async (req, res) => {
             discountPercent: product.discountPercent,
             isActive: product.isActive,
             genres: product.genres,
+            type: product.type,
           };
         });
         res
@@ -347,6 +401,7 @@ const getProducts = async (req, res) => {
           discountPercent: product.discountPercent,
           isActive: product.isActive,
           genres: product.genres,
+          type: product.type,
           questions:
             product.Questions.length > 0
               ? product.Questions.map((question) => {
@@ -398,6 +453,7 @@ module.exports = {
   updateProduct,
   getProducts,
   getSingleProduct,
+  getFilterProductsGenres,
   getFilterProductsType,
   getFilterProductsState,
   getFilterProductsSearch,

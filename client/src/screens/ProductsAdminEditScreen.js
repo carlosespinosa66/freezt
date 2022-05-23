@@ -35,6 +35,7 @@ export default function ProductEdit() {
     isInDiscount: '',
     rating: '',
     genres: '',
+    type:'',
     isActive: '',
     imageFile: '',
     imageFileSec: '',
@@ -87,6 +88,7 @@ export default function ProductEdit() {
         discountPercent: allDetail.discountPercent,
         isInDiscount: allDetail.isInDiscount,
         rating: allDetail.rating,
+        type:allDetail.type,
         genres: allDetail.genres,
         isActive: allDetail.isActive,
       });
@@ -182,7 +184,7 @@ export default function ProductEdit() {
                   Ingrese el Descuento.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md='3' controlId='isindiscount'>
+              <Form.Group as={Col} md='2' controlId='isindiscount'>
                 <Form.Label>Promoción</Form.Label>
                 <Form.Check
                   type='switch'
@@ -202,7 +204,22 @@ export default function ProductEdit() {
                   onChange={(e) => handleInputChange(e)}
                 />
               </Form.Group>
-              <Form.Group as={Col} md='3' controlId='genres'>
+
+              <Form.Group as={Col} md='2' controlId='tipo'>
+                <Form.Label>Tipo: {input.type}</Form.Label>
+                <Form.Select
+                  name='type'
+                  defaultValue={input.type}
+                  onChange={(e) => handleInputChange(e)}
+                >
+                  <option value=''></option>
+                  <option value='Camiseta'>Camiseta</option>
+                  <option value='Pantaloneta'>Pantaloneta</option>
+                  <option value='Conjunto'>Conjunto</option>
+                </Form.Select>
+              </Form.Group>
+
+              <Form.Group as={Col} md='2' controlId='genres'>
                 <Form.Label>Género: {input.genres}</Form.Label>
                 <Form.Select
                   name='genres'

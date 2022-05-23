@@ -3,6 +3,7 @@ const {
   createProduct,
   updateProduct,
   getProducts,
+  getFilterProductsGenres,
   getFilterProductsType,
   getFilterProductsState,
   getSingleProduct,
@@ -17,8 +18,9 @@ const { isLoggedIn, isAdmin } = require("../middleware/auth");
 
 //guest and user
 productRouter.get("/products", getProducts);
-productRouter.get("/products/genres", getFilterProductsType);
+productRouter.get("/products/type", getFilterProductsType);
 productRouter.get("/products/state", getFilterProductsState);
+productRouter.get("/products/genres", getFilterProductsGenres);
 productRouter.get("/products/search", getFilterProductsSearch);
 
 

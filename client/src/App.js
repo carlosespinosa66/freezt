@@ -28,7 +28,7 @@ import UsersAdmin from './screens/UsersAdminScreen';
 import UsersAdminEdit from './screens/UsersAdminEditScreen';
 import UsersSignin from './screens/UsersSigninScreen';
 import UsersSignup from './screens/UsersSignupScreen';
-import UsersAdd from './screens/UsersAdminAddScreen';
+import UsersAdminAdd from './screens/UsersAdminAddScreen';
 import UsersSignOut from './screens/UsersSignOutScreen';
 import SearchBar from './components/Search';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -159,7 +159,7 @@ function App() {
               <Route path='/productedit/:id' element={<ProductEdit />} />
               <Route path='/useradminedit/:id' element={<UsersAdminEdit />} />
               <Route path='/usersadmin' element={<UsersAdmin />} />
-              <Route path='/usersadd' element={<UsersAdd />} />
+              <Route path='/usersadd' element={<UsersAdminAdd />} />
               <Route path='/signin' element={<UsersSignin />} />
               <Route path='/signup' element={<UsersSignup />} />
               <Route path='/signout' element={<UsersSignOut />} />

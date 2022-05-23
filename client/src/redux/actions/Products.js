@@ -37,7 +37,7 @@ export const getSearchProducts = (filter) => {
   };
 };
 
-export function getFilterProductsType(filter) {
+export function getFilterProductsGenres(filter) {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_FILTER_REQUEST' });
     try {
@@ -55,6 +55,27 @@ export function getFilterProductsType(filter) {
     }
   };
 }
+
+export function getFilterProductsType(filter) {
+  return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_FILTER_REQUEST' });
+    try {
+      const json = await axios.get('/api/products/type?type=' + filter);
+
+      dispatch({
+        type: 'PRODUCTS_FILTER_SUCCESS',
+        payload: json.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_FILTER_FAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+}
+
+
 
 export function getFilterProductsState(state) {
   return async function(dispatch) {

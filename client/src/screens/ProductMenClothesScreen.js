@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { getFilterProductsType } from '../redux/actions/Products';
+import { getFilterProductsGenres } from '../redux/actions/Products';
 import {Row, Col, Container} from 'react-bootstrap';
 
 import Product from '../components/Product';
@@ -15,7 +15,7 @@ export default function MenClothes() {
     const allErrors = useSelector((state) => state.products.error);
 
     useEffect(() => {
-        dispatch(getFilterProductsType('Hombre'));
+        dispatch(getFilterProductsGenres('Hombre'));
     }, [dispatch]);
 
     return (

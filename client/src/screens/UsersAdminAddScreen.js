@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { updateUserInfo, getUserEditInfo } from '../redux/actions/Users';
+import { regUserInfo } from '../redux/actions/Users';
 import { Form, Row, Col, Button, Container } from 'react-bootstrap';
 
 export default function UsersAdminAdd() {
@@ -11,7 +11,7 @@ export default function UsersAdminAdd() {
   const navigateTo = useNavigate();
   const { id } = useParams();
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
-  const allUserDetail = useSelector((state) => state.userInfo.userDetail);
+  
 
   const [input, setInput] = useState({
     name: '',
@@ -21,7 +21,7 @@ export default function UsersAdminAdd() {
     default_shipping_address: '',
     role: '',
     signedInWithGoogle: '',
-    isActive: '',
+    isActive: true,
     needsPasswordReset: '',
   });
 
@@ -31,7 +31,7 @@ export default function UsersAdminAdd() {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      dispatch(updateUserInfo(input, allUserInfo.token));
+      dispatch(regUserInfo(input, allUserInfo.token));
       navigateTo('/usersadmin');
     }
     setValidated(true);
@@ -53,26 +53,6 @@ export default function UsersAdminAdd() {
     }
   };
 
-  useEffect(() => {
-    const showEditData = () => {
-      setInput({
-        name: allUserDetail.name,
-        surname: allUserDetail.surname,
-        email: allUserDetail.email,
-        billing_address: allUserDetail.billing_address,
-        default_shipping_address: allUserDetail.default_shipping_address,
-        role: allUserDetail.role,
-        signedInWithGoogle: allUserDetail.signedInWithGoogle,
-        isActive: allUserDetail.isActive,
-        needsPasswordReset: allUserDetail.needsPasswordReset,
-      });
-    };
-
-    if (allUserDetail.length <= 0) {
-      dispatch(getUserEditInfo(id, allUserInfo.token));
-    }
-    showEditData();
-  }, [getUserEditInfo, allUserInfo, allUserDetail]);
 
   return (
     <Container>
@@ -88,7 +68,7 @@ export default function UsersAdminAdd() {
               required
               type='text'
               name='name'
-              placeholder='Nombre Producto'
+              placeholder='Nombres'
               defaultValue={input.name}
               onChange={(e) => handleInputChange(e)}
             />

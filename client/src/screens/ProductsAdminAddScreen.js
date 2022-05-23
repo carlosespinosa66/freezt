@@ -26,6 +26,7 @@ export default function ProductAdd() {
     isInDiscount: false,
     rating: '',
     genres: '',
+    type:'',
     isActive: true,
     imageFile: '',
     imageFileSec: '',
@@ -63,6 +64,8 @@ export default function ProductAdd() {
       });
     }
   };
+
+  
 
 
   return (
@@ -152,7 +155,7 @@ export default function ProductAdd() {
                   Ingrese el Descuento.
                 </Form.Control.Feedback>
               </Form.Group>
-              <Form.Group as={Col} md='3' controlId='isindiscount'>
+              <Form.Group as={Col} md='2' controlId='isindiscount'>
                 <Form.Label>Promoción</Form.Label>
                 <Form.Check
                   type='switch'
@@ -172,7 +175,23 @@ export default function ProductAdd() {
                   onChange={(e) => handleInputChange(e)}
                 />
               </Form.Group>
-              <Form.Group as={Col} md='3' controlId='genres'>
+
+              <Form.Group as={Col} md='2' controlId='tipo'>
+                <Form.Label>Tipo: {input.type}</Form.Label>
+                <Form.Select
+                  name='type'
+                  defaultValue={input.type}
+                  onChange={(e) => handleInputChange(e)}
+                >
+                  <option value=''></option>
+                  <option value='camiseta'>Camiseta</option>
+                  <option value='pantaloneta'>Pantaloneta</option>
+                  <option value='conjunto'>Conjunto</option>
+                </Form.Select>
+              </Form.Group>
+
+
+              <Form.Group as={Col} md='2' controlId='genres'>
                 <Form.Label>Género: {input.genres}</Form.Label>
                 <Form.Select
                   name='genres'
