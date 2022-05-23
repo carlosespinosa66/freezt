@@ -162,20 +162,16 @@ main {
 
 .h3_second {font-size:5rem;} 
 
-@media (min-width: 544px) {  
-  .h3_second {font-size:1.5rem;} 
-}
-
-@media (min-width: 768px) {  
+@media (max-width: 767px) {  
   .h3_second {font-size:2rem;} 
 }
  
-@media (min-width: 992px) { 
+/* @media (max-width: 992px) { 
   .h3_second {font-size:2.5rem;} 
-}
+} */
  
-@media (min-width: 1200px) {  
-  .h3_second {font-size:5rem;}     
+@media (max-width: 1200px) {  
+  .h3_second {font-size:4rem;}     
 }
  
  
