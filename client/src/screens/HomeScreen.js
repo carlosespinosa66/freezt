@@ -131,22 +131,12 @@ export default function Home() {
                       <p className='card-title card-text mb-3 '>
                         FOR THE FASTEST
                       </p>
-                        <a
-                          href='/MenClothes'
-                          className='col-12 btn_freezt'
-                          // onClick={handleRunningMen}
-                        >
-                          HOMBRE
-                        </a>
-                        <a
-                          href='/WomenClothes'
-                          className='col-12 btn_freezt'
-                          // onClick={handleRunningWomen}
-                        >
-                          MUJER
-                        </a>
-                    </Card.Title>
+                      <a href='/MenClothes' class="card-link col-6 btn_freezt">HOMBRE</a>                      
+                        {/* onClick={handleRunningMen} */}
+                      <a href='/WomenClothes' class="card-link col-6 btn_freezt">MUJER</a>
+                        {/* onClick={handleRunningWomen} */}
 
+                    </Card.Title>
                   </Card.Body>
                 </Card>
               </div>
