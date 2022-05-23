@@ -124,9 +124,6 @@ main {
 }
 
 
-.h3_first {
-  font-size: 30px;
-}
 
 /* .h3_second {
   font-size: 70px;
@@ -159,17 +156,19 @@ main {
   display: block;
 }
 
+.h3_first { font-size:2.5rem;}
 
 .h3_second {font-size:5rem;} 
 
 @media (max-width: 767px) {  
   .h3_second {font-size:2rem;} 
+  .h3_first {font-size:1.5rem;} 
 }
  
 /* @media (max-width: 992px) { 
   .h3_second {font-size:2.5rem;} 
 } */
- 
+
 /* @media (max-width: 1200px) {  
   .h3_second {font-size:4rem;}     
 } */
