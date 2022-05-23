@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button } from 'react-bootstrap';
+import { Card, Button, Row, Col } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import { getProducts } from '../redux/actions/Products';
@@ -98,7 +98,11 @@ export default function Home() {
             <img className='w-100 img-fluid' src='cs1.jpeg' alt='First slide' />
           </div>
           <div>
-            <img className='w-100 img-fluid' src='cs2.jpeg'alt='Second slide'/>
+            <img
+              className='w-100 img-fluid'
+              src='cs2.jpeg'
+              alt='Second slide'
+            />
           </div>
           <div>
             <img className='w-100 img-fluid' src='cs3.jpeg' alt='Third slide' />
@@ -124,32 +128,32 @@ export default function Home() {
                   <Card.Body className='position-absolute w-100 text-center summary_item'>
                     <Card.Title>
                       <h3>RUNNING</h3>
-
                       <p className='card-title card-text mb-3 '>
                         FOR THE FASTEST
                       </p>
-                      <a
-                        href='/MenClothes'
-                        className='col-12 btn_freezt'
-                        // onClick={handleRunningMen}
-                      >
-                        HOMBRE
-                      </a>
-                      <a
-                        href='/WomenClothes'
-                        className='col-12 btn_freezt'
-                        // onClick={handleRunningWomen}
-                      >
-                        MUJER
-                      </a>
+                        <a
+                          href='/MenClothes'
+                          className='col-12 btn_freezt'
+                          // onClick={handleRunningMen}
+                        >
+                          HOMBRE
+                        </a>
+                        <a
+                          href='/WomenClothes'
+                          className='col-12 btn_freezt'
+                          // onClick={handleRunningWomen}
+                        >
+                          MUJER
+                        </a>
                     </Card.Title>
+
                   </Card.Body>
                 </Card>
               </div>
 
               <div className='col-12 col-md-6'>
                 <Card className='position-relative  div_running_freezt'>
-                  <Card.Img variant='top' src='trainning.jpeg'/>
+                  <Card.Img variant='top' src='trainning.jpeg' />
                   <Card.Body className='position-absolute w-100 text-center summary_item'>
                     <Card.Title>
                       <h3>TRAINNING</h3>
@@ -166,7 +170,7 @@ export default function Home() {
                       </a>
                       <a
                         href='/WomenClothes'
-                        className='btn_freezt'
+                        className='col-12 btn_freezt'
                         // onClick={handleRunningWomen}
                       >
                         MUJER
@@ -311,4 +315,3 @@ export default function Home() {
     </div>
   );
 }
-

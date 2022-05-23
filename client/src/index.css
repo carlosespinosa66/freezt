@@ -87,6 +87,8 @@ main {
 .btn_freezt {
   border-radius: 0px 40px;
   background-color: #000;
+  text-decoration: none;
+  font-size: 1rem;
   padding: 5px 25px;
   color: #fff;
 }
