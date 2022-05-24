@@ -7,6 +7,7 @@ const {
   bulkCreateSubcategories,
   bulkCreateProducts,
   bulkCreateCountries,
+  bulkCreateCities,
   bulkCreateUsers,
 } = require("./src/utils/fillScript");
 
@@ -22,6 +23,7 @@ conn.sync({ force: false }).then(() => {
     // await bulkCreateSubcategories();
     // await bulkCreateProducts();
     // await bulkCreateCountries();
+    // await bulkCreateCities();
     // disable this one if the app is already functional, just for testing.
     // await bulkCreateUsers();
     

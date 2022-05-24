@@ -39,7 +39,7 @@ import 'react-toastify/dist/ReactToastify.css';
 function App() {
   const allCart = useSelector((state) => state.cart.cart);
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
-  const allProducts = useSelector((state) => state.products.products);
+
 
   return (
     <Router>
@@ -136,7 +136,6 @@ function App() {
           </Navbar>
         </header>
         <main>
-          {/* <Container> */}
             <Routes>
               <Route path='/' element={<HomeScreen />} />
               <Route path='/products/:id' element={<ProductDetail />} />
@@ -165,9 +164,7 @@ function App() {
               <Route path='/signout' element={<UsersSignOut />} />
               <Route path='*' element={<HomeScreen />} />
             </Routes>
-          {/* </Container> */}
         </main>
-
         <footer className='p-1 bg-dark text-white text-center position-relative'>
           <div className='container'>
             <p className='lead'>Todos los Derechos Reservados</p>

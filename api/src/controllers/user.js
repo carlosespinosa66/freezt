@@ -124,6 +124,7 @@ const updateUser = async (req, res) => {
       default_shipping_address,
       // CountryId,
     });
+
     res.status(200).send({
       successMsg: 'User successfully updated.',
       data: updatedUser,
@@ -132,6 +133,121 @@ const updateUser = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
+
+const updateUserProfile = async (req, res) => {
+
+// password = await bcrypt.hash(password, 8);
+//Genera un nuevo token
+// const token = jwt.sign({ id: newUser.id }, process.env.SECRET_KEY);
+// await newUser.update({ activationToken: token });
+
+  const id = req.userID;
+  if (!id) {
+    return res.status(400).send({ errorMsg: 'Id not provided.' });
+  }
+  let user = await User.findOne({ where: { id } });
+  if (!user) {
+    return res.status(404).send({ errorMsg: 'User not found.' });
+  }
+  if (user.signedInWithGoogle) {
+    return res.status(400).send({
+      errorMsg: 'You cannot modify all your data, please try other route.',
+    });
+  }
+  let {
+    name,
+    surname,
+    email,
+    billing_address,
+    default_shipping_address,
+    // CountryId,
+  } = req.body;
+  try {
+    if (
+      !name ||
+      !surname ||
+      !email ||
+      !billing_address ||
+      !default_shipping_address 
+      // !CountryId
+    ) {
+      return res.status(400).send({ errorMsg: 'Missing data.' });
+    }
+    if (email !== user.email) {
+      let doesEmailExist = await User.findOne({
+        where: {
+          email,
+          signedInWithGoogle: false,
+        },
+      });
+      if (doesEmailExist) {
+        return res.status(400).send({ errorMsg: 'Email is already in use.' });
+      }
+    }
+    let updatedUser = await user.update({
+      name,
+      surname,
+      email,
+      billing_address,
+      default_shipping_address,
+      // CountryId,
+    });
+
+    res.status(200).send({
+      successMsg: 'User successfully updated.',
+      data: updatedUser,
+    });
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
+// await createOrderDetail(newOrder.id,product.id,  product.quantity,  amount);
+
+const updateTokenProfile = async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({
+      where: {
+        email,
+        signedInWithGoogle: false,
+      },
+    });
+    if (!user) {
+      return res.status(404).send({ errorMsg: 'Email or password is wrong.' });
+    }
+    const isMatch = await bcrypt.compare(password, user.password);
+    if (!isMatch) {
+      return res.status(401).send({ errorMsg: 'Invalid password.' });
+    }
+    if (!user.isActive) {
+      return res.status(402).send({ errorMsg: 'User is not active.' });
+    }
+    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+    await User.update(
+      { tokens: sequelize.fn('array_append', sequelize.col('tokens'), token) },
+      { where: { id: user.id } }
+    );
+    res.header('auth-token', token).send({
+      successMsg: 'You signed in successfully.',
+      data: {
+        name: user.name,
+        role: user.role,
+        surname: user.surname,
+        billing_address: user.billing_address,
+        default_shipping_address: user.default_shipping_address,
+      },
+    });
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
+
+
+
+
+
 
 const getSingleUser = async (req, res) => {
   try {
@@ -433,9 +549,11 @@ const forgotAndForcedResetPassword = async (req, res) => {
   }
 };
 
+
 module.exports = {
   createUser,
   updateUser,
+  updateUserProfile,
   getSingleUser,
   signIn,
   logOut,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Button } from 'react-bootstrap';
 import { useNavigate, Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import { getProducts } from '../redux/actions/Products';

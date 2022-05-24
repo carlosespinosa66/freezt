@@ -96,23 +96,45 @@ export function regUserInfo(name, email, password) {
 export function updateUserInfo(user, token) {
   return async function(dispatch) {
     try {
-      const { data } = await axios.put('api/auth/users', user, {
+      const { data } = await axios.put('api/auth/users/admin', user, {
         headers: {
           'auth-token': token,
         },
       });
       dispatch({
-        type: 'USER_UPDATE_SUCCESS',
+        type: 'USER_ADMIN_UPDATE_SUCCESS',
         payload: data,
       });
     } catch (error) {
       dispatch({
-        type: 'USER_UPDATE_FAIL',
+        type: 'USER_ADMIN_UPDATE_FAIL',
         payload: { status: error.response.status },
       });
     }
   };
 }
+
+export function updateUserProfile(user, token) {
+  return async function(dispatch) {
+    try {
+      const { data } = await axios.put('api/auth/users/profile', user, {
+        headers: {
+          'auth-token': token,
+        },
+      });
+      dispatch({
+        type: 'USER_PROFILE_UPDATE_SUCCESS',
+        payload: data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'USER_PROFILE_UPDATE_FAIL',
+        payload: { status: error.response.status },
+      });
+    }
+  };
+}
+
 
 export function putUserSignOut() {
   return {
@@ -127,3 +149,21 @@ export function putUserReset() {
     payload: '',
   };
 }
+
+export function getCities(filter) {
+    return async function(dispatch) {
+      dispatch({ type: 'GET_CITIES_REQUEST' });
+      try {
+        const allCities = await axios.get('/api/products/search?code=' + filter);
+        dispatch({
+          type: 'GET_CITIES_SUCCESS',
+          payload: allCities.data.data,
+        });
+      } catch (error) {
+        dispatch({
+          type: 'GET_CITIES_FAIL',
+          payload: { message: error.message },
+        });
+      }
+    };
+  }

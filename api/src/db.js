@@ -56,6 +56,7 @@ sequelize.models = Object.fromEntries(capsEntries);
 const {
   Brand,
   Category,
+  City,
   Country,
   Order,
   Order_detail,

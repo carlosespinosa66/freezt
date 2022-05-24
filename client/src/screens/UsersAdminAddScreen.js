@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Helmet } from 'react-helmet-async';
-import { useParams, useNavigate } from 'react-router-dom';
+import {useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { regUserInfo } from '../redux/actions/Users';
 import { Form, Row, Col, Button, Container } from 'react-bootstrap';
@@ -9,20 +9,18 @@ export default function UsersAdminAdd() {
   const [validated, setValidated] = useState(false);
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
-  const { id } = useParams();
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
   
-
   const [input, setInput] = useState({
     name: '',
     surname: '',
     email: '',
     billing_address: '',
     default_shipping_address: '',
-    role: '',
-    signedInWithGoogle: '',
     isActive: true,
-    needsPasswordReset: '',
+    signedInWithGoogle: false,
+    needsPasswordReset: false,
+    role: 'User',
   });
 
   const handleSubmit = (event) => {
@@ -97,7 +95,7 @@ export default function UsersAdminAdd() {
               required
               type='email'
               placeholder='email'
-              name='price'
+              name='email'
               defaultValue={input.email}
               onChange={(e) => handleInputChange(e)}
             />
@@ -141,16 +139,6 @@ export default function UsersAdminAdd() {
         </Row>
 
         <Row className='mb-3'>
-          <Form.Group as={Col} md='2' controlId='isindiscount'>
-            <Form.Label>Admin</Form.Label>
-            <Form.Check
-              type='switch'
-              id='isInDiscount'
-              name='isInDiscount'
-              checked={input.isInDiscount}
-              onChange={(e) => handleInputChange(e)}
-            />
-          </Form.Group>
           <Form.Group as={Col} md='2' controlId='isactive'>
             <Form.Label>Activo</Form.Label>
             <Form.Check
@@ -196,7 +184,6 @@ export default function UsersAdminAdd() {
             </Form.Select>
           </Form.Group>
         </Row>
-
         <Button type='submit'>Grabar</Button>
         <Button
           onClick={() => {

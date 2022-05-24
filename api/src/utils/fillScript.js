@@ -4,6 +4,7 @@ const {
   Subcategory,
   Product,
   Country,
+  City,
   User,
 } = require('../db');
 const fs = require('fs');
@@ -115,6 +116,29 @@ const bulkCreateCountries = async () => {
   }
 };
 
+const bulkCreateCities = async () => {
+  let n = 0;
+  try {
+    let data = fs.readFileSync(__dirname + '/../json/cities.json', 'utf8');
+    data = JSON.parse(data);
+    const cities = data.map((city) => {
+      return { name: city.city_ascii, code: city.iso3 };
+    });
+    for (let i = 0; i < cities.length; i++) {
+      await City.findOrCreate({
+        where: {
+          name: cities[i].name,
+          code: cities[i].code,
+        },
+      });
+    }
+
+        
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 const bulkCreateUsers = async () => {
   try {
     let data = fs.readFileSync(__dirname + '/../json/users.json', 'utf8');
@@ -147,16 +171,6 @@ module.exports = {
   bulkCreateSubcategories,
   bulkCreateProducts,
   bulkCreateCountries,
+  bulkCreateCities,
   bulkCreateUsers,
 };
-
-// where: {
-//   name: data[i].name,
-//   image: data[i].image,
-//   imagesec: data[i].imagesec,
-//   price: data[i].price,
-//   description: data[i].description,
-//   weight: data[i].weight,
-//   stock: data[i].stock,
-//   genres: data[i].genres,
-// },

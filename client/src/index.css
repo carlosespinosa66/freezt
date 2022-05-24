@@ -175,4 +175,9 @@ main {
 } */
 
 
- 
+ .user_profile_old {
+  box-shadow: 5px 5px 5px 5px;
+  border-radius: 5%;
+  /* padding-right: 10; */
+  padding: 3px;
+ }

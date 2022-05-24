@@ -42,12 +42,6 @@ export default function OrdersAdmin() {
     setOrden(`Ordered ${e.target.value}`);
   }
 
-  function handleSort(e) {
-    e.preventDefault();
-    // ]dispatch(OrderByAnyItem(e.target.value));
-    setOrden(`Ordered ${e.target.value}`);
-  }
-
   useEffect(() => {
     try {
       dispatch(putClearOrders());

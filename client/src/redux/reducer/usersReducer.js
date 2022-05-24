@@ -29,7 +29,7 @@ export const usersReducer = (state = initialState, action) => {
         error: '',
       };
 
-    case 'USER_UPDATE_SUCCESS':
+    case 'USER_ADMIN_UPDATE_SUCCESS':
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
       return {
         ...state,
@@ -37,7 +37,16 @@ export const usersReducer = (state = initialState, action) => {
         loading: false,
         error: '',
       };
-      
+
+    case 'USER_PROFILE_UPDATE_SUCCESS':
+      localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      return {
+        ...state,
+        userInfo: action.payload,
+        loading: false,
+        error: '',
+      };
+
     case 'USER_SIGN_OUT':
       localStorage.removeItem('userInfo');
       return {
@@ -61,6 +70,18 @@ export const usersReducer = (state = initialState, action) => {
         loading: false,
         error: action.payload,
       };
+
+    case 'GET_COUNTRIES_SUCCESS':
+      return { ...state, countries: action.payload };
+
+    case 'GET_COUNTRIES_FAIL':
+      return { ...state, countries: null, loading: false };
+
+    case 'GET_CITIES_SUCCESS':
+      return { ...state, cities: action.payload };
+
+    case 'GET_CITIES_FAIL':
+      return { ...state, cities: null, loading: false };
 
     default:
       return state;
