@@ -32,11 +32,36 @@ module.exports = (sequelize) => {
       allowNull: true,
       defaultValue: "",
     },
-    default_shipping_address: {
+    billing_city_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    billing_country_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    billing_postalcode: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    shipping_address: {
       type: DataTypes.STRING,
       allowNull: true,
       defaultValue: "",
     },
+    shipping_city_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    shipping_country_id: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+    shipping_postalcode: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+    },
+
     role: {
       type: DataTypes.STRING,
       allowNull: false,

@@ -91,8 +91,6 @@ Subcategory.hasMany(Product);
 Product.belongsTo(Subcategory);
 Category.hasMany(Subcategory);
 Subcategory.belongsTo(Category);
-Country.hasMany(User);
-User.belongsTo(Country);
 Product.belongsToMany(User, { through: "Wish_List" });
 User.belongsToMany(Product, { through: "Wish_List" });
 

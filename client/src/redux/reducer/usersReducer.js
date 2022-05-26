@@ -71,17 +71,7 @@ export const usersReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
-    case 'GET_COUNTRIES_SUCCESS':
-      return { ...state, countries: action.payload };
 
-    case 'GET_COUNTRIES_FAIL':
-      return { ...state, countries: null, loading: false };
-
-    case 'GET_CITIES_SUCCESS':
-      return { ...state, cities: action.payload };
-
-    case 'GET_CITIES_FAIL':
-      return { ...state, cities: null, loading: false };
 
     default:
       return state;

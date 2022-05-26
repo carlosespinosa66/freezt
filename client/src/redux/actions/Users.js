@@ -15,8 +15,19 @@ export function getUserInfo(email, password, cb) {
             role: response.data.data.role,
             surname: response.data.data.surname,
             billing_address: response.data.data.billing_address,
-            default_shipping_address:
-              response.data.data.default_shipping_address,
+            shipping_address: response.data.data.shipping_address,
+            billing_address: response.data.data.billing_address,
+            shipping_address: response.data.data.shipping_address,
+            shipping_city_id: response.data.data.shipping_city_id,
+            shipping_citiy_name:response.data.data.shipping_city_name,
+            shipping_country_name:response.data.data.shipping_country_name,
+            shipping_country_id: response.data.data.shipping_country_id,
+            shipping_postalcode: response.data.data.shipping_postalcode,
+            billing_city_id: response.data.data.billing_city_id,
+            billing_city_name:response.data.data.billing_city_name,
+            billing_country_id: response.data.data.billing_country_id,
+            billing_country_name:response.data.data.billing_country_name,
+            billing_postalcode: response.data.data.billing_postalcode,
             google: false,
           },
         });
@@ -117,14 +128,36 @@ export function updateUserInfo(user, token) {
 export function updateUserProfile(user, token) {
   return async function(dispatch) {
     try {
-      const { data } = await axios.put('api/auth/users/profile', user, {
+      const response = await axios.put('api/auth/users/profile', user, {
         headers: {
           'auth-token': token,
         },
       });
+      const TOKEN = response.headers['auth-token'];
       dispatch({
         type: 'USER_PROFILE_UPDATE_SUCCESS',
-        payload: data,
+        payload:  {
+          token: TOKEN,
+          email:response.data.data.email,
+          name: response.data.data.name,
+          role: response.data.data.role,
+          surname: response.data.data.surname,
+          billing_address: response.data.data.billing_address,
+          shipping_address: response.data.data.shipping_address,
+          billing_address: response.data.data.billing_address,
+          shipping_address: response.data.data.shipping_address,
+          shipping_city_id: response.data.data.shipping_city_id,
+          shipping_city_name:response.data.data.shipping_city_name,
+          shipping_country_name:response.data.data.shipping_country_name,
+          shipping_country_id: response.data.data.shipping_country_id,
+          shipping_postalcode: response.data.data.shipping_postalcode,
+          billing_city_id: response.data.data.billing_city_id,
+          billing_city_name:response.data.data.billing_city_name,
+          billing_country_id: response.data.data.billing_country_id,
+          billing_country_name:response.data.data.billing_country_name,
+          billing_postalcode: response.data.data.billing_postalcode,
+          google: false,
+        },
       });
     } catch (error) {
       dispatch({
@@ -134,7 +167,6 @@ export function updateUserProfile(user, token) {
     }
   };
 }
-
 
 export function putUserSignOut() {
   return {
@@ -149,21 +181,3 @@ export function putUserReset() {
     payload: '',
   };
 }
-
-export function getCities(filter) {
-    return async function(dispatch) {
-      dispatch({ type: 'GET_CITIES_REQUEST' });
-      try {
-        const allCities = await axios.get('/api/products/search?code=' + filter);
-        dispatch({
-          type: 'GET_CITIES_SUCCESS',
-          payload: allCities.data.data,
-        });
-      } catch (error) {
-        dispatch({
-          type: 'GET_CITIES_FAIL',
-          payload: { message: error.message },
-        });
-      }
-    };
-  }

@@ -75,4 +75,29 @@ const getCitiesCountry = async (req, res) => {
   }
 };
 
-module.exports = { getCountries, setCountries, getCitiesCountry };
+const getAllCities = async (req, res) => {
+  try {
+    let cities = await City.findAll({
+      order: [['name', 'ASC']],
+    });
+
+    if (cities.length <= 0) {
+      res.status(404).send({ errorMsg: 'Cities not found.' });
+    } else {
+      cities = cities.map((city) => {
+        return {
+          name: city.name,
+          code: city.code,
+          id: city.id,
+        };
+      });
+      res
+        .status(200)
+        .send({ successMsg: 'Here are your cities.', data: cities });
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
+module.exports = { getCountries, setCountries, getCitiesCountry, getAllCities };

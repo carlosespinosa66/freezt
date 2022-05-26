@@ -1,4 +1,4 @@
-const { User, Order, OrderDetail, Country } = require('../db');
+const { User, Country, City } = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const sequelize = require('sequelize');
@@ -7,10 +7,34 @@ require('dotenv').config();
 
 const URL_PWD = process.env.USER_PWD_CHANGE_URL || 'http://localhost:3000';
 
+const getName = async (id, type) => {
+  let data_final;
+  if (type === 'city') {
+    let city = await City.findOne({ where: { id } });
+    data_final = city.name ? city.name : '';
+  } else if (type === 'country') {
+    let country = await Country.findOne({ where: { id } });
+    data_final = country.name ? country.name : '';
+  }
+
+  return data_final;
+};
+
 const createUser = async (req, res) => {
   try {
-    let { name, surname, email, password, CountryId } = req.body;
-    if (!name || !surname || !email || !CountryId || !password) {
+    let {
+      name,
+      surname,
+      email,
+      password,
+      shipping_city_id,
+      shipping_country_id,
+      shipping_postalcode,
+      billing_city_id,
+      billing_country_id,
+      billing_postalcode,
+    } = req.body;
+    if (!name || !surname || !email || !password) {
       res.status(400).send({ errorMsg: 'Missing data.' });
     } else {
       const isUserCreated = await User.findOne({
@@ -30,8 +54,13 @@ const createUser = async (req, res) => {
           surname,
           email,
           password,
-          CountryId,
           isActive,
+          shipping_city_id,
+          shipping_country_id,
+          shipping_postalcode,
+          billing_city_id,
+          billing_country_id,
+          billing_postalcode,
         });
         const token = jwt.sign({ id: newUser.id }, process.env.SECRET_KEY);
         await newUser.update({ activationToken: token });
@@ -91,18 +120,16 @@ const updateUser = async (req, res) => {
     surname,
     email,
     billing_address,
-    default_shipping_address,
-    // CountryId,
+    shipping_address,
+    shipping_city_id,
+    shipping_country_id,
+    shipping_postalcode,
+    billing_city_id,
+    billing_country_id,
+    billing_postalcode,
   } = req.body;
   try {
-    if (
-      !name ||
-      !surname ||
-      !email ||
-      !billing_address ||
-      !default_shipping_address 
-      // !CountryId
-    ) {
+    if (!name || !surname || !email || !billing_address || !shipping_address) {
       return res.status(400).send({ errorMsg: 'Missing data.' });
     }
     if (email !== user.email) {
@@ -121,8 +148,13 @@ const updateUser = async (req, res) => {
       surname,
       email,
       billing_address,
-      default_shipping_address,
-      // CountryId,
+      shipping_address,
+      shipping_city_id,
+      shipping_country_id,
+      shipping_postalcode,
+      billing_city_id,
+      billing_country_id,
+      billing_postalcode,
     });
 
     res.status(200).send({
@@ -135,12 +167,6 @@ const updateUser = async (req, res) => {
 };
 
 const updateUserProfile = async (req, res) => {
-
-// password = await bcrypt.hash(password, 8);
-//Genera un nuevo token
-// const token = jwt.sign({ id: newUser.id }, process.env.SECRET_KEY);
-// await newUser.update({ activationToken: token });
-
   const id = req.userID;
   if (!id) {
     return res.status(400).send({ errorMsg: 'Id not provided.' });
@@ -159,18 +185,16 @@ const updateUserProfile = async (req, res) => {
     surname,
     email,
     billing_address,
-    default_shipping_address,
-    // CountryId,
+    shipping_address,
+    shipping_city_id,
+    shipping_country_id,
+    shipping_postalcode,
+    billing_city_id,
+    billing_country_id,
+    billing_postalcode,
   } = req.body;
   try {
-    if (
-      !name ||
-      !surname ||
-      !email ||
-      !billing_address ||
-      !default_shipping_address 
-      // !CountryId
-    ) {
+    if (!name || !surname || !email || !billing_address || !shipping_address) {
       return res.status(400).send({ errorMsg: 'Missing data.' });
     }
     if (email !== user.email) {
@@ -184,27 +208,50 @@ const updateUserProfile = async (req, res) => {
         return res.status(400).send({ errorMsg: 'Email is already in use.' });
       }
     }
+    const token = jwt.sign({ id: id }, process.env.SECRET_KEY);
+
     let updatedUser = await user.update({
       name,
       surname,
       email,
       billing_address,
-      default_shipping_address,
-      // CountryId,
+      shipping_address,
+      shipping_city_id,
+      shipping_country_id,
+      shipping_postalcode,
+      billing_city_id,
+      billing_country_id,
+      billing_postalcode,
+      tokens: sequelize.fn('array_append', sequelize.col('tokens'), token) 
     });
-
-    res.status(200).send({
-      successMsg: 'User successfully updated.',
-      data: updatedUser,
+    
+    res.header('auth-token', token).send({
+      successMsg: 'You signed in successfully.',
+      data: {
+        name: updatedUser.name,
+        role: updatedUser.role,
+        email:updatedUser.email,
+        surname: updatedUser.surname,
+        shipping_address: updatedUser.shipping_address,
+        shipping_city_id: updatedUser.shipping_city_id,
+        shipping_city_name: await getName(updatedUser.shipping_city_id, 'city'),
+        shipping_country_id: updatedUser.shipping_country_id,
+        shipping_country_name: await getName(updatedUser.shipping_country_id, 'country'),
+        shipping_postalcode: updatedUser.shipping_postalcode,
+        billing_address: updatedUser.billing_address,
+        billing_city_id: updatedUser.billing_city_id,
+        billing_city_name: await getName(updatedUser.billing_city_id, 'city'),
+        billing_country_id: updatedUser.billing_country_id,
+        billing_country_name: await getName(updatedUser.billing_country_id, 'country'),
+        billing_postalcode: updatedUser.billing_postalcode,
+      },
     });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
 };
 
-// await createOrderDetail(newOrder.id,product.id,  product.quantity,  amount);
-
-const updateTokenProfile = async (req, res) => {
+const updateProfile = async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findOne({
@@ -235,19 +282,19 @@ const updateTokenProfile = async (req, res) => {
         role: user.role,
         surname: user.surname,
         billing_address: user.billing_address,
-        default_shipping_address: user.default_shipping_address,
+        shipping_address: user.shipping_address,
+        shipping_city_id: user.shipping_city_id,
+        shipping_country_id: user.shipping_country_id,
+        shipping_postalcode: user.shipping_postalcode,
+        billing_city_id: user.billing_city_id,
+        billing_country_id: user.billing_country_id,
+        billing_postalcode: user.billing_postalcode,
       },
     });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
 };
-
-
-
-
-
-
 
 const getSingleUser = async (req, res) => {
   try {
@@ -270,9 +317,13 @@ const getSingleUser = async (req, res) => {
           surname: user.surname,
           email: user.email,
           billing_address: user.billing_address,
-          default_shipping_address: user.default_shipping_address,
-          country: user.Country.name,
-          countryCode: user.Country.code,
+          shipping_address: user.shipping_address,
+          shipping_city_id: user.shipping_city_id,
+          shipping_country_id: user.shipping_country_id,
+          shipping_postalcode: user.shipping_postalcode,
+          billing_city_id: user.billing_city_id,
+          billing_country_id: user.billing_country_id,
+          billing_postalcode: user.billing_postalcode,
         };
         return res
           .status(200)
@@ -319,7 +370,6 @@ const googleSignUp = async (req, res) => {
     }
     const isActive = true;
     const signedInWithGoogle = true;
-    const CountryId = 1;
     const [user /*created*/] = await User.findOrCreate({
       where: {
         email,
@@ -327,7 +377,6 @@ const googleSignUp = async (req, res) => {
         surname,
         isActive,
         signedInWithGoogle,
-        CountryId,
       },
     });
     const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
@@ -353,8 +402,7 @@ const googleUpdateProfile = async (req, res) => {
     let user = await User.findOne({ where: { id: req.userID } });
     await user.update({
       billing_address,
-      default_shipping_address,
-      CountryId,
+      shipping_address,
     });
     res.status(200).send({ successMsg: 'Google user updated successfully.' });
   } catch (error) {
@@ -386,14 +434,27 @@ const signIn = async (req, res) => {
       { tokens: sequelize.fn('array_append', sequelize.col('tokens'), token) },
       { where: { id: user.id } }
     );
+
+    
+
     res.header('auth-token', token).send({
       successMsg: 'You signed in successfully.',
       data: {
         name: user.name,
         role: user.role,
         surname: user.surname,
+        shipping_address: user.shipping_address,
+        shipping_city_id: user.shipping_city_id,
+        shipping_city_name: await getName(user.shipping_city_id, 'city'),
+        shipping_country_id: user.shipping_country_id,
+        shipping_country_name: await getName(user.shipping_country_id, 'country'),
+        shipping_postalcode: user.shipping_postalcode,
         billing_address: user.billing_address,
-        default_shipping_address: user.default_shipping_address,
+        billing_city_id: user.billing_city_id,
+        billing_city_name: await getName(user.billing_city_id, 'city'),
+        billing_country_id: user.billing_country_id,
+        billing_country_name: await getName(user.billing_country_id, 'country'),
+        billing_postalcode: user.billing_postalcode,
       },
     });
   } catch (error) {
@@ -548,7 +609,6 @@ const forgotAndForcedResetPassword = async (req, res) => {
     res.status(500).send({ errorMsg: error.message });
   }
 };
-
 
 module.exports = {
   createUser,

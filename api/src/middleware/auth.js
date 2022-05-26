@@ -1,4 +1,3 @@
-//Here we going to do the auth middleware.
 const jwt = require("jsonwebtoken");
 const { Op } = require("sequelize");
 const { User } = require("../db");
@@ -29,7 +28,7 @@ const isLoggedIn = async (req, res, next) => {
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
-  // axelito no rompas mas la rama development
+
 };
 
 const isAdmin = async (req, res, next) => {

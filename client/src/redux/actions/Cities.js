@@ -1,5 +1,22 @@
 import axios from 'axios';
 
+export function getCities() {
+  return async function(dispatch) {
+    dispatch({ type: 'GET_CITIES_REQUEST' });
+    try {
+      const allCities = await axios.get('/api/cities/all' );
+      dispatch({
+        type: 'GET_CITIES_SUCCESS',
+        payload: allCities.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'GET_CITIES_FAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+}
 
 export function getCitiesBilling(filter) {
     return async function(dispatch) {
@@ -36,3 +53,5 @@ export function getCitiesBilling(filter) {
       }
     };
   }
+
+  
