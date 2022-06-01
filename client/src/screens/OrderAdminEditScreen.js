@@ -21,6 +21,17 @@ import {
 } from '../redux/actions/Orders';
 import moment from 'moment';
 
+const {
+  REACT_APP_ORDER_STATUS_PENDING,
+  REACT_APP_ORDER_STATUS_CANCELED,
+  REACT_APP_ORDER_STATUS_TO_CONFIRM,
+  REACT_APP_ORDER_STATUS_BILLED,
+  REACT_APP_ORDER_STATUS_PROCESING,
+  REACT_APP_ORDER_STATUS_DISPATCHED,
+  REACT_APP_ORDER_STATUS_DELIVERED,
+  REACT_APP_ORDER_STATUS_FINISHED,
+} = process.env;
+
 export default function OrdersAdminEdit() {
   const navigateTo = useNavigate();
   const dispatch = useDispatch();
@@ -42,8 +53,72 @@ export default function OrdersAdminEdit() {
   }
 
   function handleFinished() {
-    dispatch(updateOrderStatus(id, input, allUserInfo.token));
-    navigateTo('/orderadmin');
+    if (allOrder.status === REACT_APP_ORDER_STATUS_PENDING) {
+      if (
+        input.status === REACT_APP_ORDER_STATUS_CANCELED ||
+        input.status === REACT_APP_ORDER_STATUS_BILLED
+      ) {
+        dispatch(updateOrderStatus(id, input, allUserInfo.token));
+        toast.success('El estado de la orden fué actualizado.');
+        navigateTo('/orderadmin');
+      } else {
+        toast.error('El estado de la orden no puede ser actualizado.');
+      }
+    } else if (allOrder.status === REACT_APP_ORDER_STATUS_TO_CONFIRM) {
+      if (
+        input.status === REACT_APP_ORDER_STATUS_CANCELED ||
+        input.status === REACT_APP_ORDER_STATUS_BILLED
+      ) {
+        dispatch(updateOrderStatus(id, input, allUserInfo.token));
+        toast.success('El estado de la orden fué actualizado.');
+        navigateTo('/orderadmin');
+      } else {
+        toast.error('El estado de la orden no puede ser actualizado.');
+      }
+    } else if (allOrder.status === REACT_APP_ORDER_STATUS_BILLED) {
+      if (
+        input.status === REACT_APP_ORDER_STATUS_PROCESING ||
+        input.status === REACT_APP_ORDER_STATUS_DISPATCHED ||
+        input.status === REACT_APP_ORDER_STATUS_DELIVERED
+      ) {
+        dispatch(updateOrderStatus(id, input, allUserInfo.token));
+        toast.success('El estado de la orden fué actualizado.');
+        navigateTo('/orderadmin');
+      } else {
+        toast.error('El estado de la orden no puede ser actualizado.');
+      }
+    } else if (allOrder.status === REACT_APP_ORDER_STATUS_PROCESING) {
+      if (
+        input.status === REACT_APP_ORDER_STATUS_DISPATCHED ||
+        input.status === REACT_APP_ORDER_STATUS_DELIVERED
+      ) {
+        dispatch(updateOrderStatus(id, input, allUserInfo.token));
+        toast.success('El estado de la orden fué actualizado.');
+        navigateTo('/orderadmin');
+      } else {
+        toast.error('El estado de la orden no puede ser actualizado.');
+      }
+    } else if (allOrder.status === REACT_APP_ORDER_STATUS_DISPATCHED) {
+      if (
+        input.status === REACT_APP_ORDER_STATUS_DELIVERED ||
+        input.status === REACT_APP_ORDER_STATUS_FINISHED
+      ) {
+        dispatch(updateOrderStatus(id, input, allUserInfo.token));
+        toast.success('El estado de la orden fué actualizado.');
+        navigateTo('/orderadmin');
+      } else {
+        toast.error('El estado de la orden no puede ser actualizado.');
+      }
+
+    } else if (allOrder.status === REACT_APP_ORDER_STATUS_DELIVERED) {
+      if (        input.status === REACT_APP_ORDER_STATUS_FINISHED      ) {
+        dispatch(updateOrderStatus(id, input, allUserInfo.token));
+        toast.success('El estado de la orden fué actualizado.');
+        navigateTo('/orderadmin');
+      } else {
+        toast.error('El estado de la orden no puede ser actualizado.');
+      }
+    }
   }
 
   const handleInputChange = function(e) {
@@ -193,7 +268,7 @@ export default function OrdersAdminEdit() {
                             Grabar
                           </Button>
                           <Button type='button' onClick={handleOrders}>
-                            Ordenes
+                            Cancelar
                           </Button>
                         </Col>
                       </Row>

@@ -11,10 +11,11 @@ const getName = async (id, type) => {
   let data_final;
   if (type === 'city') {
     let city = await City.findOne({ where: { id } });
-    data_final = city.name ? city.name : '';
+
+    data_final = city ? city.name : '';
   } else if (type === 'country') {
     let country = await Country.findOne({ where: { id } });
-    data_final = country.name ? country.name : '';
+    data_final = country ? country.name : '';
   }
 
   return data_final;
@@ -26,13 +27,18 @@ const createUser = async (req, res) => {
       name,
       surname,
       email,
-      password,
-      shipping_city_id,
-      shipping_country_id,
-      shipping_postalcode,
+      billing_address,
+      shipping_address,
+      role,
+      signedInWithGoogle,
+      isActive,
+      needsPasswordReset,
+      billing_postalcode,
       billing_city_id,
       billing_country_id,
-      billing_postalcode,
+      shipping_city_id,
+      shipping_postalcode,
+      shipping_country_id
     } = req.body;
     if (!name || !surname || !email || !password) {
       res.status(400).send({ errorMsg: 'Missing data.' });
@@ -48,19 +54,22 @@ const createUser = async (req, res) => {
       } else {
         password = await bcrypt.hash(password, 8);
 
-        const isActive = false;
         const newUser = await User.create({
           name,
           surname,
           email,
-          password,
+          billing_address,
+          shipping_address,
+          role,
+          signedInWithGoogle,
           isActive,
-          shipping_city_id,
-          shipping_country_id,
-          shipping_postalcode,
+          needsPasswordReset,
+          billing_postalcode,
           billing_city_id,
           billing_country_id,
-          billing_postalcode,
+          shipping_city_id,
+          shipping_postalcode,
+          shipping_country_id
         });
         const token = jwt.sign({ id: newUser.id }, process.env.SECRET_KEY);
         await newUser.update({ activationToken: token });
@@ -102,7 +111,9 @@ const activateAccount = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const id = req.userID;
+  // const idUser = req.userID;
+  const id = req.body.id;
+
   if (!id) {
     return res.status(400).send({ errorMsg: 'Id not provided.' });
   }
@@ -121,12 +132,16 @@ const updateUser = async (req, res) => {
     email,
     billing_address,
     shipping_address,
-    shipping_city_id,
-    shipping_country_id,
-    shipping_postalcode,
+    role,
+    signedInWithGoogle,
+    isActive,
+    needsPasswordReset,
+    billing_postalcode,
     billing_city_id,
     billing_country_id,
-    billing_postalcode,
+    shipping_city_id,
+    shipping_postalcode,
+    shipping_country_id
   } = req.body;
   try {
     if (!name || !surname || !email || !billing_address || !shipping_address) {
@@ -143,23 +158,47 @@ const updateUser = async (req, res) => {
         return res.status(400).send({ errorMsg: 'Email is already in use.' });
       }
     }
+
     let updatedUser = await user.update({
       name,
       surname,
       email,
       billing_address,
       shipping_address,
-      shipping_city_id,
-      shipping_country_id,
-      shipping_postalcode,
+      role,
+      signedInWithGoogle,
+      isActive,
+      needsPasswordReset,
+      billing_postalcode,
       billing_city_id,
       billing_country_id,
-      billing_postalcode,
+      shipping_city_id,
+      shipping_postalcode,
+      shipping_country_id,
     });
 
     res.status(200).send({
       successMsg: 'User successfully updated.',
-      data: updatedUser,
+      data: {
+        name: updatedUser.name,
+        role: updatedUser.role,
+        email:updatedUser.email,
+        surname: updatedUser.surname,
+        isActive: updatedUser.isActive,
+        needsPasswordReset: updatedUser.needsPasswordReset,
+        shipping_address: updatedUser.shipping_address,
+        shipping_city_id: updatedUser.shipping_city_id,
+        shipping_city_name: await getName(updatedUser.shipping_city_id, 'city'),
+        shipping_country_id: updatedUser.shipping_country_id,
+        shipping_country_name: await getName(updatedUser.shipping_country_id, 'country'),
+        shipping_postalcode: updatedUser.shipping_postalcode,
+        billing_address: updatedUser.billing_address,
+        billing_city_id: updatedUser.billing_city_id,
+        billing_city_name: await getName(updatedUser.billing_city_id, 'city'),
+        billing_country_id: updatedUser.billing_country_id,
+        billing_country_name: await getName(updatedUser.billing_country_id, 'country'),
+        billing_postalcode: updatedUser.billing_postalcode,
+      },
     });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
@@ -222,16 +261,18 @@ const updateUserProfile = async (req, res) => {
       billing_city_id,
       billing_country_id,
       billing_postalcode,
-      tokens: sequelize.fn('array_append', sequelize.col('tokens'), token) 
+      // tokens: sequelize.fn('', sequelize.col('tokens'), token) 
     });
     
     res.header('auth-token', token).send({
-      successMsg: 'You signed in successfully.',
+      successMsg: 'User updated successfully.',
       data: {
         name: updatedUser.name,
         role: updatedUser.role,
         email:updatedUser.email,
         surname: updatedUser.surname,
+        isActive: updatedUser.isActive,
+        needsPasswordReset: updatedUser.needsPasswordReset,
         shipping_address: updatedUser.shipping_address,
         shipping_city_id: updatedUser.shipping_city_id,
         shipping_city_name: await getName(updatedUser.shipping_city_id, 'city'),
@@ -244,51 +285,6 @@ const updateUserProfile = async (req, res) => {
         billing_country_id: updatedUser.billing_country_id,
         billing_country_name: await getName(updatedUser.billing_country_id, 'country'),
         billing_postalcode: updatedUser.billing_postalcode,
-      },
-    });
-  } catch (error) {
-    res.status(500).send({ errorMsg: error.message });
-  }
-};
-
-const updateProfile = async (req, res) => {
-  try {
-    const { email, password } = req.body;
-    const user = await User.findOne({
-      where: {
-        email,
-        signedInWithGoogle: false,
-      },
-    });
-    if (!user) {
-      return res.status(404).send({ errorMsg: 'Email or password is wrong.' });
-    }
-    const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      return res.status(401).send({ errorMsg: 'Invalid password.' });
-    }
-    if (!user.isActive) {
-      return res.status(402).send({ errorMsg: 'User is not active.' });
-    }
-    const token = jwt.sign({ id: user.id }, process.env.SECRET_KEY);
-    await User.update(
-      { tokens: sequelize.fn('array_append', sequelize.col('tokens'), token) },
-      { where: { id: user.id } }
-    );
-    res.header('auth-token', token).send({
-      successMsg: 'You signed in successfully.',
-      data: {
-        name: user.name,
-        role: user.role,
-        surname: user.surname,
-        billing_address: user.billing_address,
-        shipping_address: user.shipping_address,
-        shipping_city_id: user.shipping_city_id,
-        shipping_country_id: user.shipping_country_id,
-        shipping_postalcode: user.shipping_postalcode,
-        billing_city_id: user.billing_city_id,
-        billing_country_id: user.billing_country_id,
-        billing_postalcode: user.billing_postalcode,
       },
     });
   } catch (error) {
@@ -316,6 +312,8 @@ const getSingleUser = async (req, res) => {
           name: user.name,
           surname: user.surname,
           email: user.email,
+          isActive: user.isActive,
+          needsPasswordReset: user.needsPasswordReset,
           billing_address: user.billing_address,
           shipping_address: user.shipping_address,
           shipping_city_id: user.shipping_city_id,
@@ -435,14 +433,14 @@ const signIn = async (req, res) => {
       { where: { id: user.id } }
     );
 
-    
-
     res.header('auth-token', token).send({
       successMsg: 'You signed in successfully.',
       data: {
         name: user.name,
         role: user.role,
         surname: user.surname,
+        isActive: user.isActive,
+        needsPasswordReset: user.needsPasswordReset,
         shipping_address: user.shipping_address,
         shipping_city_id: user.shipping_city_id,
         shipping_city_name: await getName(user.shipping_city_id, 'city'),

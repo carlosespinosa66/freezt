@@ -67,7 +67,7 @@ const updateProduct = async (req, res) => {
     let {
       name,
       description,
-      price,
+      price, 
       image,
       imagesec,
       weight,

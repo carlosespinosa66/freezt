@@ -14,12 +14,13 @@ export function getUserInfo(email, password, cb) {
             name: response.data.data.name,
             role: response.data.data.role,
             surname: response.data.data.surname,
-            billing_address: response.data.data.billing_address,
-            shipping_address: response.data.data.shipping_address,
+            isActive: response.data.data.isActive,
+            needsPasswordReset: response.data.data.needsPasswordReset,
+            signedInWithGoogle:false,
             billing_address: response.data.data.billing_address,
             shipping_address: response.data.data.shipping_address,
             shipping_city_id: response.data.data.shipping_city_id,
-            shipping_citiy_name:response.data.data.shipping_city_name,
+            shipping_city_name:response.data.data.shipping_city_name,
             shipping_country_name:response.data.data.shipping_country_name,
             shipping_country_id: response.data.data.shipping_country_id,
             shipping_postalcode: response.data.data.shipping_postalcode,
@@ -28,7 +29,6 @@ export function getUserInfo(email, password, cb) {
             billing_country_id: response.data.data.billing_country_id,
             billing_country_name:response.data.data.billing_country_name,
             billing_postalcode: response.data.data.billing_postalcode,
-            google: false,
           },
         });
         cb(null);
@@ -65,14 +65,38 @@ export const getAllUsers = (token) => {
 export const getUserEditInfo = (id, token) => {
   return async (dispatch) => {
     try {
-      const allUsers = await axios.get(`/api/admin/users/${id}`, {
+      const response = await axios.get(`/api/admin/users/${id}`, {
         headers: {
           'auth-token': token,
         },
       });
       return dispatch({
         type: 'ADMIN_GET_USER_INFO',
-        payload: allUsers.data.data,
+        payload: {
+          id:response.data.data.id,
+          email:response.data.data.email,
+          name: response.data.data.name,
+          role: response.data.data.role,
+          surname: response.data.data.surname,
+          isActive: response.data.data.isActive,
+          needsPasswordReset: response.data.data.needsPasswordReset,
+          billing_address: response.data.data.billing_address,
+          shipping_address: response.data.data.shipping_address,
+          shipping_city_id: response.data.data.shipping_city_id,
+          shipping_city_name:response.data.data.shipping_city_name,
+          shipping_country_name:response.data.data.shipping_country_name,
+          shipping_country_id: response.data.data.shipping_country_id,
+          shipping_postalcode: response.data.data.shipping_postalcode,
+          billing_city_id: response.data.data.billing_city_id,
+          billing_city_name:response.data.data.billing_city_name,
+          billing_country_id: response.data.data.billing_country_id,
+          billing_country_name:response.data.data.billing_country_name,
+          billing_postalcode: response.data.data.billing_postalcode,
+          signedInWithGoogle: false,
+        },
+
+
+
       });
     } catch (error) {
       dispatch({
@@ -142,8 +166,8 @@ export function updateUserProfile(user, token) {
           name: response.data.data.name,
           role: response.data.data.role,
           surname: response.data.data.surname,
-          billing_address: response.data.data.billing_address,
-          shipping_address: response.data.data.shipping_address,
+          isActive: response.data.data.isActive,
+          needsPasswordReset: response.data.data.needsPasswordReset,
           billing_address: response.data.data.billing_address,
           shipping_address: response.data.data.shipping_address,
           shipping_city_id: response.data.data.shipping_city_id,
@@ -156,7 +180,7 @@ export function updateUserProfile(user, token) {
           billing_country_id: response.data.data.billing_country_id,
           billing_country_name:response.data.data.billing_country_name,
           billing_postalcode: response.data.data.billing_postalcode,
-          google: false,
+          signedInWithGoogle: false,
         },
       });
     } catch (error) {
@@ -181,3 +205,11 @@ export function putUserReset() {
     payload: '',
   };
 }
+
+export function resetUserDetail() {
+  return {
+    type: 'USER_RESET_DETAIL',
+    payload: '',
+  };
+}
+

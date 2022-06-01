@@ -71,8 +71,8 @@ const {
 //Entity-relations
 User.hasMany(Order);
 Order.belongsTo(User);
-User.hasMany(User_address);
-User_address.belongsTo(User);
+// User.hasMany(User_address);
+// User_address.belongsTo(User);
 User.hasMany(Review);
 Review.belongsTo(User);
 User.hasMany(Question);

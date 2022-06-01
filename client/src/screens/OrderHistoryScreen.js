@@ -5,7 +5,7 @@ import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getOrdersHistoryUser } from '../redux/actions/Orders';
-import { Button } from 'react-bootstrap';
+import { Button, Container } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
 import moment from 'moment';
@@ -27,7 +27,7 @@ export default function OrderHistory() {
   }, [getOrdersHistoryUser]);
 
   return (
-    <div>
+    <Container>
       <Helmet>
         <title>Historial de Ordenes</title>
       </Helmet>
@@ -86,6 +86,6 @@ export default function OrderHistory() {
           </tbody>
         </table>
       )}
-    </div>
+    </Container>
   );
 }

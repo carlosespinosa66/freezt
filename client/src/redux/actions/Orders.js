@@ -18,7 +18,7 @@ export function newOrderCreate(
         {
           orderItems: cartItems,
           shippingAddress: shippingAddress,
-          paymentMethod: paymentMethod,
+          paymentSource: paymentMethod,
           itemsPrice: itemsPrice,
           shippingPrice: shippingPrice,
           taxPrice: taxPrice,

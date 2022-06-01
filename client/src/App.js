@@ -15,7 +15,7 @@ import OrderHistory from './screens/OrderHistoryScreen';
 import OrderDetail from './screens/OrderDetailScreen';
 import OrderPaymentMethod from './screens/OrderPaymentMethodScreen';
 import OrdersAdmin from './screens/OrdersAdminScreen';
-import OrdersAdminEdit from './screens/OrdersAdminEditScreen';
+import OrdersAdminEdit from './screens/OrderAdminEditScreen';
 import OrderShippingAddress from './screens/OrderShippingAddressScreen';
 import OrderPlace from './screens/OrderPlaceScreen';
 import Cart from './screens/CartScreen';

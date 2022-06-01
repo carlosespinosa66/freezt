@@ -32,7 +32,7 @@ userRouter.post('/admin/users', isLoggedIn, isAdmin, adminCreateUser);
 
 //user
 userRouter.get('/auth/users', isLoggedIn, getSingleUser);
-userRouter.put('/auth/users/admin', isLoggedIn, updateUser);
+userRouter.put('/auth/users/admin', isLoggedIn,isAdmin, updateUser);
 userRouter.put('/auth/users/profile', isLoggedIn, updateUserProfile);
 
 userRouter.put('/auth/users/passwordReset', isLoggedIn, passwordReset);

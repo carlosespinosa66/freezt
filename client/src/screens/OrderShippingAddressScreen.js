@@ -28,9 +28,9 @@ export default function OrderShippingAddress() {
 
     try {
       dispatch(saveShippingAddress(fullName, address, city, country));
-      dispatch(savePaymentMethod(paymentMethodName))
-      navigateTo('/placeorder')
-    //   navigateTo('/payment');
+      dispatch(savePaymentMethod(paymentMethodName));
+      navigateTo('/placeorder');
+      //   navigateTo('/payment');
     } catch (err) {
       toast.error(getError(err));
     }
@@ -54,7 +54,7 @@ export default function OrderShippingAddress() {
             <div className='container small-container'>
               <h1 className='my-3'>Dirección de Envío</h1>
               <Form.Group className='mb-3' controlId='fullName'>
-                <Form.Label>Full Name</Form.Label>
+                <Form.Label>Nombre Completo</Form.Label>
                 <Form.Control
                   value={fullName}
                   onChange={(e) => setFullName(e.target.value)}
@@ -62,7 +62,7 @@ export default function OrderShippingAddress() {
                 />
               </Form.Group>
               <Form.Group className='mb-3' controlId='address'>
-                <Form.Label>Address</Form.Label>
+                <Form.Label>Dirección</Form.Label>
                 <Form.Control
                   value={address}
                   onChange={(e) => setAddress(e.target.value)}
@@ -70,7 +70,7 @@ export default function OrderShippingAddress() {
                 />
               </Form.Group>
               <Form.Group className='mb-3' controlId='city'>
-                <Form.Label>City</Form.Label>
+                <Form.Label>Ciudad</Form.Label>
                 <Form.Control
                   value={city}
                   onChange={(e) => setCity(e.target.value)}
@@ -78,7 +78,7 @@ export default function OrderShippingAddress() {
                 />
               </Form.Group>
               <Form.Group className='mb-3' controlId='country'>
-                <Form.Label>Country</Form.Label>
+                <Form.Label>País</Form.Label>
                 <Form.Control
                   value={country}
                   onChange={(e) => setCountry(e.target.value)}
@@ -89,31 +89,31 @@ export default function OrderShippingAddress() {
           </Col>
           <Col className='col-12 col-lg-6'>
             <Row>
-                <h1 className='my-3'>Forma de Pago</h1>
-                <Form.Group controlId='paypal'>
-                  <Form.Check
-                    type='radio'
-                    id='PayPal'
-                    label='PayPal'
-                    value='PayPal'
-                    checked={paymentMethodName === 'PayPal'}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                  />
-                </Form.Group>
-                <Form.Group controlId='transferencia'>
-                  <Form.Check
-                    type='radio'
-                    id='transferencia'
-                    label='Transferencia'
-                    value='transferencia'
-                    checked={paymentMethodName === 'transferencia'}
-                    onChange={(e) => setPaymentMethod(e.target.value)}
-                  />
-                </Form.Group>
+              <h1 className='my-3'>Forma de Pago</h1>
+              <Form.Group controlId='paypal'>
+                <Form.Check
+                  type='radio'
+                  id='PayPal'
+                  label='PayPal'
+                  value='PayPal'
+                  checked={paymentMethodName === 'PayPal'}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+              </Form.Group>
+              <Form.Group controlId='transferencia'>
+                <Form.Check
+                  type='radio'
+                  id='transferencia'
+                  label='Transferencia'
+                  value='transferencia'
+                  checked={paymentMethodName === 'transferencia'}
+                  onChange={(e) => setPaymentMethod(e.target.value)}
+                />
+              </Form.Group>
             </Row>
-                <Button type='submit' onClick={submitHandler} variant='primary'>
-                  Continuar
-                </Button>
+            <Button type='submit' onClick={submitHandler} variant='primary'>
+              Continuar
+            </Button>
           </Col>
         </Row>
       </Form>

@@ -52,7 +52,9 @@ export default function UsersProfile() {
       let city_id = allCities.find((city) => city.id === id);
       return city_id ? city_id.name : '';
     } else if (type === 'country' && id !== null && id !== undefined) {
-      let country_id = allCountries.find((country) => parseInt(country.id) === parseInt(id));
+      let country_id = allCountries.find(
+        (country) => parseInt(country.id) === parseInt(id)
+      );
       return country_id ? country_id.name : '';
     }
   };
@@ -125,11 +127,15 @@ export default function UsersProfile() {
 
   const handleCountriesBilling = function(e) {
     e.preventDefault();
-    dispatch(getCitiesBilling(e.target.value));
+    if (e.target.value !== 'Seleccionar') {
+      dispatch(getCitiesBilling(e.target.value));
+    }
   };
   const handleCountriesShipping = function(e) {
     e.preventDefault();
-    dispatch(getCitiesShipping(e.target.value));
+    if (e.target.value !== 'Seleccionar') {
+      dispatch(getCitiesShipping(e.target.value));
+    }
   };
 
   useEffect(() => {
@@ -149,7 +155,7 @@ export default function UsersProfile() {
         billing_city_name: allUserInfo.billing_city_name,
         billing_country_name: allUserInfo.billing_country_name,
         shipping_city_id: allUserInfo.shipping_city_id,
-        shipping_city_name:allUserInfo.shipping_city_name,
+        shipping_city_name: allUserInfo.shipping_city_name,
         shipping_country_name: allUserInfo.shipping_country_name,
         shipping_address: allUserInfo.shipping_address,
         shipping_postalcode: allUserInfo.shipping_postalcode,

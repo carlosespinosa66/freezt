@@ -30,7 +30,7 @@ export default function Order() {
   function handleFinished() {
     navigateTo('/MenClothes');
   }
-
+  
   function handleOrders() {
     navigateTo('/orderhistory');
   }
@@ -86,12 +86,11 @@ export default function Order() {
         email_address: allOrder.email_address,
       };
       dispatch(regNormalOrder(allOrder.id, info, allUserInfo.token));
-      toast.success('Order was paid correctly');
+      toast.success('La orden se generó de manera exitosa');
     } catch (error) {
       console.log(error);
     }
   }
-  
 
   useEffect(() => {
     try {
@@ -160,6 +159,11 @@ export default function Order() {
               {allOrder.isPaid ? (
                 <MessageBox variant='success'>
                   Pagada el: {moment(allOrder.paidAt).format('LLLL')}
+                </MessageBox>
+              ) : allOrder.paymentSource === 'transferencia' ? (
+                <MessageBox variant='success'>
+                  Una vez realizada la transferencia envíenos el comprobante al
+                  WP 311-3342883.
                 </MessageBox>
               ) : (
                 <MessageBox variant='danger'>No ha sido Pagada</MessageBox>
@@ -231,92 +235,102 @@ export default function Order() {
             </Card.Body>
           </Card>
           <Card className='mb-3'>
-              <ListGroup>
-                {!allOrder.isPaid && (
-                  <ListGroup.Item>
-                    {' '}
-                    {isPending ? (
-                      <LoadingBox />
-                    ) : allPayment !== 'transferencia' ? (
-                      <div>
-                        <PayPalButtons
-                          style={{
-                            color: 'blue',
-                            layout: 'vertical',
-                            height: 40,
-                            tagline: false,
-                            shape: 'pill',
-                            label: 'pay',
-                          }}
-                          createOrder={createOrder}
-                          onApprove={onApprove}
-                          onCancel={onCancel}
-                          onError={onError}
-                        />
-                      </div>
-                    ) : (
-
-                        <Card.Body>
-                          <Card.Title>Datos de la Transferencia</Card.Title>
-                          <ListGroup variant='flush'>
-                            <ListGroup.Item>
-                              <Row>
-                                <Col>
-                                  <strong>Nro Cuenta</strong>
-                                </Col>
-                                <Col>1005-00989</Col>
-                              </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                              <Row>
-                                <Col>
-                                  <strong>Tipo</strong>
-                                </Col>
-                                <Col>Ahorros</Col>
-                              </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                              <Row>
-                                <Col>
-                                  <strong>Entidad</strong>
-                                </Col>
-                                <Col>Bancolombia</Col>
-                              </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                              <Row>
-                                <Col>
-                                  <strong>Beneficiario</strong>
-                                </Col>
-                                <Col>Freezt</Col>
-                              </Row>
-                            </ListGroup.Item>
-                            <ListGroup.Item>
-                              <div className='d-grid'>
-                                <Button type='button' onClick={handleAproveTransfer}>
-                                  Generar Orden de Compra
-                                </Button>
-                              </div>
-                              {allLoading && <LoadingBox></LoadingBox>}
-                            </ListGroup.Item>
-                          </ListGroup>
-                        </Card.Body>
-
-                    )}
-                    {allLoadingPay && <LoadingBox></LoadingBox>}
-                  </ListGroup.Item>
-                )}
-                {allOrder.isPaid && (
-                  <div className='d-grid'>
-                    <Button type='button' onClick={handleOrders}>
-                      Historial de Ordenes
-                    </Button>
-                    <Button type='button' onClick={handleFinished}>
-                      Productos
-                    </Button>
-                  </div>
-                )}
-              </ListGroup>
+            <ListGroup>
+              {!allOrder.isPaid && (
+                <ListGroup.Item>
+                  {' '}
+                  {isPending ? (
+                    <LoadingBox />
+                  ) : allPayment !== 'transferencia' ? (
+                    <div>
+                      <PayPalButtons
+                        style={{
+                          color: 'blue',
+                          layout: 'vertical',
+                          height: 40,
+                          tagline: false,
+                          shape: 'pill',
+                          label: 'pay',
+                        }}
+                        createOrder={createOrder}
+                        onApprove={onApprove}
+                        onCancel={onCancel}
+                        onError={onError}
+                      />
+                    </div>
+                  ) : (
+                    <Card.Body>
+                      <Card.Title>Datos de la Transferencia</Card.Title>
+                      <ListGroup variant='flush'>
+                        <ListGroup.Item>
+                          <Row>
+                            <Col>
+                              <strong>Nro Cuenta</strong>
+                            </Col>
+                            <Col>1005-00989</Col>
+                          </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Row>
+                            <Col>
+                              <strong>Tipo</strong>
+                            </Col>
+                            <Col>Ahorros</Col>
+                          </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Row>
+                            <Col>
+                              <strong>Entidad</strong>
+                            </Col>
+                            <Col>Bancolombia</Col>
+                          </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <Row>
+                            <Col>
+                              <strong>Beneficiario</strong>
+                            </Col>
+                            <Col>Freezt</Col>
+                          </Row>
+                        </ListGroup.Item>
+                        <ListGroup.Item>
+                          <div className='d-grid'>
+                            {allOrder.paymentSource === 'transferencia' ? (
+                              <Button
+                                type='button'
+                                onClick={handleOrders}
+                              >
+                                Terminar
+                              </Button>
+                            ) : (
+                              <Button
+                                type='button'
+                                onClick={handleAproveTransfer}
+                              >
+                                Generar Orden de Compra
+                              </Button>
+                            )}
+                          </div>
+                          {allLoading && <LoadingBox></LoadingBox>}
+                        </ListGroup.Item>
+                      </ListGroup>
+                    </Card.Body>
+                  )}
+                  {allLoadingPay && <LoadingBox></LoadingBox>}
+                </ListGroup.Item>
+              )}
+              {allOrder.isPaid && (
+                <div className='d-grid'>
+                  <Button type='button' onClick={handleOrders}>
+                    Historial de Ordenes
+                  </Button>
+                  <Button type='button' onClick={handleFinished}>
+                    Productos
+                  </Button>
+                </div>
+              )}
+            </ListGroup>
           </Card>
         </Col>
       </Row>

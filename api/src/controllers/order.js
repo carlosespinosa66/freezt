@@ -4,13 +4,13 @@ require('dotenv').config();
 
 const {
   ORDER_STATUS_PENDING,
-  ORDER_STATUS_BILLED,
-  ORDER_STATUS_DELIVERED,
-  ORDER_STATUS_DISPATCHED,
-  ORDER_STATUS_FINISHED,
-  ORDER_STATUS_PROCESING,
   ORDER_STATUS_CANCELED,
-  ORDER_STATUS_TOCONFIRM,
+  ORDER_STATUS_TO_CONFIRM,
+  ORDER_STATUS_BILLED,
+  ORDER_STATUS_PROCESING,
+  ORDER_STATUS_DISPATCHED,
+  ORDER_STATUS_DELIVERED,
+  ORDER_STATUS_FINISHED,
 } = process.env;
 
 const getOrderStatus = (status) => {
@@ -27,7 +27,7 @@ const getOrderStatus = (status) => {
       return 'Finalizada';
     case ORDER_STATUS_PROCESING:
       return 'Proceso';
-    case ORDER_STATUS_TOCONFIRM:
+    case ORDER_STATUS_TO_CONFIRM:
       return 'Por Confirmar';
     case ORDER_STATUS_CANCELED:
       return 'Cancelada';
@@ -56,9 +56,7 @@ const getOrders = async (req, res) => {
         },
       ],
     });
-    // if (Orders.length <= 0) {
-    //   return res.status(404).send({ errorMsg: 'Orders not found.' });
-    // }
+
     Orders = Orders.map((Order) => {
       return {
         id: Order.id,
@@ -169,6 +167,9 @@ const createOrder = async (req, res) => {
   try {
     let allProductsOrder = req.body.orderItems;
     let allOrderAddress = req.body.shippingAddress;
+    let allPaymentSource= req.body.paymentSource
+
+
     if (!UserId) {
       res.status(400).send({ errorMsg: 'Missing data.' });
     } else {
@@ -191,6 +192,7 @@ const createOrder = async (req, res) => {
             allOrderAddress.city +
             ' ' +
             allOrderAddress.country,
+            paymentSource:allPaymentSource,
         });
       }
       if (!allProductsOrder.length) {

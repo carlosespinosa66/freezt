@@ -28,7 +28,6 @@ const adminGetUsers = async (req, res) => {
     } else {
       const allusers = users.map((user) => {
         return {
-          
             id: user.id,
             name: user.name,
             role: user.role,
@@ -37,15 +36,11 @@ const adminGetUsers = async (req, res) => {
             surname: user.surname,
             shipping_address: user.shipping_address,
             shipping_city_id: user.shipping_city_id,
-            // shipping_city_name: await getName(user.shipping_city_id, 'city'),
             shipping_country_id: user.shipping_country_id,
-            // shipping_country_name: await getName(user.shipping_country_id, 'country'),
             shipping_postalcode: user.shipping_postalcode,
             billing_address: user.billing_address,
             billing_city_id: user.billing_city_id,
-            // billing_city_name: await getName(user.billing_city_id, 'city'),
             billing_country_id: user.billing_country_id,
-            // billing_country_name: await getName(user.billing_country_id, 'country'),
             billing_postalcode: user.billing_postalcode,
             role: user.role,
             isActive: user.isActive,
@@ -68,33 +63,33 @@ const adminGetUser = async (req, res) => {
       return res.status(400).send({ errorMsg: "Id was not provided." });
     }
     let user = await User.findOne({
-      where: { id },
-      include: [
-        {
-          model: Country,
-          attributes: ["id", "name"],
-        },
-      ],
+      where: { id }
     });
     if (!user) {
       return res.status(404).send({ errorMsg: "User not found." });
     }
     user = {
+      id: user.id,
       name: user.name,
+      role: user.role,
+      email:user.email,
+      password: user.password,
       surname: user.surname,
-      email: user.email,
+      shipping_address: user.shipping_address,
+      shipping_city_id: user.shipping_city_id,
+      shipping_city_name: await getName(user.shipping_city_id, 'city'),
+      shipping_country_id: user.shipping_country_id,
+      shipping_country_name: await getName(user.shipping_country_id, 'country'),
+      shipping_postalcode: user.shipping_postalcode,
       billing_address: user.billing_address,
-      default_shipping_address: user.shipping_address,
-      shipping_cityi_d:user.shipping_cityi_d,
-      shipping_country_id:user.shipping_country_id,
-      shipping_postalcode:user.shipping_postalcode,
-      billing_city_id:user.billing_city_id,
-      billing_country_id:user.billing_country_id,
-      billing_postalcode:user.billing_postalcode,      
+      billing_city_id: user.billing_city_id,
+      billing_city_name: await getName(user.billing_city_id, 'city'),
+      billing_country_id: user.billing_country_id,
+      billing_country_name: await getName(user.billing_country_id, 'country'),
+      billing_postalcode: user.billing_postalcode,
       role: user.role,
       isActive: user.isActive,
       tokens: user.tokens,
-      signedInWithGoogle: user.signedInWithGoogle,
       needsPasswordReset: user.needsPasswordReset,
     };
     res.status(200).send({ successMsg: "Here is your user.", data: user });

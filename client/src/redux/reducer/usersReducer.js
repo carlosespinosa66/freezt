@@ -33,7 +33,7 @@ export const usersReducer = (state = initialState, action) => {
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
       return {
         ...state,
-        userInfo: action.payload,
+        // userInfo: action.payload,
         loading: false,
         error: '',
       };
@@ -71,7 +71,13 @@ export const usersReducer = (state = initialState, action) => {
         error: action.payload,
       };
 
-
+    case 'USER_RESET_DETAIL':
+      return {
+        ...state,
+        userDetail: [],
+        loading: false,
+        error: '',
+      };
 
     default:
       return state;
