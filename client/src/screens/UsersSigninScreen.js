@@ -5,6 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getUserInfo } from '../redux/actions/Users';
+import {getcurrentCartOrder } from '../redux/actions/Orders';
 import swal from 'sweetalert';
 
 export default function SigninScreen() {
@@ -16,20 +17,23 @@ export default function SigninScreen() {
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
   const [password, setPassword] = useState('');
-  const allUserInfo = useSelector((state) => state.userInfo.userInfo);
-
+  const [token, setToken] = useState('');
+  const allUserInfo = useSelector((state) => state.userInfo.userInfo)
+  
   function submitHandler(e) {
     e.preventDefault();
 
     try {
       dispatch(
-        getUserInfo(email, password, (error) => {
+        getUserInfo(email, password, (error,token) => {
           if (!error) {
             swal({
               title: 'Autenticado de manera satisfactoria',
               icon: 'success',
             });
+            dispatch(getcurrentCartOrder(token))
             navigateTo(redirect || '/');
+
           } else if (error === '404') {
             swal({
               title: 'Registro',
@@ -54,6 +58,9 @@ export default function SigninScreen() {
           }
         })
       );
+
+
+
     } catch (err) {
       console.log(err);
     }

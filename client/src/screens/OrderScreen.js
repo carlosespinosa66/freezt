@@ -13,7 +13,7 @@ import moment from 'moment';
 import { useDispatch } from 'react-redux';
 import { PayPalButtons, usePayPalScriptReducer } from '@paypal/react-paypal-js';
 
-import { regPaypalOrder, regNormalOrder } from '../redux/actions/Orders';
+import { regPaypalOrder, regNormalOrder,getcurrentOrder } from '../redux/actions/Orders';
 
 export default function Order() {
   const navigateTo = useNavigate();
@@ -30,7 +30,7 @@ export default function Order() {
   function handleFinished() {
     navigateTo('/MenClothes');
   }
-  
+
   function handleOrders() {
     navigateTo('/orderhistory');
   }
@@ -96,30 +96,31 @@ export default function Order() {
     try {
       if (!allUserInfo) {
         navigateTo('/login');
+      } else if (!allOrder) {
+        dispatch(getcurrentOrder(allUserInfo.token));
       }
+      const loadPayPalScript = async (clientIdNew) => {
+        let clientId =
+          'AXZqDsuO89YYQ2p3NYf3lHQqmXQiOWSZNegW8N-X71x9tRlUZJUvIRGdaerB7XjJPK20nHRHCNrySJv5';
+        try {
+          paypalDispatch({
+            type: 'resetOptions',
+            value: {
+              ...options,
+              'client-id': clientId,
+              currency: 'USD',
+            },
+          });
+          paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
+        } catch (err) {
+          toast.error(getError(err));
+        }
+      };
       loadPayPalScript(process.env.REACT_APP_PAYPAL_CLIENT_ID);
     } catch (err) {
       toast.error(getError(err));
     }
-  }, [allUserInfo, navigateTo, loadPayPalScript, toast]);
-
-  const loadPayPalScript = async (clientIdNew) => {
-    let clientId =
-      'AXZqDsuO89YYQ2p3NYf3lHQqmXQiOWSZNegW8N-X71x9tRlUZJUvIRGdaerB7XjJPK20nHRHCNrySJv5';
-    try {
-      paypalDispatch({
-        type: 'resetOptions',
-        value: {
-          ...options,
-          'client-id': clientId,
-          currency: 'USD',
-        },
-      });
-      paypalDispatch({ type: 'setLoadingStatus', value: 'pending' });
-    } catch (err) {
-      toast.error(getError(err));
-    }
-  };
+  }, [allUserInfo, navigateTo, toast]);
 
   return allLoading || !allOrder ? (
     <LoadingBox></LoadingBox>
@@ -297,10 +298,7 @@ export default function Order() {
                         <ListGroup.Item>
                           <div className='d-grid'>
                             {allOrder.paymentSource === 'transferencia' ? (
-                              <Button
-                                type='button'
-                                onClick={handleOrders}
-                              >
+                              <Button type='button' onClick={handleOrders}>
                                 Terminar
                               </Button>
                             ) : (

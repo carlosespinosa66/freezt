@@ -33,7 +33,6 @@ export const usersReducer = (state = initialState, action) => {
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
       return {
         ...state,
-        // userInfo: action.payload,
         loading: false,
         error: '',
       };

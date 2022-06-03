@@ -21,6 +21,7 @@ const { isLoggedIn, isAdmin } = require('../middleware/auth');
 const orderRouter = express.Router();
 
 //user
+orderRouter.get('/auth/orders', isLoggedIn, getActiveOrder);
 orderRouter.post('/auth/orders', isLoggedIn, createOrder); //a new product is added to the cart here
 
 orderRouter.get('/auth/orders/hist/:id', isLoggedIn, getHistoryOrder);
@@ -29,6 +30,7 @@ orderRouter.get('/auth/orders/user', isLoggedIn, getUserOrdersServer);
 orderRouter.get('/orders/state', isLoggedIn, isAdmin, getFilterOrdersState);
 orderRouter.put('/auth/orders/pay/:id', isLoggedIn, updatePaypalOrder);
 orderRouter.put('/auth/orders/normal/:id', isLoggedIn, updateNormalOrder);
+
 
 
 //admin

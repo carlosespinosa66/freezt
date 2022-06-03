@@ -31,7 +31,7 @@ export function getUserInfo(email, password, cb) {
             billing_postalcode: response.data.data.billing_postalcode,
           },
         });
-        cb(null);
+        cb(null,TOKEN);
       } else {
         cb(response.data.errorMsg);
       }

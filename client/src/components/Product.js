@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Card, Button, Image } from 'react-bootstrap';
 
-import { addProductToCar } from '../redux/actions/Products';
+import { addProductToCar } from '../redux/actions/Cart';
 import Rating from '../helpers/Rating';
 import { toast } from 'react-toastify';
 

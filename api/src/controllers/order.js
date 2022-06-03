@@ -32,7 +32,7 @@ const getOrderStatus = (status) => {
     case ORDER_STATUS_CANCELED:
       return 'Cancelada';
     default:
-      return state;
+      return status;
   }
 };
 
@@ -71,7 +71,7 @@ const getOrders = async (req, res) => {
         taxPrice: Order.taxPrice,
         paidAt: Order.paidAt,
         isPaid: Order.isPaid,
-        createdAt:Order.createdAt,
+        createdAt: Order.createdAt,
         details:
           Order.Order_details.length > 0
             ? Order.Order_details.map((detail) => {
@@ -133,7 +133,7 @@ const getUserOrdersServer = async (req, res) => {
         taxPrice: Order.taxPrice,
         paidAt: Order.paidAt,
         isPaid: Order.isPaid,
-        createdAt:Order.createdAt,
+        createdAt: Order.createdAt,
         shipping_address: Order.shipping_address,
         details:
           Order.Order_details.length > 0
@@ -167,8 +167,7 @@ const createOrder = async (req, res) => {
   try {
     let allProductsOrder = req.body.orderItems;
     let allOrderAddress = req.body.shippingAddress;
-    let allPaymentSource= req.body.paymentSource
-
+    let allPaymentSource = req.body.paymentSource;
 
     if (!UserId) {
       res.status(400).send({ errorMsg: 'Missing data.' });
@@ -192,7 +191,7 @@ const createOrder = async (req, res) => {
             allOrderAddress.city +
             ' ' +
             allOrderAddress.country,
-            paymentSource:allPaymentSource,
+          paymentSource: allPaymentSource,
         });
       }
       if (!allProductsOrder.length) {
@@ -244,22 +243,20 @@ const updateOrderState = async (req, res) => {
     if (!id) {
       res.status(404).send({ errorMsg: 'Missing id.' });
     } else {
-      let orderState
-      if (status === ORDER_STATUS_BILLED) {
+      let orderState;
+      if (status === 'BILLED') {
         orderState = await Order.update(
-          { status: status, paidAt: Date.now() },
-          { where: { id } })
-      } else {
-        orderState = await Order.update(
-          { status: status },
+          { status: status, isPaid:true,paidAt: Date.now() },
           { where: { id } }
-        )
+        );
+      } else {
+        orderState = await Order.update({ status: status }, { where: { id } });
       }
 
       if (!orderState) {
         res.status(404).send({ errorMsg: 'order not found' });
       } else {
-        if (status === ORDER_STATUS_DISPATCHED) {
+        if (status === 'DISPATCHED') {
           await sendMailState(
             email_address,
             'Dispatch Order advice',
@@ -290,16 +287,6 @@ const getActiveOrder = async (req, res) => {
           model: User,
           attributes: ['id', 'name', 'surname', 'email'],
         },
-        {
-          model: Order_detail,
-          attributes: ['amount', 'quantity'],
-          include: [
-            {
-              model: Product,
-              attributes: ['name', 'id', 'image', 'price', 'stock'],
-            },
-          ],
-        },
       ],
     });
     if (!activeOrder) {
@@ -307,40 +294,40 @@ const getActiveOrder = async (req, res) => {
         .status(404)
         .send({ errorMsg: "You don't have an active order." });
     }
-    activeOrder = {
-      id: activeOrder.id,
-      total_amount: activeOrder.total_amount,
-      email_address: activeOrder.email_address,
-      status: activeOrder.status,
-      user: activeOrder.User.name + ' ' + activeOrder.User.surname,
-      userID: activeOrder.User.id,
-      billing_address: activeOrder.billing_address,
-      shipping_address: activeOrder.shipping_address,
-      billing_address: activeOrder.billing_address,
-      shippingPrice: activeOrder.shippingPrice,
-      taxPrice: activeOrder.taxPrice,
-      paidAt: activeOrder.paidAt,
-      isPaid: activeOrder.isPaid,
-      createdAt:activeOrder.createdAt,
-      details:
-        activeOrder.Order_details.length > 0
-          ? activeOrder.Order_details.map((detail) => {
-              return {
-                id: detail.id,
-                amount: detail.amount,
-                quantity: detail.quantity,
-                productName: detail.Product.name,
-                productId: detail.Product.id,
-                image: detail.Product.image,
-                price: detail.Product.price,
-                stock: detail.Product.stock,
-              };
-            })
-          : [],
-    };
+    // currentOrder = {
+    //   id: activeOrder.id,
+    //   total_amount: activeOrder.total_amount,
+    //   email_address: activeOrder.email_address,
+    //   status: activeOrder.status,
+    //   user: activeOrder.User.name + ' ' + activeOrder.User.surname,
+    //   userID: activeOrder.User.id,
+    //   billing_address: activeOrder.billing_address,
+    //   shipping_address: activeOrder.shipping_address,
+    //   billing_address: activeOrder.billing_address,
+    //   shippingPrice: activeOrder.shippingPrice,
+    //   taxPrice: activeOrder.taxPrice,
+    //   paidAt: activeOrder.paidAt,
+    //   isPaid: activeOrder.isPaid,
+    //   createdAt: activeOrder.createdAt,
+    // };
+
+    let Order_details = await Order_detail.findAll({
+      where: { OrderId: activeOrder.id },
+      include: [
+        {
+          model: Product,
+          attributes: ['name', 'id', 'image', 'price'],
+        },
+      ],
+    });
+
     res
       .status(200)
-      .send({ successMsg: 'Here is your order.', data: activeOrder });
+      .send({
+        successMsg: 'Here is your order.',
+        data: activeOrder,
+        Order_details,
+      });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
@@ -386,7 +373,7 @@ const getHistoryOrder = async (req, res) => {
       taxPrice: historyOrder.taxPrice,
       paidAt: historyOrder.paidAt,
       isPaid: historyOrder.isPaid,
-      createdAt:historyOrder.createdAt,
+      createdAt: historyOrder.createdAt,
       details:
         historyOrder.Order_details.length > 0
           ? historyOrder.Order_details.map((detail) => {
@@ -504,7 +491,7 @@ const getUserOrders = async (id) => {
           status: getOrderStatus(Order.status),
           paidAt: Order.paidAt,
           isPaid: Order.isPaid,
-          createdAt:Order.createdAt,
+          createdAt: Order.createdAt,
           detail:
             Order.Order_details.length > 0
               ? Order.Order_details.map((detail) => {
@@ -568,7 +555,7 @@ const getFilterOrdersState = async (req, res) => {
         status: getOrderStatus(Order.status),
         paidAt: Order.paidAt,
         isPaid: Order.isPaid,
-        createdAt:Order.createdAt,
+        createdAt: Order.createdAt,
       };
     });
     res
@@ -608,7 +595,7 @@ const updatePaypalOrder = async (req, res) => {
       res.status(401).send({ message: 'Order Not Found' });
     } else {
       let updatedOrder = await orderPaypal.update({
-        status: ORDER_STATUS_BILLED,
+        status: 'BILLED',
         email_address: email_address,
         isPaid: true,
         paidAt: Date.now(),
@@ -664,7 +651,7 @@ const updateNormalOrder = async (req, res) => {
       res.status(401).send({ message: 'Order Not Found' });
     } else {
       let updatedOrder = await orderPaypal.update({
-        status: ORDER_STATUS_TOCONFIRM,
+        status: 'TOCONFIRM',
         email_address: email_address,
         isPaid: false,
         paymentSource: paymentSource,

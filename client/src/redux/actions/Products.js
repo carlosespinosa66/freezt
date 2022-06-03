@@ -165,27 +165,6 @@ export function OrderByAnyItem(payload) {
   };
 }
 
-export function addProductToCar(item) {
-  return {
-    type: 'CART_ADD_ITEM',
-    payload: item,
-  };
-}
-
-export function removeItemCar(item) {
-  return {
-    type: 'CART_REMOVE_ITEM',
-    payload: item,
-  };
-}
-
-export function removeAllCarItems() {
-  return {
-    type: 'CART_CLEAR',
-    payload: '',
-  };
-}
-
 export function putClearProducts() {
   return {
     type: 'CLEAR_PRODUCTS_STATE',

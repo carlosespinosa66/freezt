@@ -15,6 +15,7 @@ const initialState = {
 
 export const cartReducer = (state = initialState, action) => {
   switch (action.type) {
+    
     case 'CART_ADD_ITEM':
       const newItem = action.payload;
       const itemToVerify = state.cart.cartItems.find(

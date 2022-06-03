@@ -106,6 +106,49 @@ export function getOrderHistoryDetail(token, id) {
   };
 }
 
+export function getcurrentOrder  (token)  {
+  return async function (dispatch) {
+  try {
+      const activeOrder = await axios.get('/api/auth/orders', {
+        headers: {
+          "auth-token": token,
+        },
+      });
+      return dispatch({
+        type: "ORDER_CURRENT_SUCCESS",
+        payload: activeOrder.data,
+      });
+  } catch (error) {
+    dispatch({
+      type: 'ORDER_CURRENT_FAIL',
+      payload: error.response.status,
+    });
+  }
+};
+}
+
+export function getcurrentCartOrder  (token)  {
+  return async function (dispatch) {
+  try {
+      const activeOrder = await axios.get('/api/auth/orders', {
+        headers: {
+          "auth-token": token,
+        },
+      });
+      return dispatch({
+        type: "ORDER_CURRENT_CART_SUCCESS",
+        payload: activeOrder.data,
+      });
+  } catch (error) {
+    dispatch({
+      type: 'ORDER_CURRENT_CART_FAIL',
+      payload: error.response.status,
+    });
+  }
+};
+}
+
+
 export const getOrdersAdmin = (token) => {
   return async function(dispatch) {
     try {
@@ -198,9 +241,6 @@ export function regNormalOrder(id, info, token) {
     }
   };
 }
-
-
-
 
 export function putClearOrders() {
   return {

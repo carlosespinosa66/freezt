@@ -109,9 +109,8 @@ export default function OrdersAdminEdit() {
       } else {
         toast.error('El estado de la orden no puede ser actualizado.');
       }
-
     } else if (allOrder.status === REACT_APP_ORDER_STATUS_DELIVERED) {
-      if (        input.status === REACT_APP_ORDER_STATUS_FINISHED      ) {
+      if (input.status === REACT_APP_ORDER_STATUS_FINISHED) {
         dispatch(updateOrderStatus(id, input, allUserInfo.token));
         toast.success('El estado de la orden fué actualizado.');
         navigateTo('/orderadmin');
@@ -252,7 +251,8 @@ export default function OrdersAdminEdit() {
                           >
                             <option></option>
                             <option value='PROCESING'>Proceso</option>
-                            {allOrder.status === 'Por Confirmar' ? (
+                            {allOrder.status === 'TOCONFIRM' ||
+                            allOrder.status === 'PENDING' ? (
                               <option value='BILLED'>Pagada</option>
                             ) : (
                               ''

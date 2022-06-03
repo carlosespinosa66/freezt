@@ -21,10 +21,22 @@ export const ordersReducer = (state = initialState, action) => {
     case 'ORDER_CREATE_SUCCESS':
       return { ...state, loading: false, order: action.payload };
 
+    case 'ORDER_CURRENT_SUCCESS':
+      return { ...state, loading: false, order: action.payload };
+
+    case 'ORDER_CURRENT_FAIL':
+      return { ...state, loading: false };
+
+      case 'ORDER_CURRENT_CART_SUCCESS':
+
+        return { ...state, loading: false, order: [] };
+  
+      case 'ORDER_CURRENT_CART_FAIL':
+        return { ...state,order: [], loading: false };
+
     case 'ORDERS_FILTER_SUCCESS':
       return {
         ...state,
-        // totalorders: action.payload,
         orders: action.payload,
         orderHistory: [],
         products: [],
@@ -73,7 +85,6 @@ export const ordersReducer = (state = initialState, action) => {
     case 'ALL_ORDERS_ADMIN_SUCCESS':
       return {
         ...state,
-        // totalorders: action.payload,
         orders: action.payload,
         orderHistory: [],
         products: [],
@@ -84,8 +95,8 @@ export const ordersReducer = (state = initialState, action) => {
       return { ...state, loadingPay: true };
 
     case 'PAY_ORDER_SUCCESS':
-      localStorage.removeItem('order');
-      localStorage.setItem('order', JSON.stringify(action.payload));
+      // localStorage.removeItem('order');
+      // localStorage.setItem('order', JSON.stringify(action.payload));
       return {
         ...state,
         loadingPay: false,

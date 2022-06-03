@@ -111,7 +111,7 @@ export default function OrderShippingAddress() {
                 />
               </Form.Group>
             </Row>
-            <Button type='submit' onClick={submitHandler} variant='primary'>
+            <Button type='submit' variant='primary'>
               Continuar
             </Button>
           </Col>
