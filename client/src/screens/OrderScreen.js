@@ -48,7 +48,7 @@ export default function Order() {
     try {
       const orderPaypal = await actions.order.capture();
       handleAprove(orderPaypal);
-      toast.success('Order was paid correctly');
+      toast.success('La orden fué pagada de manera satisfactoria.');
     } catch (err) {
       toast.error(getError(err));
     }

@@ -8,7 +8,8 @@ export function newOrderCreate(
   shippingPrice,
   taxPrice,
   totalPrice,
-  token
+  token,
+  email
 ) {
   return async function(dispatch) {
     dispatch({ type: 'ORDER_CREATE_REQUEST' });
@@ -23,6 +24,7 @@ export function newOrderCreate(
           shippingPrice: shippingPrice,
           taxPrice: taxPrice,
           totalPrice: totalPrice,
+          email_address:email,
         },
         {
           headers: { 'auth-token': token },

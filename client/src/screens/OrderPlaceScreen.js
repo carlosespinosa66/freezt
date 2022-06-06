@@ -38,6 +38,7 @@ export default function OrderPlace() {
         allCart.taxPrice,
         allCart.totalPrice,
         allUserInfo.token,
+        allUserInfo.email
       ));
 
       dispatch(removeAllCarItems());

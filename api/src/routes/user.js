@@ -34,13 +34,14 @@ userRouter.post('/admin/users', isLoggedIn, isAdmin, adminCreateUser);
 userRouter.get('/auth/users', isLoggedIn, getSingleUser);
 userRouter.put('/auth/users/admin', isLoggedIn,isAdmin, updateUser);
 userRouter.put('/auth/users/profile', isLoggedIn, updateUserProfile);
+userRouter.post('/auth/users/signup', createUser);
 
 userRouter.put('/auth/users/passwordReset', isLoggedIn, passwordReset);
 userRouter.delete('/auth/logOut', isLoggedIn, logOut);
 
 //guest
 userRouter.put('/submitPasswordReset/:id', forgotAndForcedResetPassword);
-userRouter.post('/signUp', createUser);
+
 userRouter.post('/signIn', signIn);
 userRouter.get('/activateAccount/:id', activateAccount);
 

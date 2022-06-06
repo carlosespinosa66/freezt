@@ -33,7 +33,7 @@ export default function OrdersAdmin() {
   function handleFilterOrders(e) {
     e.preventDefault();
 
-    if (e.target.value === 'ALL') {
+    if (e.target.value === 'Todas') {
       dispatch(getOrdersAdmin(allUserInfo));
     } else {
       dispatch(getFilterOrders(e.target.value, allUserInfo));
@@ -64,15 +64,15 @@ export default function OrdersAdmin() {
           <FloatingLabel controlId='floatingSelectGrid' label='Filtrar'>
             <Form.Select onChange={(e) => handleFilterOrders(e)}>
               <option></option>
-              <option value='ALL'>Todas</option>
-              <option value='PENDING'>Pendiente</option>
-              <option value='TOCONFIRM'>Por Confirmar</option>
-              <option value='BILLED'>Pagada</option>
-              <option value='PROCESING'>Proceso</option>
-              <option value='CANCELED'>Cancelada</option>
-              <option value='DISPATCHED'>Despachada</option>
-              <option value='DELIVERED'>Entregada</option>
-              <option value='FINISHED'>Finalizada</option>
+              <option value='Todas'>Todas</option>
+              <option value='Pendiente'>Pendiente</option>
+              <option value='Por Confirmar'>Por Confirmar</option>
+              <option value='Pagada'>Pagada</option>
+              <option value='Proceso'>Proceso</option>
+              <option value='Cancelada'>Cancelada</option>
+              <option value='Despachada'>Despachada</option>
+              <option value='Entregada'>Entregada</option>
+              <option value='Finalizada'>Finalizada</option>
             </Form.Select>
           </FloatingLabel>
         </Col>

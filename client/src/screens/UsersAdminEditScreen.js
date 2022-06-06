@@ -167,7 +167,7 @@ export default function UsersAdminEdit() {
 
   useEffect(() => {
     dispatch(getCountries());
-    // dispatch(getCities());
+    dispatch(getCities());
     const showEditData = () => {
       setInput({
         id: allUserDetail.id,

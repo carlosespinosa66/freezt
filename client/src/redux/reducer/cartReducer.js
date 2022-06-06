@@ -61,7 +61,8 @@ export const cartReducer = (state = initialState, action) => {
       };
 
     case 'SAVE_PAYMENT_METHOD':
-      localStorage.setItem('paymentMethod', JSON.stringify(action.payload));
+      // localStorage.setItem('paymentMethod', JSON.stringify(action.payload));
+      localStorage.setItem('paymentMethod', action.payload);
       return {
         ...state,
         cart: { ...state.cart, paymentMethod: action.payload },

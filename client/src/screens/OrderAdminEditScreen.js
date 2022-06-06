@@ -251,16 +251,16 @@ export default function OrdersAdminEdit() {
                           >
                             <option></option>
                             <option value='PROCESING'>Proceso</option>
-                            {allOrder.status === 'TOCONFIRM' ||
-                            allOrder.status === 'PENDING' ? (
-                              <option value='BILLED'>Pagada</option>
+                            {allOrder.status === 'Por Confirmar' ||
+                            allOrder.status === 'Pendiente' ? (
+                              <option value='Pagada'>Pagada</option>
                             ) : (
                               ''
                             )}
-                            <option value='CANCELED'>Cancelada</option>
-                            <option value='DISPATCHED'>Despachada</option>
-                            <option value='DELIVERED'>Entregada</option>
-                            <option value='FINISHED'>Finalizada</option>
+                            <option value='Cancelada'>Cancelada</option>
+                            <option value='Despachada'>Despachada</option>
+                            <option value='Entregada'>Entregada</option>
+                            <option value='Finalizada'>Finalizada</option>
                           </Form.Select>
                         </Col>
                         <Col>

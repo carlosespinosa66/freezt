@@ -29,8 +29,23 @@ export const usersReducer = (state = initialState, action) => {
         error: '',
       };
 
+      case 'USER_ADMIN_ADDITION':
+        return {
+          ...state,
+          loading: false,
+          error: '',
+        };
+
+        case 'USER_ADMIN_ADDITION_FAIL':
+          return {
+            ...state,
+            loading: false,
+            error: action.payload,
+          };
+          
+
     case 'USER_ADMIN_UPDATE_SUCCESS':
-      localStorage.setItem('userInfo', JSON.stringify(action.payload));
+      // localStorage.setItem('userInfo', JSON.stringify(action.payload));
       return {
         ...state,
         loading: false,

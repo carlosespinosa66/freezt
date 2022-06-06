@@ -2,39 +2,7 @@ const { Order, User, Order_detail, Product } = require('../db');
 const { sendMailOrder, sendMailState } = require('./mailer');
 require('dotenv').config();
 
-const {
-  ORDER_STATUS_PENDING,
-  ORDER_STATUS_CANCELED,
-  ORDER_STATUS_TO_CONFIRM,
-  ORDER_STATUS_BILLED,
-  ORDER_STATUS_PROCESING,
-  ORDER_STATUS_DISPATCHED,
-  ORDER_STATUS_DELIVERED,
-  ORDER_STATUS_FINISHED,
-} = process.env;
-
-const getOrderStatus = (status) => {
-  switch (status) {
-    case ORDER_STATUS_PENDING:
-      return 'Pendiente';
-    case ORDER_STATUS_BILLED:
-      return 'Pagada';
-    case ORDER_STATUS_DELIVERED:
-      return 'Entregada';
-    case ORDER_STATUS_DISPATCHED:
-      return 'Despachada';
-    case ORDER_STATUS_FINISHED:
-      return 'Finalizada';
-    case ORDER_STATUS_PROCESING:
-      return 'Proceso';
-    case ORDER_STATUS_TO_CONFIRM:
-      return 'Por Confirmar';
-    case ORDER_STATUS_CANCELED:
-      return 'Cancelada';
-    default:
-      return status;
-  }
-};
+const { ORDER_PAYMENT_TRANSFER } = process.env;
 
 const getOrders = async (req, res) => {
   try {
@@ -62,7 +30,7 @@ const getOrders = async (req, res) => {
         id: Order.id,
         total_amount: Order.total_amount,
         email_address: Order.email_address,
-        status: getOrderStatus(Order.status),
+        status: Order.status,
         user: Order.User.name + ' ' + Order.User.surname,
         userID: Order.User.id,
         billing_address: Order.billing_address,
@@ -124,7 +92,7 @@ const getUserOrdersServer = async (req, res) => {
         id: Order.id,
         total_amount: Order.total_amount,
         email_address: Order.email_address,
-        status: getOrderStatus(Order.status),
+        status: Order.status,
         user: Order.User.name + ' ' + Order.User.surname,
         userID: Order.User.id,
         billing_address: Order.billing_address,
@@ -168,13 +136,14 @@ const createOrder = async (req, res) => {
     let allProductsOrder = req.body.orderItems;
     let allOrderAddress = req.body.shippingAddress;
     let allPaymentSource = req.body.paymentSource;
+    let email_address = req.body.email_address;
 
     if (!UserId) {
       res.status(400).send({ errorMsg: 'Missing data.' });
     } else {
       let user = await User.findOne({ where: { id: UserId } });
       let [newOrder, created] = await Order.findOrCreate({
-        where: { UserId, status: 'PENDING' },
+        where: { UserId, status: 'Pendiente' },
       });
       if (created) {
         await newOrder.update({
@@ -200,6 +169,15 @@ const createOrder = async (req, res) => {
           data: newOrder,
         });
       }
+
+      if (allPaymentSource === ORDER_PAYMENT_TRANSFER) {
+        await sendMailOrder(
+          email_address,
+          'Confirmación Orden de Compra',
+          `<p>Su orden de Compra número ${newOrder.id} ha sido generada. Recuerde enviarnos su comprobane de transferencia</p>`
+        );
+      }
+
       for (let product of allProductsOrder) {
         const amount = product.quantity * product.price;
         await createOrderDetail(
@@ -244,9 +222,9 @@ const updateOrderState = async (req, res) => {
       res.status(404).send({ errorMsg: 'Missing id.' });
     } else {
       let orderState;
-      if (status === 'BILLED') {
+      if (status === 'Pagada') {
         orderState = await Order.update(
-          { status: status, isPaid:true,paidAt: Date.now() },
+          { status: status, isPaid: true, paidAt: Date.now() },
           { where: { id } }
         );
       } else {
@@ -256,7 +234,7 @@ const updateOrderState = async (req, res) => {
       if (!orderState) {
         res.status(404).send({ errorMsg: 'order not found' });
       } else {
-        if (status === 'DISPATCHED') {
+        if (status === 'Despachada') {
           await sendMailState(
             email_address,
             'Dispatch Order advice',
@@ -280,7 +258,7 @@ const getActiveOrder = async (req, res) => {
     let activeOrder = await Order.findOne({
       where: {
         UserId: id,
-        status: 'PENDING',
+        status: 'Pendiente',
       },
       include: [
         {
@@ -321,13 +299,11 @@ const getActiveOrder = async (req, res) => {
       ],
     });
 
-    res
-      .status(200)
-      .send({
-        successMsg: 'Here is your order.',
-        data: activeOrder,
-        Order_details,
-      });
+    res.status(200).send({
+      successMsg: 'Here is your order.',
+      data: activeOrder,
+      Order_details,
+    });
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
@@ -364,7 +340,7 @@ const getHistoryOrder = async (req, res) => {
       id: historyOrder.id,
       total_amount: historyOrder.total_amount,
       email_address: historyOrder.email_address,
-      status: getOrderStatus(historyOrder.status),
+      status: historyOrder.status,
       billing_address: historyOrder.billing_address,
       shipping_address: historyOrder.shipping_address,
       billing_address: historyOrder.billing_address,
@@ -488,7 +464,7 @@ const getUserOrders = async (id) => {
           shippingPrice: Order.shippingPrice,
           taxPrice: Order.taxPrice,
           UserID: Order.User.id,
-          status: getOrderStatus(Order.status),
+          status: Order.status,
           paidAt: Order.paidAt,
           isPaid: Order.isPaid,
           createdAt: Order.createdAt,
@@ -552,7 +528,7 @@ const getFilterOrdersState = async (req, res) => {
         shippingPrice: Order.shippingPrice,
         taxPrice: Order.taxPrice,
         UserID: Order.User.id,
-        status: getOrderStatus(Order.status),
+        status: Order.status,
         paidAt: Order.paidAt,
         isPaid: Order.isPaid,
         createdAt: Order.createdAt,

@@ -104,12 +104,32 @@ const bulkCreateCountries = async () => {
       return { name: country.name.common, code: country.cca3 };
     });
     for (let i = 0; i < countries.length; i++) {
-      await Country.findOrCreate({
-        where: {
-          name: countries[i].name,
-          code: countries[i].code,
-        },
-      });
+      if (
+        countries[i].code === 'COL' ||
+        countries[i].code === 'BRA' ||
+        countries[i].code === 'BOL' ||
+        countries[i].code === 'CHL' ||
+        countries[i].code === 'ARG' ||
+        countries[i].code === 'CRI' ||
+        countries[i].code === 'ECU' ||
+        countries[i].code === 'SLV' ||
+        countries[i].code === 'GTM' ||
+        countries[i].code === 'HND' ||
+        countries[i].code === 'MEX' ||
+        countries[i].code === 'PAN' ||
+        countries[i].code === 'PER' ||
+        countries[i].code === 'PRY' ||
+        countries[i].code === 'URY'|| 
+        countries[i].code === 'VEN'
+      ) {
+
+        await Country.findOrCreate({
+          where: {
+            name: countries[i].name,
+            code: countries[i].code,
+          },
+        });
+      }
     }
   } catch (error) {
     console.log(error);
@@ -125,15 +145,32 @@ const bulkCreateCities = async () => {
       return { name: city.city_ascii, code: city.iso3 };
     });
     for (let i = 0; i < cities.length; i++) {
-      await City.findOrCreate({
-        where: {
-          name: cities[i].name,
-          code: cities[i].code,
-        },
-      });
+      if (
+        cities[i].code === 'COL' ||
+        cities[i].code === 'BRA' ||
+        cities[i].code === 'BOL' ||
+        cities[i].code === 'CHL' ||
+        cities[i].code === 'ARG' ||
+        cities[i].code === 'CRI' ||
+        cities[i].code === 'ECU' ||
+        cities[i].code === 'SLV' ||
+        cities[i].code === 'GTM' ||
+        cities[i].code === 'HND' ||
+        cities[i].code === 'MEX' ||
+        cities[i].code === 'PAN' ||
+        cities[i].code === 'PER' ||
+        cities[i].code === 'PRY' ||
+        cities[i].code === 'URY' ||
+        cities[i].code === 'VEN' 
+      ) {
+        await City.findOrCreate({
+          where: {
+            name: cities[i].name,
+            code: cities[i].code,
+          },
+        });
+      }
     }
-
-        
   } catch (error) {
     console.log(error);
   }
@@ -153,10 +190,10 @@ const bulkCreateUsers = async () => {
           email: data[i].email,
           billing_address: data[i].billing_address,
           shipping_address: data[i].shipping_address,
-          shipping_city_id:data[i].shipping_city_id,
-          shipping_country_id:data[i].shipping_country_id,
-          billing_city_id:data[i].billing_city_id,
-          billing_country_id:data[i].billing_country_id,          
+          shipping_city_id: data[i].shipping_city_id,
+          shipping_country_id: data[i].shipping_country_id,
+          billing_city_id: data[i].billing_city_id,
+          billing_country_id: data[i].billing_country_id,
           role: data[i].role,
           isActive: data[i].isActive,
           needsPasswordReset: data[i].needsPasswordReset,

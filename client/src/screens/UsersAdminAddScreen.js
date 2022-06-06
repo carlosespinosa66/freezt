@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { regUserInfo } from '../redux/actions/Users';
-import { getCitiesBilling, getCitiesShipping } from '../redux/actions/Cities';
+import { regUserInfoAdmin } from '../redux/actions/Users';
+import { getCitiesBilling, getCitiesShipping,getCities } from '../redux/actions/Cities';
 import { getCountries } from '../redux/actions/Countries';
 import { Form, Row, Col, Button, Container } from 'react-bootstrap';
 
@@ -24,14 +24,24 @@ export default function UsersAdminAdd() {
     name: '',
     surname: '',
     email: '',
-    billing_address: '',
-    default_shipping_address: '',
     isActive: true,
     signedInWithGoogle: false,
     needsPasswordReset: false,
     role: 'User',
     password:'',
-    confirmPassword:'',
+    confirmpassword:'',
+    shipping_address: '',
+    billing_address: '',
+    shipping_city_id: '',
+    shipping_city_name: '',
+    shipping_country_id: '',
+    shipping_country_code: '',
+    shipping_postal_code: '',
+    billing_city_id: '',
+    billing_city_name: '',
+    billing_country_id: '',
+    billing_country_code: '',
+    billing_postal_code: '',
   });
 
   const handleSubmit = (event) => {
@@ -40,7 +50,7 @@ export default function UsersAdminAdd() {
       event.preventDefault();
       event.stopPropagation();
     } else {
-      dispatch(regUserInfo(input, allUserInfo.token));
+      dispatch(regUserInfoAdmin(input,allUserInfo.token));
       navigateTo('/usersadmin');
     }
     setValidated(true);
@@ -129,6 +139,7 @@ export default function UsersAdminAdd() {
 
   useEffect(() => {
     dispatch(getCountries());
+    dispatch(getCities());
   }, [getCountries]);
 
   return (
@@ -173,8 +184,8 @@ export default function UsersAdminAdd() {
             <Form.Control
               required
               type='email'
-              placeholder='email'
-              name='price'
+              placeholder='Correo'
+              name='email'
               defaultValue={input.email}
               onChange={(e) => handleInputChange(e)}
             />

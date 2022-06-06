@@ -9,9 +9,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   },  
   {
@@ -24,9 +24,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   },  
   {
@@ -39,9 +39,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   },  
   {
@@ -54,9 +54,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   },
   {
@@ -69,9 +69,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   },
   {
@@ -84,9 +84,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   },
   {
@@ -99,9 +99,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   },
   {
@@ -114,9 +114,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   },
   {
@@ -129,9 +129,9 @@
     "role": "admin",
     "isActive": true,
     "shipping_city_id":300,
-    "shipping_country_id":200,
-    "billing_city_id":301,
-    "billing_country_id":201,
+    "shipping_country_id":16,
+    "billing_city_id":318,
+    "billing_country_id":16,
     "needsPasswordReset": false
   }
 ]
