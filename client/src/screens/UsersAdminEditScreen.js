@@ -3,8 +3,8 @@ import { Helmet } from 'react-helmet-async';
 import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  updateUserInfo,
-  getUserEditInfo,
+  updateUserInfoAdmin,
+  getUserEditInfoAdmin,
   resetUserDetail,
 } from '../redux/actions/Users';
 import { Form, Row, Col, Button, Container } from 'react-bootstrap';
@@ -77,7 +77,7 @@ export default function UsersAdminEdit() {
       event.stopPropagation();
     } else {
       dispatch(resetUserDetail());
-      dispatch(updateUserInfo(input, allUserInfo.token));
+      dispatch(updateUserInfoAdmin(input, allUserInfo.token));
       navigateTo('/usersadmin');
     }
     setValidated(true);
@@ -197,10 +197,10 @@ export default function UsersAdminEdit() {
     };
 
     if (allUserDetail.length <= 0) {
-      dispatch(getUserEditInfo(id, allUserInfo.token));
+      dispatch(getUserEditInfoAdmin(id, allUserInfo.token));
     }
     showEditData();
-  }, [getUserEditInfo, allUserInfo, allUserDetail]);
+  }, [getUserEditInfoAdmin, allUserInfo, allUserDetail]);
 
   return (
     <Container>

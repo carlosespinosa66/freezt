@@ -5,7 +5,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from 'react-toastify';
-import { regUserInfo } from '../redux/actions/Users'; //putUserReset
+import { registerUser } from '../redux/actions/Users'; //putUserReset
 import { getError } from '../helpers/utils';
 
 
@@ -30,7 +30,7 @@ export default function SignupScreen() {
                 toast.error('Password do not match')
             } else {
 
-                dispatch(regUserInfo(name, email, password));
+                dispatch(registerUser(name, email, password));
                 navigateTo(redirect || '/');
             }
 

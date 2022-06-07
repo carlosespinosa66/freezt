@@ -62,7 +62,7 @@ export const getAllUsers = (token) => {
   };
 };
 
-export const getUserEditInfo = (id, token) => {
+export const getUserEditInfoAdmin = (id, token) => {
   return async (dispatch) => {
     try {
       const response = await axios.get(`/api/admin/users/${id}`, {
@@ -104,7 +104,7 @@ export const getUserEditInfo = (id, token) => {
   };
 };
 
-export function regUserInfo(user) {
+export function registerUser(user) {
   return async function(dispatch) {
     try {
       const newUser = await axios.post('api/auth/users/signup', user);
@@ -142,7 +142,7 @@ export function regUserInfoAdmin(user,token) {
   };
 }
 
-export function updateUserInfo(user, token) {
+export function updateUserInfoAdmin(user, token) {
   return async function(dispatch) {
     try {
       const { data } = await axios.put('api/auth/users/admin', user, {
