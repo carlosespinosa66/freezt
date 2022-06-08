@@ -3,7 +3,6 @@ const initialState = {
     error: '',
     cities: [],
     cities_shipping: [],
-    cities_billing: [],
   };
   
   
@@ -22,21 +21,6 @@ const initialState = {
     }
   };
   
-  export const citiesBillingReducer = (state = initialState, action) => {
-      
-    switch (action.type) {
- 
-      case 'GET_CITIES_BILLING_SUCCESS':
-        return { ...state, cities_billing: action.payload };
-  
-      case 'GET_CITIES_BILLING_FAIL':
-        return { ...state, cities_billing: null, loading: false };
-
-        default:
-        return state;
-    }
-  };
-
   export const citiesReducer = (state = initialState, action) => {
       
     switch (action.type) {

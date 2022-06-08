@@ -6,11 +6,7 @@ import { Form, Button, Row, Col, ButtonGroup } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { updateUserProfile } from '../redux/actions/Users';
 import { getCountries } from '../redux/actions/Countries';
-import {
-  getCitiesBilling,
-  getCitiesShipping,
-  getCities,
-} from '../redux/actions/Cities';
+import { getCitiesShipping, getCities } from '../redux/actions/Cities';
 
 export default function UsersProfile() {
   const navigateTo = useNavigate();
@@ -18,9 +14,7 @@ export default function UsersProfile() {
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
   const allCountries = useSelector((state) => state.countries.countries);
   const allCities = useSelector((state) => state.cities.cities);
-  const allCitiesBilling = useSelector(
-    (state) => state.cities_billing.cities_billing
-  );
+  const [validated, setValidated] = useState(false);
   const allCitiesShipping = useSelector(
     (state) => state.cities_shipping.cities_shipping
   );
@@ -32,19 +26,14 @@ export default function UsersProfile() {
     role: '',
     signedInWithGoogle: '',
     isActive: '',
+    phone: '',
     needsPasswordReset: '',
     shipping_address: '',
     shipping_postalcode: '',
-    billing_address: '',
-    billing_postalcode: '',
     shipping_city_id: '',
     shipping_country_id: '',
     shipping_country_code: '',
     shipping_postal_code: '',
-    billing_city_id: '',
-    billing_country_id: '',
-    billing_country_code: '',
-    billing_postal_code: '',
   });
 
   const getNameAddress = (id, type) => {
@@ -69,25 +58,14 @@ export default function UsersProfile() {
         dispatch(updateUserProfile(input, allUserInfo.token));
         navigateTo('/');
       }
+      setValidated(true);
     } catch (err) {
       toast.error(err);
     }
   };
 
   const handleInputChange = function(e) {
-    if (e.target.name === 'billing_country_name') {
-      let country = allCountries.find(
-        (country) => country.code === e.target.value
-      );
-      setInput({
-        ...input,
-        billing_country_name: country ? country.name : '',
-        billing_country_code: country ? country.code : '',
-        billing_country_id: country ? country.id : '',
-        billing_city_name: '',
-        billing_city_id: '',
-      });
-    } else if (e.target.name === 'shipping_country_name') {
+    if (e.target.name === 'shipping_country_name') {
       let country = allCountries.find(
         (country) => country.code === e.target.value
       );
@@ -98,15 +76,6 @@ export default function UsersProfile() {
         shipping_country_id: country ? country.id : '',
         shipping_city_name: '',
         shipping_city_id: '',
-      });
-    } else if (e.target.name === 'billing_city_name') {
-      let city = allCities.find(
-        (city) => parseInt(city.id) === parseInt(e.target.value)
-      );
-      setInput({
-        ...input,
-        billing_city_name: city ? city.name : '',
-        billing_city_id: city ? city.id : '',
       });
     } else if (e.target.name === 'shipping_city_name') {
       let city = allCities.find(
@@ -125,12 +94,6 @@ export default function UsersProfile() {
     }
   };
 
-  const handleCountriesBilling = function(e) {
-    e.preventDefault();
-    if (e.target.value !== 'Seleccionar') {
-      dispatch(getCitiesBilling(e.target.value));
-    }
-  };
   const handleCountriesShipping = function(e) {
     e.preventDefault();
     if (e.target.value !== 'Seleccionar') {
@@ -146,14 +109,9 @@ export default function UsersProfile() {
         name: allUserInfo.name,
         surname: allUserInfo.surname,
         email: allUserInfo.email,
+        phone: allUserInfo.phone,
         signedInWithGoogle: allUserInfo.signedInWithGoogle,
         isActive: allUserInfo.isActive,
-        billing_address: allUserInfo.billing_address,
-        billing_postalcode: allUserInfo.billing_postalcode,
-        billing_city_id: allUserInfo.billing_city_id,
-        billing_country_id: allUserInfo.billing_country_id,
-        billing_city_name: allUserInfo.billing_city_name,
-        billing_country_name: allUserInfo.billing_country_name,
         shipping_city_id: allUserInfo.shipping_city_id,
         shipping_city_name: allUserInfo.shipping_city_name,
         shipping_country_name: allUserInfo.shipping_country_name,
@@ -171,9 +129,9 @@ export default function UsersProfile() {
         <title>Perfil del Usuario</title>
       </Helmet>
       <h1 className='my-3'>Perfil del Usuario</h1>
-      <Form onSubmit={handleSubmit}>
-        <Row className='col-12 mb-3'>
-          <Form.Group as={Col} mb='5' controlId='name'>
+      <Form noValidate validated={validated} onSubmit={handleSubmit}>
+        <Row className='col-12 mb-2'>
+          <Form.Group as={Col} mb='6' controlId='name'>
             <Form.Label>Nombre</Form.Label>
             <Form.Control
               value={input.name}
@@ -182,7 +140,7 @@ export default function UsersProfile() {
               required
             />
           </Form.Group>
-          <Form.Group as={Col} mb='5' controlId='surname'>
+          <Form.Group as={Col} mb='6' controlId='surname'>
             <Form.Label>Apellido</Form.Label>
             <Form.Control
               value={input.surname}
@@ -192,8 +150,8 @@ export default function UsersProfile() {
             />
           </Form.Group>
         </Row>
-        <Row className='col-12 mb-3'>
-          <Form.Group as={Col} controlId='email'>
+        <Row className='col-12 mb-2'>
+          <Form.Group as={Col} md='7' controlId='email'>
             <Form.Label>Correo: </Form.Label>
             <Form.Control
               type='email'
@@ -203,56 +161,25 @@ export default function UsersProfile() {
               required
             />
           </Form.Group>
-        </Row>
-
-        <Row className='col-12 mb-3'>
-          <Form.Group as={Col} md='6' controlId='billing_address'>
-            <Form.Label>Dir. de Facturación</Form.Label>
+          <Form.Group as={Col} md='5' controlId='phone'>
+            <Form.Label>Teléfono</Form.Label>
             <Form.Control
-              type='text'
-              name='billing_address'
-              value={input.billing_address}
-              onChange={(e) => handleInputChange(e)}
               required
+              type='number'
+              placeholder='Teléfono'
+              name='phone'
+              defaultValue={input.phone}
+              onChange={(e) => handleInputChange(e)}
             />
-          </Form.Group>
-          <Form.Group as={Col} md='3' controlId='countrybilling'>
-            <Form.Label>País - {input.billing_country_name}</Form.Label>
-            <Form.Select
-              name='billing_country_name'
-              onClick={(e) => handleCountriesBilling(e)}
-              onChange={(e) => handleInputChange(e)}
-            >
-              <option>Seleccionar</option>
-              {allCountries.map((country) => (
-                <option key={country.id} value={country.code}>
-                  {country.name}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-          <Form.Group as={Col} md='3' controlId='citybilling'>
-            <Form.Label>Ciudad - {input.billing_city_name}</Form.Label>
-            <Form.Select
-              name='billing_city_name'
-              onChange={(e) => handleInputChange(e)}
-              required
-            >
-              <option>Seleccionar</option>
-              {allCitiesBilling !== null && allCitiesBilling !== undefined
-                ? allCitiesBilling.map((city) => (
-                    <option key={city.id} value={city.id}>
-                      {city.name}
-                    </option>
-                  ))
-                : ''}
-            </Form.Select>
+            <Form.Control.Feedback type='invalid'>
+              Número Telefónico
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
 
-        <Row className='col-12 mb-3'>
-          <Form.Group as={Col} md='6' controlId='shipping'>
-            <Form.Label>Dir. de envío</Form.Label>
+        <Row className='col-12 mb-2'>
+          <Form.Group as={Col} md='12' controlId='shipping'>
+            <Form.Label>Dirección</Form.Label>
             <Form.Control
               type='text'
               name='shipping_address'
@@ -261,7 +188,9 @@ export default function UsersProfile() {
               required
             />
           </Form.Group>
-          <Form.Group as={Col} md='3' controlId='countryshipping'>
+        </Row>
+        <Row className='col-12 mb-2'>
+          <Form.Group as={Col} md='6' controlId='countryshipping'>
             <Form.Label>País - {input.shipping_country_name}</Form.Label>
             <Form.Select
               name='shipping_country_name'
@@ -277,7 +206,7 @@ export default function UsersProfile() {
               ))}
             </Form.Select>
           </Form.Group>
-          <Form.Group as={Col} md='3' controlId='cityshipping'>
+          <Form.Group as={Col} md='6' controlId='cityshipping'>
             <Form.Label>Ciudad - {input.shipping_city_name}</Form.Label>
             <Form.Select
               name='shipping_city_name'
@@ -297,21 +226,17 @@ export default function UsersProfile() {
             </Form.Select>
           </Form.Group>
         </Row>
-
-        <Row className='col-12 mb-3'>
-          <Col></Col>
-          <Col>
-            <ButtonGroup>
-              <Button type='submit'>Actualizar</Button>
-              <Button
-                onClick={() => {
-                  navigateTo('/');
-                }}
-              >
-                Cancelar
-              </Button>
-            </ButtonGroup>
-          </Col>
+        <Row className='col-12 mb-2'>
+          <ButtonGroup>
+            <Button type='submit'>Actualizar</Button>
+            <Button
+              onClick={() => {
+                navigateTo('/');
+              }}
+            >
+              Cancelar
+            </Button>
+          </ButtonGroup>
         </Row>
       </Form>
     </div>

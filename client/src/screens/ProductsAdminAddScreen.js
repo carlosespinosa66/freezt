@@ -7,7 +7,7 @@ import { Form, Row, Col,Figure, Button,ButtonGroup } from 'react-bootstrap';
 import Container from 'react-bootstrap/Container'
 
 export default function ProductAdd() {
-  const [validated, setValidated] = useState(false);
+  const [validated, setValidated] = useState(false); 
   const dispatch = useDispatch();
   const navigateTo = useNavigate();
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);

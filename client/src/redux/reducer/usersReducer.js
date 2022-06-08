@@ -24,7 +24,6 @@ export const usersReducer = (state = initialState, action) => {
       localStorage.setItem('userInfo', JSON.stringify(action.payload));
       return {
         ...state,
-        userInfo: action.payload,
         loading: false,
         error: '',
       };
@@ -42,7 +41,6 @@ export const usersReducer = (state = initialState, action) => {
             loading: false,
             error: action.payload,
           };
-          
 
     case 'USER_ADMIN_UPDATE_SUCCESS':
       // localStorage.setItem('userInfo', JSON.stringify(action.payload));

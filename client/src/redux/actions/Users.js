@@ -15,20 +15,16 @@ export function getUserInfo(email, password, cb) {
             role: response.data.data.role,
             surname: response.data.data.surname,
             isActive: response.data.data.isActive,
+            phone:response.data.data.phone,
             needsPasswordReset: response.data.data.needsPasswordReset,
             signedInWithGoogle: false,
-            billing_address: response.data.data.billing_address,
             shipping_address: response.data.data.shipping_address,
             shipping_city_id: response.data.data.shipping_city_id,
             shipping_city_name: response.data.data.shipping_city_name,
             shipping_country_name: response.data.data.shipping_country_name,
             shipping_country_id: response.data.data.shipping_country_id,
             shipping_postalcode: response.data.data.shipping_postalcode,
-            billing_city_id: response.data.data.billing_city_id,
-            billing_city_name: response.data.data.billing_city_name,
-            billing_country_id: response.data.data.billing_country_id,
-            billing_country_name: response.data.data.billing_country_name,
-            billing_postalcode: response.data.data.billing_postalcode,
+
           },
         });
         cb(null, TOKEN);
@@ -80,18 +76,13 @@ export const getUserEditInfoAdmin = (id, token) => {
           surname: response.data.data.surname,
           isActive: response.data.data.isActive,
           needsPasswordReset: response.data.data.needsPasswordReset,
-          billing_address: response.data.data.billing_address,
+          phone:response.data.data.phone,
           shipping_address: response.data.data.shipping_address,
           shipping_city_id: response.data.data.shipping_city_id,
           shipping_city_name: response.data.data.shipping_city_name,
           shipping_country_name: response.data.data.shipping_country_name,
           shipping_country_id: response.data.data.shipping_country_id,
           shipping_postalcode: response.data.data.shipping_postalcode,
-          billing_city_id: response.data.data.billing_city_id,
-          billing_city_name: response.data.data.billing_city_name,
-          billing_country_id: response.data.data.billing_country_id,
-          billing_country_name: response.data.data.billing_country_name,
-          billing_postalcode: response.data.data.billing_postalcode,
           signedInWithGoogle: false,
         },
       });
@@ -145,7 +136,7 @@ export function regUserInfoAdmin(user,token) {
 export function updateUserInfoAdmin(user, token) {
   return async function(dispatch) {
     try {
-      const { data } = await axios.put('api/auth/users/admin', user, {
+      const { data } = await axios.put('/api/admin/users', user, {
         headers: {
           'auth-token': token,
         },
@@ -181,19 +172,14 @@ export function updateUserProfile(user, token) {
           role: response.data.data.role,
           surname: response.data.data.surname,
           isActive: response.data.data.isActive,
+          phone:response.data.data.phone,
           needsPasswordReset: response.data.data.needsPasswordReset,
-          billing_address: response.data.data.billing_address,
           shipping_address: response.data.data.shipping_address,
           shipping_city_id: response.data.data.shipping_city_id,
           shipping_city_name: response.data.data.shipping_city_name,
           shipping_country_name: response.data.data.shipping_country_name,
           shipping_country_id: response.data.data.shipping_country_id,
           shipping_postalcode: response.data.data.shipping_postalcode,
-          billing_city_id: response.data.data.billing_city_id,
-          billing_city_name: response.data.data.billing_city_name,
-          billing_country_id: response.data.data.billing_country_id,
-          billing_country_name: response.data.data.billing_country_name,
-          billing_postalcode: response.data.data.billing_postalcode,
           signedInWithGoogle: false,
         },
       });

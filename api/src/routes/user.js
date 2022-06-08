@@ -27,16 +27,14 @@ const userRouter = express.Router();
 //admin
 userRouter.get('/admin/users', isLoggedIn, isAdmin, adminGetUsers);
 userRouter.get('/admin/users/:id', isLoggedIn, isAdmin, adminGetUser);
-userRouter.put('/admin/users/:id', isLoggedIn, isAdmin, adminUpdateUser);
 userRouter.post('/admin/users', isLoggedIn, isAdmin, adminCreateUser);
+userRouter.put('/admin/users', isLoggedIn,isAdmin, adminUpdateUser);
 
 //user
 userRouter.get('/auth/users', isLoggedIn, getSingleUser);
-userRouter.put('/auth/users/admin', isLoggedIn,isAdmin, updateUser);
 userRouter.put('/auth/users/profile', isLoggedIn, updateUserProfile);
-userRouter.post('/auth/users/signup', createUser);
-
 userRouter.put('/auth/users/passwordReset', isLoggedIn, passwordReset);
+userRouter.post('/auth/users/signup', createUser);
 userRouter.delete('/auth/logOut', isLoggedIn, logOut);
 
 //guest

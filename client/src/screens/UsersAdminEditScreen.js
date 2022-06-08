@@ -7,14 +7,17 @@ import {
   getUserEditInfoAdmin,
   resetUserDetail,
 } from '../redux/actions/Users';
-import { Form, Row, Col, Button, Container } from 'react-bootstrap';
+import {
+  Form,
+  Row,
+  Col,
+  Button,
+  Container,
+  ButtonGroup,
+} from 'react-bootstrap';
 
 import { getCountries } from '../redux/actions/Countries';
-import {
-  getCitiesBilling,
-  getCitiesShipping,
-  getCities,
-} from '../redux/actions/Cities';
+import { getCitiesShipping, getCities } from '../redux/actions/Cities';
 
 export default function UsersAdminEdit() {
   const [validated, setValidated] = useState(false);
@@ -25,9 +28,6 @@ export default function UsersAdminEdit() {
   const allUserDetail = useSelector((state) => state.userInfo.userDetail);
   const allCountries = useSelector((state) => state.countries.countries);
   const allCities = useSelector((state) => state.cities.cities);
-  const allCitiesBilling = useSelector(
-    (state) => state.cities_billing.cities_billing
-  );
   const allCitiesShipping = useSelector(
     (state) => state.cities_shipping.cities_shipping
   );
@@ -39,36 +39,30 @@ export default function UsersAdminEdit() {
     email: '',
     role: '',
     signedInWithGoogle: '',
+    phone: '',
     isActive: '',
     isAdmin: '',
     needsPasswordReset: '',
     shipping_address: '',
     shipping_postalcode: '',
-    billing_address: '',
-    billing_postalcode: '',
     shipping_city_id: '',
     shipping_city_name: '',
     shipping_country_id: '',
     shipping_country_code: '',
     shipping_postal_code: '',
-    billing_city_id: '',
-    billing_city_name: '',
-    billing_country_id: '',
-    billing_country_code: '',
-    billing_postal_code: '',
   });
 
-  const getNameAddress = (id, type) => {
-    if (type === 'city' && id !== null && id !== undefined) {
-      let city_id = allCities.find((city) => city.id === id);
-      return city_id ? city_id.name : '';
-    } else if (type === 'country' && id !== null && id !== undefined) {
-      let country_id = allCountries.find(
-        (country) => parseInt(country.id) === parseInt(id)
-      );
-      return country_id ? country_id.name : '';
-    }
-  };
+  // const getNameAddress = (id, type) => {
+  //   if (type === 'city' && id !== null && id !== undefined) {
+  //     let city_id = allCities.find((city) => city.id === id);
+  //     return city_id ? city_id.name : '';
+  //   } else if (type === 'country' && id !== null && id !== undefined) {
+  //     let country_id = allCountries.find(
+  //       (country) => parseInt(country.id) === parseInt(id)
+  //     );
+  //     return country_id ? country_id.name : '';
+  //   }
+  // };
 
   const handleSubmit = (event) => {
     const form = event.currentTarget;
@@ -91,18 +85,6 @@ export default function UsersAdminEdit() {
       });
     } else if (e.target.type === 'file') {
       input.image = e.target.value;
-    } else if (e.target.name === 'billing_country_name') {
-      let country = allCountries.find(
-        (country) => country.code === e.target.value
-      );
-      setInput({
-        ...input,
-        billing_country_name: country ? country.name : '',
-        billing_country_code: country ? country.code : '',
-        billing_country_id: country ? country.id : '',
-        billing_city_name: '',
-        billing_city_id: '',
-      });
     } else if (e.target.name === 'shipping_country_name') {
       let country = allCountries.find(
         (country) => country.code === e.target.value
@@ -114,15 +96,6 @@ export default function UsersAdminEdit() {
         shipping_country_id: country ? country.id : '',
         shipping_city_name: '',
         shipping_city_id: '',
-      });
-    } else if (e.target.name === 'billing_city_name') {
-      let city = allCities.find(
-        (city) => parseInt(city.id) === parseInt(e.target.value)
-      );
-      setInput({
-        ...input,
-        billing_city_name: city ? city.name : '',
-        billing_city_id: city ? city.id : '',
       });
     } else if (e.target.name === 'shipping_city_name') {
       let city = allCities.find(
@@ -147,12 +120,6 @@ export default function UsersAdminEdit() {
     }
   };
 
-  const handleCountriesBilling = function(e) {
-    e.preventDefault();
-    if (e.target.value !== 'Seleccionar') {
-      dispatch(getCitiesBilling(e.target.value));
-    }
-  };
   const handleCountriesShipping = function(e) {
     e.preventDefault();
     if (e.target.value !== 'Seleccionar') {
@@ -174,19 +141,13 @@ export default function UsersAdminEdit() {
         name: allUserDetail.name,
         surname: allUserDetail.surname,
         email: allUserDetail.email,
-        billing_address: allUserDetail.billing_address,
+        phone: allUserDetail.phone,
         shipping_address: allUserDetail.shipping_address,
         role: allUserDetail.role,
         isAdmin: allUserDetail.role === 'admin' ? true : false,
         signedInWithGoogle: allUserDetail.signedInWithGoogle,
         isActive: allUserDetail.isActive,
         needsPasswordReset: allUserDetail.needsPasswordReset,
-        billing_address: allUserDetail.billing_address,
-        billing_postalcode: allUserDetail.billing_postalcode,
-        billing_city_id: allUserDetail.billing_city_id,
-        billing_country_id: allUserDetail.billing_country_id,
-        billing_city_name: allUserDetail.billing_city_name,
-        billing_country_name: allUserDetail.billing_country_name,
         shipping_city_id: allUserDetail.shipping_city_id,
         shipping_city_name: allUserDetail.shipping_city_name,
         shipping_country_name: allUserDetail.shipping_country_name,
@@ -203,14 +164,14 @@ export default function UsersAdminEdit() {
   }, [getUserEditInfoAdmin, allUserInfo, allUserDetail]);
 
   return (
-    <Container>
+    <Container className='small-container'>
       <Helmet>
         <title>Modificar Usuarios</title>
       </Helmet>
       <h2>Modificar Usuarios</h2>
       <Form noValidate validated={validated} onSubmit={handleSubmit}>
-        <Row className='col-12 mb-3'>
-          <Form.Group as={Col} md='3' controlId='name'>
+        <Row className='col-12 mb-2'>
+          <Form.Group as={Col} md='6' controlId='name'>
             <Form.Label>Nombres</Form.Label>
             <Form.Control
               required
@@ -224,7 +185,7 @@ export default function UsersAdminEdit() {
               Ingrese el Nombre
             </Form.Control.Feedback>
           </Form.Group>
-          <Form.Group as={Col} md='3' controlId='surname'>
+          <Form.Group as={Col} md='6' controlId='surname'>
             <Form.Label>Apellidos</Form.Label>
             <Form.Control
               required
@@ -238,8 +199,9 @@ export default function UsersAdminEdit() {
               Ingrese el Apellido
             </Form.Control.Feedback>
           </Form.Group>
-
-          <Form.Group as={Col} md='4' controlId='email'>
+        </Row>
+        <Row className='col-12 mb-2'>
+          <Form.Group as={Col} md='7' controlId='email'>
             <Form.Label>Correo</Form.Label>
             <Form.Control
               required
@@ -253,54 +215,24 @@ export default function UsersAdminEdit() {
               Ingrese el Correo
             </Form.Control.Feedback>
           </Form.Group>
-        </Row>
-        <Row className='col-12 mb-3'>
-          <Form.Group as={Col} md='6' controlId='billing_address'>
-            <Form.Label>Dirección de Facturación</Form.Label>
+          <Form.Group as={Col} md='5' controlId='phone'>
+            <Form.Label>Teléfono</Form.Label>
             <Form.Control
-              type='text'
-              name='billing_address'
-              value={input.billing_address}
-              onChange={(e) => handleInputChange(e)}
               required
+              type='number'
+              placeholder='Teléfono'
+              name='phone'
+              defaultValue={input.phone}
+              onChange={(e) => handleInputChange(e)}
             />
-          </Form.Group>
-          <Form.Group as={Col} md='2' controlId='countrybilling'>
-            <Form.Label>País - {input.billing_country_name}</Form.Label>
-            <Form.Select
-              name='billing_country_name'
-              onClick={(e) => handleCountriesBilling(e)}
-              onChange={(e) => handleInputChange(e)}
-            >
-              <option>Seleccionar</option>
-              {allCountries.map((country) => (
-                <option key={country.id} value={country.code}>
-                  {country.name}
-                </option>
-              ))}
-            </Form.Select>
-          </Form.Group>
-          <Form.Group as={Col} md='2' controlId='citybilling'>
-            <Form.Label>Ciudad - {input.billing_city_name}</Form.Label>
-            <Form.Select
-              name='billing_city_name'
-              onChange={(e) => handleInputChange(e)}
-              required
-            >
-              <option>Seleccionar</option>
-              {allCitiesBilling !== null && allCitiesBilling !== undefined
-                ? allCitiesBilling.map((city) => (
-                    <option key={city.id} value={city.id}>
-                      {city.name}
-                    </option>
-                  ))
-                : ''}
-            </Form.Select>
+            <Form.Control.Feedback type='invalid'>
+              Número Telefónico
+            </Form.Control.Feedback>
           </Form.Group>
         </Row>
-        <Row className='col-12 mb-3'>
-          <Form.Group as={Col} md='6' controlId='shipping'>
-            <Form.Label>Dir. de envío</Form.Label>
+        <Row className='col-12 mb-2'>
+          <Form.Group as={Col} md='12' controlId='shipping'>
+            <Form.Label>Dirrección</Form.Label>
             <Form.Control
               type='text'
               name='shipping_address'
@@ -309,7 +241,9 @@ export default function UsersAdminEdit() {
               required
             />
           </Form.Group>
-          <Form.Group as={Col} md='2' controlId='countryshipping'>
+        </Row>
+        <Row className='col-12 mb-2'>
+          <Form.Group as={Col} md='6' controlId='countryshipping'>
             <Form.Label>País - {input.shipping_country_name}</Form.Label>
             <Form.Select
               name='shipping_country_name'
@@ -325,7 +259,7 @@ export default function UsersAdminEdit() {
               ))}
             </Form.Select>
           </Form.Group>
-          <Form.Group as={Col} md='2' controlId='cityshipping'>
+          <Form.Group as={Col} md='6' controlId='cityshipping'>
             <Form.Label>Ciudad - {input.shipping_city_name}</Form.Label>
             <Form.Select
               name='shipping_city_name'
@@ -346,17 +280,7 @@ export default function UsersAdminEdit() {
           </Form.Group>
         </Row>
 
-        <Row className='col-12 mb-3'>
-          <Form.Group as={Col} md='2' controlId='isindiscount'>
-            <Form.Label>Admin</Form.Label>
-            <Form.Check
-              type='switch'
-              id='isAdmin'
-              name='isAdmin'
-              checked={input.isAdmin}
-              onChange={(e) => handleInputChange(e)}
-            />
-          </Form.Group>
+        <Row className='col-12 mb-2'>
           <Form.Group as={Col} md='2' controlId='isactive'>
             <Form.Label>Activo</Form.Label>
             <Form.Check
@@ -369,7 +293,7 @@ export default function UsersAdminEdit() {
           </Form.Group>
 
           <Form.Group as={Col} md='2' controlId='signedInWithGoogle'>
-            <Form.Label>Google Logon</Form.Label>
+            <Form.Label>Google</Form.Label>
             <Form.Check
               type='switch'
               id='signedInWithGoogle'
@@ -379,8 +303,8 @@ export default function UsersAdminEdit() {
             />
           </Form.Group>
 
-          <Form.Group as={Col} md='2' controlId='needsPasswordReset'>
-            <Form.Label>Password Reset</Form.Label>
+          <Form.Group as={Col} md='3' controlId='needsPasswordReset'>
+            <Form.Label>Pwd Reset</Form.Label>
             <Form.Check
               type='switch'
               id='needsPasswordReset'
@@ -389,7 +313,7 @@ export default function UsersAdminEdit() {
               onChange={(e) => handleInputChange(e)}
             />
           </Form.Group>
-          <Form.Group as={Col} md='2' controlId='genres'>
+          <Form.Group as={Col} md='5' controlId='role'>
             <Form.Label>Role: {input.role}</Form.Label>
             <Form.Select
               name='role'
@@ -402,9 +326,12 @@ export default function UsersAdminEdit() {
             </Form.Select>
           </Form.Group>
         </Row>
-
-        <Button type='submit'>Modificar</Button>
-        <Button onClick={() => handleUserCancel()}>Cancelar</Button>
+        <Row className='col-12 mb-2'>
+          <ButtonGroup>
+            <Button type='submit'>Modificar</Button>
+            <Button onClick={() => handleUserCancel()}>Cancelar</Button>
+          </ButtonGroup>
+        </Row>
       </Form>
     </Container>
   );

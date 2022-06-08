@@ -28,7 +28,6 @@ const isLoggedIn = async (req, res, next) => {
   } catch (error) {
     res.status(500).send({ errorMsg: error.message });
   }
-
 };
 
 const isAdmin = async (req, res, next) => {

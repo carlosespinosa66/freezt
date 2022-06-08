@@ -28,15 +28,12 @@ const createUser = async (req, res) => {
       surname,
       email,
       password,
-      billing_address,
-      shipping_address,
       role,
       signedInWithGoogle,
       isActive,
       needsPasswordReset,
-      billing_postalcode,
-      billing_city_id,
-      billing_country_id,
+      phone,
+      shipping_address,
       shipping_city_id,
       shipping_postalcode,
       shipping_country_id
@@ -60,15 +57,12 @@ const createUser = async (req, res) => {
           surname,
           email,
           password,
-          billing_address,
-          shipping_address,
           role,
           signedInWithGoogle,
           isActive,
           needsPasswordReset,
-          billing_postalcode,
-          billing_city_id,
-          billing_country_id,
+          phone,
+          shipping_address,
           shipping_city_id,
           shipping_postalcode,
           shipping_country_id
@@ -132,21 +126,18 @@ const updateUser = async (req, res) => {
     name,
     surname,
     email,
-    billing_address,
-    shipping_address,
     role,
     signedInWithGoogle,
     isActive,
     needsPasswordReset,
-    billing_postalcode,
-    billing_city_id,
-    billing_country_id,
+    phone,
+    shipping_address,
     shipping_city_id,
     shipping_postalcode,
     shipping_country_id
   } = req.body;
   try {
-    if (!name || !surname || !email || !billing_address || !shipping_address) {
+    if (!name || !surname || !email || !shipping_address) {
       return res.status(400).send({ errorMsg: 'Missing data.' });
     }
     if (email !== user.email) {
@@ -165,15 +156,12 @@ const updateUser = async (req, res) => {
       name,
       surname,
       email,
-      billing_address,
-      shipping_address,
       role,
       signedInWithGoogle,
       isActive,
       needsPasswordReset,
-      billing_postalcode,
-      billing_city_id,
-      billing_country_id,
+      phone,
+      shipping_address,
       shipping_city_id,
       shipping_postalcode,
       shipping_country_id,
@@ -194,12 +182,6 @@ const updateUser = async (req, res) => {
         shipping_country_id: updatedUser.shipping_country_id,
         shipping_country_name: await getName(updatedUser.shipping_country_id, 'country'),
         shipping_postalcode: updatedUser.shipping_postalcode,
-        billing_address: updatedUser.billing_address,
-        billing_city_id: updatedUser.billing_city_id,
-        billing_city_name: await getName(updatedUser.billing_city_id, 'city'),
-        billing_country_id: updatedUser.billing_country_id,
-        billing_country_name: await getName(updatedUser.billing_country_id, 'country'),
-        billing_postalcode: updatedUser.billing_postalcode,
       },
     });
   } catch (error) {
@@ -225,17 +207,14 @@ const updateUserProfile = async (req, res) => {
     name,
     surname,
     email,
-    billing_address,
+    phone,
     shipping_address,
     shipping_city_id,
     shipping_country_id,
     shipping_postalcode,
-    billing_city_id,
-    billing_country_id,
-    billing_postalcode,
   } = req.body;
   try {
-    if (!name || !surname || !email || !billing_address || !shipping_address) {
+    if (!name || !surname || !email || !shipping_address) {
       return res.status(400).send({ errorMsg: 'Missing data.' });
     }
     if (email !== user.email) {
@@ -253,17 +232,15 @@ const updateUserProfile = async (req, res) => {
 
     let updatedUser = await user.update({
       name,
+      token,
       surname,
       email,
-      billing_address,
+      phone,
       shipping_address,
       shipping_city_id,
       shipping_country_id,
       shipping_postalcode,
-      billing_city_id,
-      billing_country_id,
-      billing_postalcode,
-      // tokens: sequelize.fn('', sequelize.col('tokens'), token) 
+      tokens: sequelize.fn('array_append', sequelize.col('tokens'), token)
     });
     
     res.header('auth-token', token).send({
@@ -275,18 +252,13 @@ const updateUserProfile = async (req, res) => {
         surname: updatedUser.surname,
         isActive: updatedUser.isActive,
         needsPasswordReset: updatedUser.needsPasswordReset,
+        phone:updatedUser.phone,
         shipping_address: updatedUser.shipping_address,
         shipping_city_id: updatedUser.shipping_city_id,
         shipping_city_name: await getName(updatedUser.shipping_city_id, 'city'),
         shipping_country_id: updatedUser.shipping_country_id,
         shipping_country_name: await getName(updatedUser.shipping_country_id, 'country'),
         shipping_postalcode: updatedUser.shipping_postalcode,
-        billing_address: updatedUser.billing_address,
-        billing_city_id: updatedUser.billing_city_id,
-        billing_city_name: await getName(updatedUser.billing_city_id, 'city'),
-        billing_country_id: updatedUser.billing_country_id,
-        billing_country_name: await getName(updatedUser.billing_country_id, 'country'),
-        billing_postalcode: updatedUser.billing_postalcode,
       },
     });
   } catch (error) {
@@ -315,15 +287,12 @@ const getSingleUser = async (req, res) => {
           surname: user.surname,
           email: user.email,
           isActive: user.isActive,
+          phone:user.phone,
           needsPasswordReset: user.needsPasswordReset,
-          billing_address: user.billing_address,
           shipping_address: user.shipping_address,
           shipping_city_id: user.shipping_city_id,
           shipping_country_id: user.shipping_country_id,
           shipping_postalcode: user.shipping_postalcode,
-          billing_city_id: user.billing_city_id,
-          billing_country_id: user.billing_country_id,
-          billing_postalcode: user.billing_postalcode,
         };
         return res
           .status(200)
@@ -398,10 +367,9 @@ const googleSignUp = async (req, res) => {
 
 const googleUpdateProfile = async (req, res) => {
   try {
-    let { billing_address, default_shipping_address, CountryId } = req.body;
+    let { default_shipping_address } = req.body;
     let user = await User.findOne({ where: { id: req.userID } });
     await user.update({
-      billing_address,
       shipping_address,
     });
     res.status(200).send({ successMsg: 'Google user updated successfully.' });
@@ -443,18 +411,13 @@ const signIn = async (req, res) => {
         surname: user.surname,
         isActive: user.isActive,
         needsPasswordReset: user.needsPasswordReset,
+        phone:user.phone,
         shipping_address: user.shipping_address,
         shipping_city_id: user.shipping_city_id,
         shipping_city_name: await getName(user.shipping_city_id, 'city'),
         shipping_country_id: user.shipping_country_id,
         shipping_country_name: await getName(user.shipping_country_id, 'country'),
         shipping_postalcode: user.shipping_postalcode,
-        billing_address: user.billing_address,
-        billing_city_id: user.billing_city_id,
-        billing_city_name: await getName(user.billing_city_id, 'city'),
-        billing_country_id: user.billing_country_id,
-        billing_country_name: await getName(user.billing_country_id, 'country'),
-        billing_postalcode: user.billing_postalcode,
       },
     });
   } catch (error) {

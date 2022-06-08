@@ -59,8 +59,6 @@ export default function SigninScreen() {
         })
       );
 
-
-
     } catch (err) {
       console.log(err);
     }
