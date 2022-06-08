@@ -164,7 +164,7 @@ const adminUpdateUser = async (req, res) => {
     let updatedUser = await user.update({
       name,
       surname,
-      email,
+      // email,
       role,
       signedInWithGoogle,
       isActive,

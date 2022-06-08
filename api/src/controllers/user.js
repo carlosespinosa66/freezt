@@ -155,7 +155,7 @@ const updateUser = async (req, res) => {
     let updatedUser = await user.update({
       name,
       surname,
-      email,
+      // email,
       role,
       signedInWithGoogle,
       isActive,
@@ -234,7 +234,7 @@ const updateUserProfile = async (req, res) => {
       name,
       token,
       surname,
-      email,
+      // email,
       phone,
       shipping_address,
       shipping_city_id,

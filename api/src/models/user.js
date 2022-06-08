@@ -26,23 +26,6 @@ module.exports = (sequelize) => {
       allowNull: false,
       isEmail: true,
     },
-    billing_address: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: "",
-    },
-    billing_city_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    billing_country_id: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
-    billing_postalcode: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
     phone: {
       type: DataTypes.STRING,
       allowNull: true,
