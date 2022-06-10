@@ -1,8 +1,8 @@
-import HashTable from "../../helpers/hashTable";
+import HashTable from '../../helpers/hashTable';
 const initialState = {
   products: [],
-  productSearch:[],
-  copyProducts:[],
+  productSearch: [],
+  copyProducts: [],
   productedit: [],
   detail: [],
   error: '',
@@ -12,21 +12,20 @@ const initialState = {
 export const productsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'PRODUCTS_ALL_REQUEST':
-
-    return { ...state, loading: true, error: '' };
+      return { ...state, loading: true, error: '' };
 
     case 'PRODUCTS_ALL_SUCCESS':
       const newAllTable = new HashTable();
 
       action.payload.forEach((product) => {
         newAllTable.addItem(product.name);
-      });  
-            
+      });
+
       return {
         ...state,
         products: action.payload,
         copyProducts: action.payload,
-        productSearch:newAllTable,
+        productSearch: newAllTable,
         orders: [],
         orderHistory: [],
         order: [],
@@ -46,33 +45,53 @@ export const productsReducer = (state = initialState, action) => {
       return { ...state, loading: true, error: '' };
 
     case 'PRODUCTS_CREATE_FAIL':
-      return { ...state, loading: false, error: action.payload  };
-
-    case 'PRODUCTS_FILTER_SUCCESS':
-      const newTable = new HashTable();
-
-      action.payload.forEach((product) => {
-        newTable.addItem(product.name);
-      });  
-
-      return {
-        ...state,
-        products: action.payload,
-        copyProducts: action.payload,
-        productSearch:newTable,
-        orders: [],
-        orderHistory: [],
-        totalorders: [],
-        detail: [],
-        loading: false,
-        error: '',
-      };
-
-    case 'ORDER_PRODUCTS_BY_ANY_ITEM':
-      let sortedArr;
-      if (action.payload === 'asc_stock') {
-        sortedArr = state.products.sort(function(a, b) {
-          if (a.stock > b.stock) {
+      return { ...state, loading: false, error: action.payload };
+      
+      case 'PRODUCTS_FILTER_SUCCESS':
+        const filterTable = new HashTable();
+        
+        action.payload.forEach((product) => {
+          filterTable.addItem(product.name);
+        });
+        
+        return {
+          ...state,
+          products: action.payload,
+          copyProducts: action.payload,
+          productSearch: filterTable,
+          orders: [],
+          orderHistory: [],
+          totalorders: [],
+          detail: [],
+          loading: false,
+          error: '',
+        };
+        
+        case 'PRODUCTS_SEARCH_SUCCESS':
+          const searchTable = new HashTable();
+          
+          action.payload.forEach((product) => {
+            searchTable.addItem(product.name);
+          });
+          
+          return {
+            ...state,
+            products: action.payload,
+            copyProducts: action.payload,
+            productSearch: searchTable,
+            orders: [],
+            orderHistory: [],
+            totalorders: [],
+            detail: [],
+            loading: false,
+            error: '',
+          };
+                  
+        case 'ORDER_PRODUCTS_BY_ANY_ITEM':
+          let sortedArr;
+          if (action.payload === 'asc_stock') {
+            sortedArr = state.products.sort(function(a, b) {
+              if (a.stock > b.stock) {
             return 1;
           }
           if (b.stock > a.stock) {

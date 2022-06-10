@@ -4,7 +4,7 @@ export function getProducts() {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_ALL_REQUEST' });
     try {
-      var json = await axios.get('/api/products');
+      const json = await axios.get('/api/products');
       dispatch({
         type: 'PRODUCTS_ALL_SUCCESS',
         payload: json.data.data,
@@ -23,11 +23,10 @@ export const getSearchProducts = (filter) => {
     dispatch({ type: 'PRODUCTS_SEARCH_REQUEST' });
     try {
       const productSearch = await axios.get('/api/products/search?name=' + filter);
-
-      return {
+      dispatch( {
         type: 'PRODUCTS_SEARCH_SUCCESS',
         payload: productSearch.data.data,
-      };
+      });
     } catch (error) {
       dispatch({
         type: 'PRODUCTS_SEARCH_FAIL',

@@ -22,7 +22,7 @@ export default function SearchBar(){
       }
     });
     if (selectArtefacts.length > 0) {
-      dispatch(getSearchProducts(selectArtefacts));
+      dispatch(getSearchProducts(selectArtefacts[0].name));
     } else {
       // dispatch(filterByBrand("nada"))
     }
@@ -51,7 +51,7 @@ export default function SearchBar(){
           onChange={SearchChange}
           className="form-control "
           type="text"
-          placeholder="Search..."
+          placeholder="Buscar..."
           name="search"
           value={value}
           list="products"

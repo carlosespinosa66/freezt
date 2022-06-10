@@ -273,12 +273,12 @@ const getFilterProductsType = async (req, res) => {
 const getFilterProductsSearch = async (req, res) => {
   const { name } = req.query;
   try {
-    if (!genres) {
+    if (!name) {
       res.status(400).send({ errorMsg: 'Missing data.' });
     } else {
       let filterProduct = await Product.findAll({
         where: {
-          genres,
+          name,
         },
       });
       if (!filterProduct) {

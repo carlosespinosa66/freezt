@@ -210,7 +210,8 @@ const createOrder = async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(500).send({ errorMsg: error.message });
+    res.
+    status(500).send({ errorMsg: error.message });
   }
 };
 

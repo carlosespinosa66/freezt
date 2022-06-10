@@ -1,14 +1,3 @@
-// /**
-//  *  keyOf---> pertenece a una propiedad de una interfaz
-//  */
-
-// interface Table {
-//     [key: string]: string[];
-//   }
-
-//   export interface Hash {
-//     table: Table;
-//   }
 
 class HashTable {
   table = {

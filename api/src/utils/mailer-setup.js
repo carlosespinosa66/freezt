@@ -9,6 +9,7 @@ const mailer = nodemailer.createTransport({
         user: process.env.EMAIL_ACCOUNT_CONFIG, // generated ethereal user
         pass: process.env.EMAIL_ACCOUNT_KEY, // generated ethereal password
     },
+
 });
 
 // mailer.verify().then(() => {
