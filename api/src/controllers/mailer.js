@@ -36,14 +36,14 @@ const sendMailPassword = async (
   });
 };
 
-// const sendMailOrder = async (emailToAddress, emailToSubject, emailToBody) => {
-//   let info = await mailer.sendMail({
-//     from: 'E-commerce Freezt" <freezt@gmail.com>',
-//     to: emailToAddress,
-//     subject: emailToSubject,
-//     html: emailToBody,
-//   });
-// };
+const sendMailOrder = async (emailToAddress, emailToSubject, emailToBody) => {
+  let info = await mailer.sendMail({
+    from: 'E-commerce Freezt" <freezt@gmail.com>',
+    to: emailToAddress,
+    subject: emailToSubject,
+    html: emailToBody,
+  });
+};
 
 const sendMailState = async (emailToAddress, emailToSubject, emailToBody) => {
   let info = await mailer.sendMail({
@@ -54,42 +54,42 @@ const sendMailState = async (emailToAddress, emailToSubject, emailToBody) => {
   });
 };
 
-const sendMailOrder = async (emailToAddress, emailToSubject, emailToBody) => {
-  const handlebarOptions = {
-    viewEngine: {
-      extName: '.handlebars',
-      // partialsDir: path.resolve('../views'),
-      defaultLayout: '',
-    },
-    viewPath: path.resolve('../views'),
-    extName: '.handlebars',
-  };
+// const sendMailOrder = async (emailToAddress, emailToSubject, emailToBody) => {
+//   const handlebarOptions = {
+//     viewEngine: {
+//       extName: '.handlebars',
+//       // partialsDir: path.resolve('../views'),
+//       defaultLayout: '',
+//     },
+//     viewPath: path.resolve('../views'),
+//     extName: '.handlebars',
+//   };
 
-  mailer.use('compile', hbs(handlebarOptions));
+//   mailer.use('compile', hbs(handlebarOptions));
 
-  const mailOptions = {
-    from: 'E-commerce Freezt" <freezt@gmail.com>',
-    to: emailToAddress,
-    subject: emailToSubject,
-    // html: emailToBody,
-    template: 'email',
-    context: {
-      title: 'Title Here',
-      text: 'Lorem ipsum dolor sit amet, consectetur...',
-    },
-  };
+//   const mailOptions = {
+//     from: 'E-commerce Freezt" <freezt@gmail.com>',
+//     to: emailToAddress,
+//     subject: emailToSubject,
+//     // html: emailToBody,
+//     template: 'email',
+//     context: {
+//       title: 'Title Here',
+//       text: 'Lorem ipsum dolor sit amet, consectetur...',
+//     },
+//   };
 
-  let info = await mailer.sendMail(
-    (mailOptions,
-    function (error, info) {
-      if (error) {
-        console.log(error);
-      } else {
-        console.log('Email sent: ' + info.response);
-      }
-    })
-  );
-};
+//   let info = await mailer.sendMail(
+//     (mailOptions,
+//     function (error, info) {
+//       if (error) {
+//         console.log(error);
+//       } else {
+//         console.log('Email sent: ' + info.response);
+//       }
+//     })
+//   );
+// };
 
 module.exports = {
   sendMail,

@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from "react-redux";
 import { Form,Button } from 'react-bootstrap';
 import {getSearchProducts} from '../redux/actions/Products'
@@ -8,7 +9,7 @@ export default function SearchBar(){
   const dispatch = useDispatch();
   const table = useSelector((state) => state.products.productSearch);
   const artefacts = useSelector((state) => state.products.copyProducts);
-
+  const navigateTo = useNavigate()
   const [products, setProducts] = useState([]);
   const [value, setValue] = useState("");
   const [realValue, setRealValue] = useState("");
@@ -23,6 +24,7 @@ export default function SearchBar(){
     });
     if (selectArtefacts.length > 0) {
       dispatch(getSearchProducts(selectArtefacts[0].name));
+      // navigateTo('/MenClothes')
     } else {
       // dispatch(filterByBrand("nada"))
     }
