@@ -37,14 +37,22 @@ main {
   color: #ffc000;
 }
 .product {
-  border: 1px #404040 solid;
+  border: 2px #404040 solid;
   margin: 1rem;
+  /* Desde Dogs */
+  box-shadow: 5px 5px 5px;
+  /* display: flex;
+  flex-wrap: wrap; */
+  /* transition: all 400ms ease-out; */
+  
 }
 
 .product img {
   width: 100%;
   max-width: 400px;
   border: none;
+  height: 150px;
+
 }
 
 .product-info {
@@ -202,8 +210,6 @@ main {
     "sidebar header"
     "sidebar main";
 }
-
-
  
  .sidebar-menu {
    padding-top: 0;
@@ -222,13 +228,13 @@ main {
 
 /* Side bar */
 
- .paging {
+ .side-bar {
   display: flex;
   align-items: left;
   justify-content: left;
 }
 
-.paging li a {
+.side-bar li a {
   width: 120px;
   height: 35px;
   line-height: 35px;
@@ -240,6 +246,51 @@ main {
   text-align: left;
 }
 
+.side-bar button {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 18px;
+  display: block;
+  background: white;
+  color: #000;
+  text-align: center;
+}
+
+.pagside-baring li a:hover,
+li.paging_current a {
+  background:rgb(116, 86, 86);
+  color: white !important;
+}
+
+.side-bar li {
+  margin: 0 2.5px;
+}
+
+
+/* Side bar */
+
+
+/* Paginado */
+
+.paging {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.paging li a {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 18px;
+  display: block;
+  cursor: pointer;
+  background: white;
+  color: #000;
+  text-align: center;
+}
+
 .paging button {
   width: 35px;
   height: 35px;
@@ -247,6 +298,17 @@ main {
   font-size: 18px;
   display: block;
   background: white;
+  color: #000;
+  text-align: center;
+}
+
+.paging button:disabled {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 18px;
+  display: block;
+  background: rgba(54, 40, 40, 0.288);
   color: #000;
   text-align: center;
 }
@@ -261,5 +323,9 @@ li.paging_current a {
   margin: 0 2.5px;
 }
 
+ul,
+ul li {
+  list-style: none;
+}
 
-/* Side bar */
+/* Fin Paginado */

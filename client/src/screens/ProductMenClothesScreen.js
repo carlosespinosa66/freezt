@@ -7,9 +7,11 @@ import {
 import { Row, Col, Container } from 'react-bootstrap';
 
 import Product from '../components/Product';
+import Paging from '../components/Paging';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
+
 
 export default function MenClothes() {
   const dispatch = useDispatch();
@@ -17,6 +19,21 @@ export default function MenClothes() {
   const allLoading = useSelector((state) => state.products.loading);
   const allErrors = useSelector((state) => state.products.error);
   const [orden, setOrden] = useState('');
+
+  // Paginación
+  let productsPerPage = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+  // const [dogsPerPage, setDogsPerPage] = useState(8);
+  const indexLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexLastProduct - productsPerPage;
+
+  //Razas para renderizar //Razas actualmente en la página
+  const currentProducts = allProducts.slice(indexOfFirstProduct, indexLastProduct);
+
+  const showProducts = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
 
   function handleFilterProducts(e) {
     e.preventDefault();
@@ -29,6 +46,7 @@ export default function MenClothes() {
     } else if (e.target.innerHTML === 'Todos') {
       dispatch(getFilterProductsGenres('Hombre'));
     }
+    setCurrentPage(1);
   }
   useEffect(() => {
     dispatch(getFilterProductsGenres('Hombre'));
@@ -42,7 +60,7 @@ export default function MenClothes() {
       <h2>Productos Masculinos</h2>
       <Row className='col-12 mb-2'>
         <Col md='2'>
-          <ul className='nav flex-column paging'>
+          <ul className='nav flex-column side-bar'>
             <li className='nav-item'>
               <a
                 className='nav-link active'
@@ -99,15 +117,21 @@ export default function MenClothes() {
             ) : allErrors.message ? (
               <MessageBox variant='danger'>{allErrors.message}</MessageBox>
             ) : (
-              <Row>
-                {allProducts.map((product) => (
+              // <Row>
+              currentProducts.map((product) => (
                   <Col key={product.id} sm={6} md={4} lg={3} className='mb-3'>
                     <Product product={product}></Product>
                   </Col>
-                ))}
-              </Row>
+                ))
+              // </Row>
             )}
           </div>
+          <Paging
+                productsPerPage={productsPerPage}
+                allProducts={allProducts.length}
+                showProducts={showProducts}
+                currentPage={currentPage}
+              />
         </Col>
       </Row>
     </Container>
