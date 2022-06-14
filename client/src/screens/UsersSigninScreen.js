@@ -15,9 +15,7 @@ export default function SigninScreen() {
   const redirectInUrl = new URLSearchParams(search).get('redirect');
   const redirect = redirectInUrl ? redirectInUrl : '/';
   const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
   const [password, setPassword] = useState('');
-  const [token, setToken] = useState('');
   const allUserInfo = useSelector((state) => state.userInfo.userInfo)
   
   function submitHandler(e) {

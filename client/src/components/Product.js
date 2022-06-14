@@ -2,7 +2,6 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Card, Button, Image } from 'react-bootstrap';
-
 import { addProductToCar } from '../redux/actions/Cart';
 import Rating from '../helpers/Rating';
 import { toast } from 'react-toastify';
@@ -47,17 +46,17 @@ export default function Product(props) {
 
         <Card.Body>
           <Card.Title>{product.name}</Card.Title>
-          <Rating
+          {/* <Rating
             rating={product.rating}
             numReviews={product.numReviews}
-          ></Rating>
+          ></Rating> */}
           <Card.Text>${product.price}</Card.Text>
           {product.stock === 0 ? (
             <Button variant='light' disabled>
               Sin Inventario
             </Button>
-          ) : (
-            <Button onClick={() => addToCartHandler(product)}>Comprar</Button>
+          ) : (''
+            // <Button onClick={() => addToCartHandler(product)}>Comprar</Button>
           )}
         </Card.Body>
       </div>

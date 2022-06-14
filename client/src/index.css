@@ -181,3 +181,85 @@ main {
   /* padding-right: 10; */
   padding: 3px;
  }
+
+ /* @import "./styles/bootstrap-imports.scss";
+ @import "./styles/sidebar-menu.scss";
+ @import "./styles/getting-started.scss"; */
+ 
+ .main-wrapper {
+   height: 100%;
+   width: 100%;
+ }
+ 
+ .main-wrapper {
+  background: #f3f4f6;
+  grid-area: main;
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: auto 1fr;
+  grid-template-areas:
+    "sidebar header"
+    "sidebar main";
+}
+
+
+ 
+ .sidebar-menu {
+   padding-top: 0;
+   flex-direction: column;
+   grid-area: sidebar;
+   overflow-y: auto;
+ }
+ 
+ .navbar-brand {
+   padding-right: 1rem;
+ }
+ 
+ .form-check-label {
+   white-space: nowrap;
+ }
+
+/* Side bar */
+
+ .paging {
+  display: flex;
+  align-items: left;
+  justify-content: left;
+}
+
+.paging li a {
+  width: 120px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 18px;
+  display: block;
+  cursor: pointer;
+  background: white;
+  color: #000;
+  text-align: left;
+}
+
+.paging button {
+  width: 35px;
+  height: 35px;
+  line-height: 35px;
+  font-size: 18px;
+  display: block;
+  background: white;
+  color: #000;
+  text-align: center;
+}
+
+.paging li a:hover,
+li.paging_current a {
+  background:rgb(116, 86, 86);
+  color: white !important;
+}
+
+.paging li {
+  margin: 0 2.5px;
+}
+
+
+/* Side bar */

@@ -312,6 +312,95 @@ const getFilterProductsSearch = async (req, res) => {
   }
 };
 
+const getFilterProductsSearchM = async (req, res) => {
+  const { type } = req.query;
+  try {
+    if (!type) {
+      res.status(400).send({ errorMsg: 'Missing data.' });
+    } else {
+      let filterProduct = await Product.findAll({
+        where: {
+          type,
+          genres:'Hombre'
+        },
+      });
+      if (!filterProduct) {
+        res.status(404).send({ errorMsg: 'Product not found.' });
+      } else {
+        filterProduct = filterProduct.map((product) => {
+          return {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            imagesec: product.imagesec,
+            price: product.price,
+            description: product.description,
+            rating: product.rating,
+            weight: product.weight,
+            stock: product.stock,
+            isInDiscount: product.isInDiscount,
+            discountPercent: product.discountPercent,
+            isActive: product.isActive,
+            genres: product.genres,
+            type: product.type,
+          };
+        });
+        res
+          .status(200)
+          .send({ successMsg: 'Here is your product.', data: filterProduct });
+      }
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
+const getFilterProductsSearchW = async (req, res) => {
+  const { type } = req.query;
+  try {
+    if (!type) {
+      res.status(400).send({ errorMsg: 'Missing data.' });
+    } else {
+      let filterProduct = await Product.findAll({
+        where: {
+          type,
+          genres:'Mujer'
+        },
+      });
+      if (!filterProduct) {
+        res.status(404).send({ errorMsg: 'Product not found.' });
+      } else {
+        filterProduct = filterProduct.map((product) => {
+          return {
+            id: product.id,
+            name: product.name,
+            image: product.image,
+            imagesec: product.imagesec,
+            price: product.price,
+            description: product.description,
+            rating: product.rating,
+            weight: product.weight,
+            stock: product.stock,
+            isInDiscount: product.isInDiscount,
+            discountPercent: product.discountPercent,
+            isActive: product.isActive,
+            genres: product.genres,
+            type: product.type,
+          };
+        });
+        res
+          .status(200)
+          .send({ successMsg: 'Here is your product.', data: filterProduct });
+      }
+    }
+  } catch (error) {
+    res.status(500).send({ errorMsg: error.message });
+  }
+};
+
+
+
+
 
 
 const getFilterProductsState = async (req, res) => {
@@ -457,5 +546,7 @@ module.exports = {
   getFilterProductsType,
   getFilterProductsState,
   getFilterProductsSearch,
+  getFilterProductsSearchM,
+  getFilterProductsSearchW,
   deleteProduct,
 };

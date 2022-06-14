@@ -151,7 +151,6 @@ export default function UsersAdminEdit() {
         shipping_city_id: allUserDetail.shipping_city_id,
         shipping_city_name: allUserDetail.shipping_city_name,
         shipping_country_name: allUserDetail.shipping_country_name,
-        shipping_address: allUserDetail.shipping_address,
         shipping_postalcode: allUserDetail.shipping_postalcode,
         shipping_country_id: allUserDetail.shipping_country_id,
       });

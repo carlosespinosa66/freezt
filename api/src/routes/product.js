@@ -8,7 +8,9 @@ const {
   getFilterProductsState,
   getSingleProduct,
   deleteProduct,
-  getFilterProductsSearch
+  getFilterProductsSearch,
+  getFilterProductsSearchM,
+  getFilterProductsSearchW
 } = require("../controllers/product.js");
 
 //Creating routes and adding the controllers.
@@ -21,6 +23,8 @@ productRouter.get("/products", getProducts);
 productRouter.get("/products/type", getFilterProductsType);
 productRouter.get("/products/state", getFilterProductsState);
 productRouter.get("/products/genres", getFilterProductsGenres);
+productRouter.get("/products/searchm", getFilterProductsSearchM);
+productRouter.get("/products/searchw", getFilterProductsSearchW);
 productRouter.get("/products/search", getFilterProductsSearch);
 
 

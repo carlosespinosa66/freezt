@@ -36,6 +36,43 @@ export const getSearchProducts = (filter) => {
   };
 };
 
+
+export const getSearchTypeManProducts = (filter) => {
+  return async function(dispatch) {
+    // dispatch({ type: 'PRODUCTS_SEARCH_MAN_REQUEST' });
+    try {
+      const productSearch = await axios.get('/api/products/searchm?type=' + filter);
+      dispatch( {
+        type: 'PRODUCTS_SEARCH_MAN_SUCCESS',
+        payload: productSearch.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_SEARCH_MAN_FAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+};
+
+export const getSearchTypeWomanProducts = (filter) => {
+  return async function(dispatch) {
+    dispatch({ type: 'PRODUCTS_SEARCH_WOMAN_REQUEST' });
+    try {
+      const productSearch = await axios.get('/api/products/searchw?type=' + filter);
+      dispatch( {
+        type: 'PRODUCTS_SEARCH_WOMAN_SUCCESS',
+        payload: productSearch.data.data,
+      });
+    } catch (error) {
+      dispatch({
+        type: 'PRODUCTS_SEARCH_WOMAN_FAIL',
+        payload: { message: error.message },
+      });
+    }
+  };
+};
+
 export function getFilterProductsGenres(filter) {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_FILTER_REQUEST' });
@@ -98,7 +135,7 @@ export function getProductDetail(id) {
   return async function(dispatch) {
     dispatch({ type: 'PRODUCTS_REQUEST_DETAIL' });
     try {
-      var json = await axios.get(`/api/products/${id}`);
+      const json = await axios.get(`/api/products/${id}`);
       dispatch({
         type: 'PRODUCTS_SUCCESS_DETAIL',
         payload: json.data.data,

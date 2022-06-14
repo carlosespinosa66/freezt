@@ -86,7 +86,50 @@ export const productsReducer = (state = initialState, action) => {
             loading: false,
             error: '',
           };
-                  
+
+          case 'PRODUCTS_SEARCH_MAN_SUCCESS':
+            const manTable = new HashTable();
+            
+            action.payload.forEach((product) => {
+              manTable.addItem(product.name);
+            });
+            
+            return {
+              ...state,
+              products: action.payload,
+              copyProducts: action.payload,
+              productSearch: manTable,
+              orders: [],
+              orderHistory: [],
+              totalorders: [],
+              detail: [],
+              loading: false,
+              error: '',
+            };
+
+            case 'PRODUCTS_SEARCH_WOMAN_SUCCESS':
+              const womanTable = new HashTable();
+              
+              action.payload.forEach((product) => {
+                womanTable.addItem(product.name);
+              });
+              
+              return {
+                ...state,
+                products: action.payload,
+                copyProducts: action.payload,
+                productSearch: searchTable,
+                orders: [],
+                orderHistory: [],
+                totalorders: [],
+                detail: [],
+                loading: false,
+                error: '',
+              };
+    
+
+
+
         case 'ORDER_PRODUCTS_BY_ANY_ITEM':
           let sortedArr;
           if (action.payload === 'asc_stock') {

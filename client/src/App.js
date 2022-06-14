@@ -6,6 +6,8 @@ import Nav from 'react-bootstrap/Nav';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import Container from 'react-bootstrap/Container';
 
+
+
 import HomeScreen from './screens/HomeScreen';
 import WeAre from './screens/WeAreScreen';
 import MenClothes from './screens/ProductMenClothesScreen';
@@ -135,6 +137,7 @@ function App() {
             </Container>
           </Navbar>
         </header>
+
         <main>
             <Routes>
               <Route path='/' element={<HomeScreen />} />
