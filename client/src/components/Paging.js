@@ -1,50 +1,36 @@
 import React from "react";
+import ReactPaginate from 'react-paginate';
 
 export default function Paging({
   productsPerPage,
   allProducts,
   showProducts,
-  currentPage,
 }) {
-  const pageNumber = [];
-  for (let i = 0; i < Math.ceil(allProducts / productsPerPage); i++) {
-    pageNumber.push(i + 1);
-  }
+  const pageCount = Math.ceil(allProducts / productsPerPage)
 
   return (
-    <ul className="paging">
-      <button
-        disabled={currentPage > 1 ? false : true}
-        onClick={() => showProducts(1)}
-      >
-        <i className="material-icons">keyboard_double_arrow_left</i>
-      </button>
-      <button
-        disabled={currentPage > 1 ? false : true}
-        onClick={() => showProducts(currentPage - 1)} >
-        <i className="material-icons">keyboard_arrow_left</i>
-      </button>
-      {pageNumber &&
-        pageNumber.map((number) => (
-          <li
-            className={currentPage === number ? "paging_current" : "paging"}
-            key={number}
-          >
-            <a onClick={() => showProducts(number)}>{number}</a>
-          </li>
-        ))}
-      <button
-        disabled={currentPage < pageNumber.length ? false : true}
-        onClick={() => showProducts(currentPage + 1)}
-      >
-        <i className="material-icons">keyboard_arrow_right</i>
-      </button>
-      <button
-        disabled={currentPage < pageNumber.length ? false : true}
-        onClick={() => showProducts(pageNumber.length)}
-      >
-        <i className="material-icons">keyboard_double_arrow_right</i>
-      </button>
-    </ul>
-  );
+    <>
+      <ReactPaginate
+        breakLabel="..."
+        nextLabel=">"
+        onPageChange={showProducts}
+        pageRangeDisplayed={2}
+        marginPagesDisplayed={2}
+        pageCount={pageCount}
+        previousLabel="<"
+        renderOnZeroPageCount={null}
+        pageClassName="page-item"
+        pageLinkClassName="page-link"
+        previousClassName="page-item"
+        previousLinkClassName="page-link"
+        nextClassName="page-item"
+        nextLinkClassName="page-link"
+        breakClassName="page-item"
+        breakLinkClassName="page-link"
+        containerClassName="pagination"
+        activeClassName="active"
+      />
+    </>
+  )
 }
+

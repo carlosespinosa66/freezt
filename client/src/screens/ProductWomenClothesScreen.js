@@ -28,8 +28,8 @@ export default function MenClothes() {
   //Razas para renderizar //Razas actualmente en la página
   const currentProducts = allProducts.slice(indexOfFirstProduct, indexLastProduct);
 
-  const showProducts = (pageNumber) => {
-    setCurrentPage(pageNumber);
+  const showProducts = (event) => {
+    setCurrentPage(event.selected+1);
   };
 
 
@@ -99,18 +99,8 @@ export default function MenClothes() {
                 Conjunto
               </a>
             </li>
-            <li className='nav-item'>
-              <a
-                className='nav-link'
-                href='#'
-                onClick={(e) => handleFilterProducts(e)}
-              >
-                Medidas
-              </a>
-            </li>
           </ul>
         </Col>
-
         <Col md='10'>
           <div className='products'>
             {allLoading ? (
@@ -127,12 +117,13 @@ export default function MenClothes() {
               // </Row>
             )}
           </div>
+          <div>
           <Paging
                 productsPerPage={productsPerPage}
                 allProducts={allProducts.length}
                 showProducts={showProducts}
-                currentPage={currentPage}
-              />          
+              />
+          </div>
         </Col>
       </Row>
     </Container>

@@ -21,6 +21,23 @@ module.exports = (sequelize) => {
       type: DataTypes.STRING,
       allowNull: true,
     },
+    imageone: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    imagetwo: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    imagethree: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+    imagefour: {
+      type: DataTypes.STRING,
+      allowNull: true,
+    },
+
     price: {
       type: DataTypes.FLOAT,
       allowNull: false,

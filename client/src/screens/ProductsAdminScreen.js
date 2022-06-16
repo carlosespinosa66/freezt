@@ -11,6 +11,7 @@ import {
   getFilterProductsType,
   getFilterProductsState,
 } from '../redux/actions/Products';
+import Paging from '../components/Paging';
 import { Form, Button, FloatingLabel, Container } from 'react-bootstrap';
 
 export default function ProductsAdmin() {
@@ -20,6 +21,22 @@ export default function ProductsAdmin() {
   const allErrors = useSelector((state) => state.error);
   const allProducts = useSelector((state) => state.products.products);
   const [orden, setOrden] = useState('');
+
+  // Paginación
+  let productsPerPage = 4;
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexLastProduct - productsPerPage;
+
+  //Productos para renderizar //Productos actualmente en la página
+  const currentProducts = allProducts.slice(
+    indexOfFirstProduct,
+    indexLastProduct
+  );
+
+  const showProducts = (event) => {
+    setCurrentPage(event.selected + 1);
+  };
 
   function handleFilterProducts(e) {
     e.preventDefault();
@@ -31,8 +48,9 @@ export default function ProductsAdmin() {
       dispatch(getFilterProductsState(e.target.value));
     } else {
       dispatch(getFilterProductsType(e.target.value));
-    }    
+    }
     setOrden(`Ordered ${e.target.value}`);
+    setCurrentPage(1);
   }
 
   function handleSort(e) {
@@ -61,7 +79,13 @@ export default function ProductsAdmin() {
               <th>
                 <h3>Productos</h3>
               </th>
-              <th></th>
+              <th>
+                <Paging
+                  productsPerPage={productsPerPage}
+                  allProducts={allProducts.length}
+                  showProducts={showProducts}
+                />
+              </th>
               <th></th>
               <th></th>
               <th></th>
@@ -132,10 +156,10 @@ export default function ProductsAdmin() {
             </tr>
           </thead>
           <tbody>
-            {!allProducts ? (
+            {!currentProducts ? (
               <LoadingBox />
             ) : (
-              allProducts.map((product) => (
+              currentProducts.map((product) => (
                 <tr key={product.id}>
                   <td>
                     <img

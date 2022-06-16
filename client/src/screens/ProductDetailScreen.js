@@ -7,9 +7,10 @@ import {
   Row,
   Col,
   Card,
+  Badge,
+  Figure,
   Button,
   ListGroup,
-  Badge,
   Container,
 } from 'react-bootstrap';
 import { Helmet } from 'react-helmet-async';
@@ -41,6 +42,12 @@ export default function ProductDetail() {
     }
   }
 
+  function handleImages(e) {
+    e.preventDefault();
+    // setBodies(e.target.innerHTML);
+    
+  }
+
   useEffect(() => {
     dispatch(getProductDetail(id));
   }, [getProductDetail, dispatch, id]);
@@ -61,40 +68,77 @@ export default function ProductDetail() {
           />
         </Col>
         <Col md={3}>
-          <ListGroup variant='flush'>
-            <ListGroup.Item>
-              <Helmet>
-                <title>{allDetail.name}</title>
-              </Helmet>
-              <h5>{allDetail.name}</h5>
-            </ListGroup.Item>
-            <ListGroup.Item>
-              <Rating
-                rating={allDetail.rating}
-                numReview={allDetail.numReview}
-              ></Rating>
-            </ListGroup.Item>
-            <ListGroup.Item>Price: ${allDetail.price}</ListGroup.Item>
-            <ListGroup.Item>
-              Description: <p>{allDetail.description}</p>
-            </ListGroup.Item>
-          </ListGroup>
+          <Row>
+            <ListGroup variant='flush'>
+              <ListGroup.Item>
+                <Helmet>
+                  <title>{allDetail.name}</title>
+                </Helmet>
+                <h5>{allDetail.name}</h5>
+              </ListGroup.Item>
+              <ListGroup.Item>
+                <Rating
+                  rating={allDetail.rating}
+                  numReview={allDetail.numReview}
+                ></Rating>
+              </ListGroup.Item>
+              <ListGroup.Item>Precio: ${allDetail.price}</ListGroup.Item>
+              <ListGroup.Item>
+                Descripción: <p>{allDetail.description}</p>
+              </ListGroup.Item>
+            </ListGroup>
+            <Row>
+              <span class='d-block p-2 border border-secondary'>Medidas</span>
+            </Row>
+          </Row>
+          <Row>
+            <Figure className='d-inline p-3'>
+              <Figure.Image
+                src={allDetail.imageone}
+                height={50}
+                width={50}
+                className='border border-secondary'
+                onClick={(e) => handleImages(e)}
+              />
+              <Figure.Image
+                src={allDetail.imagetwo}
+                height={50}
+                width={50}
+                className='border border-secondary'
+                onClick={(e) => handleImages(e)}
+              />
+              <Figure.Image
+                src={allDetail.imagethree}
+                height={50}
+                width={50}
+                className='border border-secondary'
+                onClick={(e) => handleImages(e)}
+              />
+              <Figure.Image
+                src={allDetail.imagefour}
+                height={50}
+                width={50}
+                className='border border-secondary'
+                onClick={(e) => handleImages(e)}
+              />
+            </Figure>
+          </Row>
         </Col>
         <Col md={3}>
           <Card>
             <Card.Body>
               <ListGroup variant='flush'>
                 <ListGroup.Item>
-                  <Col> Price: </Col>
+                  <Col> Precio: </Col>
                   <Col> ${allDetail.price}</Col>
                 </ListGroup.Item>
                 <ListGroup.Item>
                   <Row>
-                    <Col> Status: </Col>
+                    <Col> Estado: </Col>
                     <Col>
                       {' '}
                       {allDetail.stock > 0 ? (
-                        <Badge bg='success'>In Stock</Badge>
+                        <Badge bg='success'>Disponible</Badge>
                       ) : (
                         <Badge bg='danger'>Unavailable</Badge>
                       )}
@@ -105,7 +149,7 @@ export default function ProductDetail() {
                   <ListGroup.Item>
                     <div className='d-grid'>
                       <Button onClick={addToCartHandler} variant='primary'>
-                        Add to Cart
+                        Adicionar al Carrito
                       </Button>
                     </div>
                   </ListGroup.Item>

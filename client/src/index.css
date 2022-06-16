@@ -39,12 +39,7 @@ main {
 .product {
   border: 2px #404040 solid;
   margin: 1rem;
-  /* Desde Dogs */
   box-shadow: 5px 5px 5px;
-  /* display: flex;
-  flex-wrap: wrap; */
-  /* transition: all 400ms ease-out; */
-  
 }
 
 .product img {
@@ -52,7 +47,6 @@ main {
   max-width: 400px;
   border: none;
   height: 150px;
-
 }
 
 .product-info {
@@ -85,12 +79,6 @@ main {
   border-radius: 40% 0% 40% 0%;
 }
 
-/*Página principal*/
-/* body::before {
-  display: block;
-  content: '';
-  height: 60px;
-} */
 
 .btn_freezt {
   border-radius: 0px 40px;
@@ -103,18 +91,11 @@ main {
 
 .div_running_freezt {
   border-radius: 40% 0% 40% 0%;
-  /* border:2px; */
-  /* border-color:#000; */
-  /* height: 100%; */
-  /* overflow: hidden; */
 }
 
 .div_running_freezt img {
   border-bottom-right-radius: 40%;
   border-top-left-radius: 40%;
-  /* border-style: solid; */
-  /* border-width: 8px; */
-  /* border-color: white; */
 }
 .summary_item {
   display: flex;
@@ -127,16 +108,12 @@ main {
 
 .trainning_title {
   display:flex;
-  /* flex-direction: column; */
-  /* justify-content: center; */
   color: gray
  
 }
 
 .item_c {
   box-shadow: 5px 5px 5px;
-  /* display: flex;
-  flex-wrap: wrap; */
   transition: all 400ms ease-out;
 }
 
@@ -169,20 +146,6 @@ main {
   .h3_third {font-size:2rem;} 
 }
  
-/* @media (max-width: 992px) { 
-  .h3_second {font-size:2.5rem;} 
-} */
-
-/* @media (max-width: 1200px) {  
-  .h3_second {font-size:4rem;}     
-} */
- 
- 
-/* @media (min-width: 950px) and (max-width:1100px) { 
-  .h3_second {font-size:2.75rem;color:red;} 
-} */
-
-
  .user_profile_old {
   box-shadow: 5px 5px 5px 5px;
   border-radius: 5%;
@@ -190,9 +153,6 @@ main {
   padding: 3px;
  }
 
- /* @import "./styles/bootstrap-imports.scss";
- @import "./styles/sidebar-menu.scss";
- @import "./styles/getting-started.scss"; */
  
  .main-wrapper {
    height: 100%;
@@ -266,66 +226,19 @@ li.paging_current a {
 .side-bar li {
   margin: 0 2.5px;
 }
-
-
 /* Side bar */
 
+/* Imagenes Productos */
+.images-prod div{ 
+  display:flex; 
+  align-items:center
 
-/* Paginado */
-
-.paging {
-  display: flex;
-  align-items: center;
-  justify-content: center;
 }
 
-.paging li a {
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
-  font-size: 18px;
-  display: block;
-  cursor: pointer;
-  background: white;
-  color: #000;
-  text-align: center;
+.images-prod div img {
+  width:calc(15% - 10px); 
+  margin-right: 10px; 
 }
-
-.paging button {
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
-  font-size: 18px;
-  display: block;
-  background: white;
-  color: #000;
-  text-align: center;
+.images-prod div input[type=file]{
+  width:calc(80% ); 
 }
-
-.paging button:disabled {
-  width: 35px;
-  height: 35px;
-  line-height: 35px;
-  font-size: 18px;
-  display: block;
-  background: rgba(54, 40, 40, 0.288);
-  color: #000;
-  text-align: center;
-}
-
-.paging li a:hover,
-li.paging_current a {
-  background:rgb(116, 86, 86);
-  color: white !important;
-}
-
-.paging li {
-  margin: 0 2.5px;
-}
-
-ul,
-ul li {
-  list-style: none;
-}
-
-/* Fin Paginado */

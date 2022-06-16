@@ -80,7 +80,7 @@ export default function OrderPlace() {
               <Card.Text>
                 <strong>Tipo:</strong> {allPayment}
               </Card.Text>
-              <Link to="/payment">Edit</Link>
+              <Link to="/shipping">Modificar</Link>
             </Card.Body>
           </Card>
 

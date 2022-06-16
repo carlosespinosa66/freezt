@@ -1,13 +1,14 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
 import LoadingBox from '../helpers/LoadingBox';
 import MessageBox from '../helpers/MessageBox';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getAllUsers } from '../redux/actions/Users';
-import { Container,Button } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import { getError } from '../helpers/utils';
+import Paging from '../components/Paging';
 
 export default function OrderHistoryScreen() {
   const dispatch = useDispatch();
@@ -16,6 +17,19 @@ export default function OrderHistoryScreen() {
   const allErrors = useSelector((state) => state.error);
   const token = useSelector((state) => state.userInfo.userInfo.token);
   const allUsers = useSelector((state) => state.userInfo.users);
+
+  // Paginación
+  let usersPerPage = 6;
+  const [currentPage, setCurrentPage] = useState(1);
+  const indexLastUser = currentPage * usersPerPage;
+  const indexOfFirstUser = indexLastUser - usersPerPage;
+
+  //Productos para renderizar //Productos actualmente en la página
+  const currentUsers = allUsers.slice(indexOfFirstUser, indexLastUser);
+
+  const showUsers = (event) => {
+    setCurrentPage(event.selected + 1);
+  };
 
   useEffect(() => {
     try {
@@ -30,14 +44,26 @@ export default function OrderHistoryScreen() {
       <Helmet>
         <title>Administrar Usuarios</title>
       </Helmet>
-      <h2>Administrar Usuarios</h2>
       {allLoading ? (
         <LoadingBox></LoadingBox>
       ) : allErrors ? (
         <MessageBox variant='danger'>{allErrors}</MessageBox>
       ) : (
         <table className='table'>
-          <thead> </thead>
+          <thead>
+            <tr>
+              <th>
+                <h2>Usuarios</h2>
+              </th>
+              <th>
+                <Paging
+                  productsPerPage={usersPerPage}
+                  allProducts={allUsers.length}
+                  showProducts={showUsers}
+                />
+              </th>
+            </tr>
+          </thead>
           <thead>
             <tr>
               <th>Nombre</th>
@@ -58,10 +84,10 @@ export default function OrderHistoryScreen() {
             </tr>
           </thead>
           <tbody>
-            {!allUsers ? (
+            {!currentUsers ? (
               <LoadingBox></LoadingBox>
             ) : (
-              allUsers.map((user) => (
+              currentUsers.map((user) => (
                 <tr key={user.id}>
                   <td>
                     {user.name} {user.surname}

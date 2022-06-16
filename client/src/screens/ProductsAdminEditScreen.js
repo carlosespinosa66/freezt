@@ -4,12 +4,13 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getProductDetail, updateProduct } from '../redux/actions/Products';
 import {
-  Form,
   Row,
   Col,
+  Nav,
+  Form,
   Button,
-  Container,
   Figure,
+  Container,
   ButtonGroup,
 } from 'react-bootstrap';
 
@@ -21,6 +22,7 @@ export default function ProductEdit() {
   const allDetail = useSelector((state) => state.products.detail);
   const allUserInfo = useSelector((state) => state.userInfo.userInfo);
   const [orden, setOrden] = useState('');
+  const [bodies, setBodies] = useState('Principales');
 
   const [input, setInput] = useState({
     id: '',
@@ -35,10 +37,14 @@ export default function ProductEdit() {
     isInDiscount: '',
     rating: '',
     genres: '',
-    type:'',
+    type: '',
     isActive: '',
     imageFile: '',
     imageFileSec: '',
+    imageone: '',
+    imagetwo: '',
+    imagethree: '',
+    imagefour: '',    
   });
 
   const handleSubmit = (event) => {
@@ -64,6 +70,14 @@ export default function ProductEdit() {
         input.image = '/images/' + e.target.files[0].name;
       } else if (e.target.name === 'imageFileSec') {
         input.imagesec = '/images/' + e.target.files[0].name;
+      } else if (e.target.name === 'imageone') {
+        input.imageone = '/images/' + e.target.files[0].name;
+      } else if (e.target.name === 'imagetwo') {
+        input.imagetwo = '/images/' + e.target.files[0].name;
+      } else if (e.target.name === 'imagethree') {
+        input.imagethree = '/images/' + e.target.files[0].name;
+      } else if (e.target.name === 'imagefour') {
+        input.imagefour = '/images/' + e.target.files[0].name;
       }
       setOrden(`Ordered ${e.target.value}`);
     } else {
@@ -74,13 +88,24 @@ export default function ProductEdit() {
     }
   };
 
+  function handleImages(e) {
+    e.preventDefault();
+    setBodies(e.target.innerHTML);
+  }
+
+
   useEffect(() => {
+    setBodies('Principales');
     const showEditData = () => {
       setInput({
         id: allDetail.id,
         name: allDetail.name,
         image: allDetail.image,
         imagesec: allDetail.imagesec,
+        imageone: allDetail.imageone,
+        imagetwo: allDetail.imagetwo,
+        imagethree: allDetail.imagethree,
+        imagefour: allDetail.imagefour,
         price: allDetail.price,
         description: allDetail.description,
         weight: allDetail.weight,
@@ -88,7 +113,7 @@ export default function ProductEdit() {
         discountPercent: allDetail.discountPercent,
         isInDiscount: allDetail.isInDiscount,
         rating: allDetail.rating,
-        type:allDetail.type,
+        type: allDetail.type,
         genres: allDetail.genres,
         isActive: allDetail.isActive,
       });
@@ -99,7 +124,7 @@ export default function ProductEdit() {
     }
 
     showEditData();
-  }, [allDetail, getProductDetail, id]);
+  }, [allDetail, getProductDetail, id,setBodies]);
 
   return (
     <Container>
@@ -251,7 +276,164 @@ export default function ProductEdit() {
             </Row>
           </Col>
 
-          <Col className='col-12 col-lg-2 bg-secondary bg-opacity-10'>
+          <Col className='col-12 col-lg-4 bg-secondary bg-opacity-10'>
+
+          <Row>
+              <Nav variant='tabs' defaultActiveKey='ppal'>
+                <Nav.Item>
+                  <Nav.Link eventKey='ppal' onClick={(e) => handleImages(e)}>
+                    Principales
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey='desc' onClick={(e) => handleImages(e)}>
+                    Descriptivas
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Row>
+
+            {bodies === 'Principales' ? (
+              <Row>
+                <Col className='col-12 col-lg-6'>
+                  <Row className='p-2 '>
+                    <Form.Group controlId='image'>
+                      <Form.Label>Imagen</Form.Label>
+                      <Figure className='p-2'>
+                        <Figure.Image
+                          src={input.image}
+                          height={125}
+                          width={140}
+                          className='d-inline-block border border-secondary '
+                          alt='Foto Producto'
+                        />
+                      </Figure>
+                    </Form.Group>
+                    <Form.Group controlId='formFileImage'>
+                      <Form.Control
+                        type='file'
+                        name='imageFile'
+                        className='p-2'
+                        onChange={(e) => handleInputChange(e)}
+                      />
+                      <Form.Control.Feedback type='invalid'>
+                        Ingrese la Imagen.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Row>
+                </Col>
+                <Col className='col-12 col-lg-6 '>
+                  <Row className='p-2 '>
+                    <Form.Group controlId='imageSec'>
+                      <Form.Label>Imagen Secundaria</Form.Label>
+                      <Figure className='p-2'>
+                        <Figure.Image
+                          src={input.imagesec}
+                          height={125}
+                          width={140}
+                          className='d-inline-block border border-secondary'
+                          alt='Foto Producto'
+                        />
+                      </Figure>
+                    </Form.Group>
+                    <Form.Group controlId='imageFileSec'>
+                      <Form.Control
+                        type='file'
+                        name='imageFileSec'
+                        className='p-2'
+                        onChange={(e) => handleInputChange(e)}
+                      />
+                      <Form.Control.Feedback type='invalid'>
+                        Ingrese la Imagen.
+                      </Form.Control.Feedback>
+                    </Form.Group>
+                  </Row>
+                </Col>
+              </Row>
+            ) : (
+              <Row>
+                <Figure className='images-prod p-2 '>
+                  <Form.Group controlId='fg_image_one'>
+                    <Figure.Image
+                      src={input.imageone}
+                      height={50}
+                      width={50}
+                      className='border border-secondary'
+                    />
+                    <Form.Control
+                      type='file'
+                      name='imageone'
+                      className='p-2'
+                      onChange={(e) => handleInputChange(e)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='fg_image_two'>
+                    <Figure.Image
+                      src={input.imagetwo}
+                      height={50}
+                      width={50}
+                      className='border border-secondary'
+                    />
+                    <Form.Control
+                      type='file'
+                      name='imagetwo'
+                      className='p-2'
+                      onChange={(e) => handleInputChange(e)}
+                    />
+                  </Form.Group>
+                  <Form.Group controlId='fg_image_three'>
+                    <Figure.Image
+                      src={input.imagethree}
+                      height={50}
+                      width={50}
+                      className='border border-secondary'
+                    />
+                    <Form.Control
+                      type='file'
+                      name='imagethree'
+                      className='p-2'
+                      onChange={(e) => handleInputChange(e)}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId='fg_image_four'>
+                    <Figure.Image
+                      src={input.imagefour}
+                      height={50}
+                      width={50}
+                      className='border border-secondary'
+                    />
+                    <Form.Control
+                      type='file'
+                      name='imagefour'
+                      className='p-2'
+                      onChange={(e) => handleInputChange(e)}
+                    />
+                  </Form.Group>
+                </Figure>
+              </Row>
+            )}
+
+
+
+
+          {/* <Row>
+              <Nav variant='tabs' defaultActiveKey='ppal'>
+                <Nav.Item>
+                  <Nav.Link eventKey='ppal' onClick={(e) => handleImages(e)}>
+                    Principales
+                  </Nav.Link>
+                </Nav.Item>
+                <Nav.Item>
+                  <Nav.Link eventKey='desc' onClick={(e) => handleImages(e)}>
+                    Descriptivas
+                  </Nav.Link>
+                </Nav.Item>
+              </Nav>
+            </Row>
+
+
+
             <Row className='p-2 '>
               <Form.Label>Imagen</Form.Label>
               <Form.Group controlId='image'>
@@ -265,8 +447,7 @@ export default function ProductEdit() {
                   />
                   <Figure.Caption></Figure.Caption>
                 </Figure>
-              </Form.Group>
-              <Form.Group controlId='formFile'>
+      
                 <Form.Control
                   type='file'
                   name='imageFile'
@@ -282,8 +463,7 @@ export default function ProductEdit() {
 
           <Col className='col-12 col-lg-2 bg-secondary bg-opacity-10'>
             <Row className='p-2 '>
-              <Form.Group controlId='formFile'>
-                <Form.Label>Imagen Secundaria</Form.Label>
+              <Form.Label>Imagen Secundaria</Form.Label>
               <Form.Group controlId='imagesec'>
                 <Figure className='p-2'>
                   <Figure.Image
@@ -294,7 +474,6 @@ export default function ProductEdit() {
                     alt='Foto Producto'
                   />
                 </Figure>
-              </Form.Group>
                 <Form.Control
                   type='file'
                   name='imageFileSec'
@@ -305,7 +484,7 @@ export default function ProductEdit() {
                   Ingrese la Imagen.
                 </Form.Control.Feedback>
               </Form.Group>
-            </Row>
+            </Row> */}
             <Row className='p-2'>
               <ButtonGroup>
                 <Button type='submit'>Grabar</Button>
